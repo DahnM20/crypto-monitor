@@ -1,0 +1,27 @@
+.item{
+    background-color: rgba(73, 73, 73, 0.582);
+    width: 80%;
+    margin: auto;
+    border-left: solid;
+    border-left-width: 10px;
+    border-color: rgba(214, 141, 212, 0.945);
+    color: whitesmoke;
+}
+
+.starIcon{
+    max-width: 7%;
+}
+
+.itemName{
+    font-weight: bold;
+}
+
+.link{
+    color: whitesmoke;
+    text-decoration: none;
+    font-style: italic;
+}
+
+.link:hover{
+    color:rgba(141, 212, 214, 0.945);
+}

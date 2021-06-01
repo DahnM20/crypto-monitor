@@ -1,0 +1,9 @@
+.newsText{
+    text-align: left;
+}
+
+.newsLink{
+    text-align: right;
+    color: whitesmoke;
+    padding-right: 25px;
+}

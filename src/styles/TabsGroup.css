@@ -1,0 +1,27 @@
+#controlled-tab{
+    border-top: solid;
+    border-color: #edfbffd7;
+    width: 100%;
+}
+
+.scrollTab{
+    max-height: 87vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.nav-tabs .nav-link.active {
+    color: whitesmoke;
+    background-color: #495057;
+}
+
+.nav-link {
+    color: whitesmoke;
+}
+
+.nav-link:hover {
+    color: whitesmoke;
+}
+
+.tab {
+    color: whitesmoke;
+}

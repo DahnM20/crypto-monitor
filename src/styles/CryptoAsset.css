@@ -1,0 +1,15 @@
+.cryptoName {
+    font-weight: bold;
+}
+
+.cryptoDetails {
+    text-align: left;
+}
+
+.crossIcon {
+    width: 15px;
+}
+
+.crossCol {
+    align-content: center;
+}

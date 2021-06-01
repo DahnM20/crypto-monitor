@@ -1,0 +1,28 @@
+.leftPanel{
+    border-right: solid;
+    border-color:#6fc7dd1f;
+    overflow-y: scroll;
+    height: 93vh;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+}
+  
+  /* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+}
+   
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(184, 253, 244, 0.137);
+    border-radius: 10px;
+}
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(184, 253, 244, 0.87);
+  }

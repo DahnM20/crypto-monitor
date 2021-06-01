@@ -1,0 +1,7 @@
+.rightPanel{
+    border-left: solid;
+    border-color:#6fc7dd1f;
+    color: whitesmoke;
+    height: 93vh;
+    /*overflow: scroll;*/
+}

@@ -1,0 +1,10 @@
+.colValue{
+    border-top: solid;
+    border-color: rgba(184, 253, 244, 0.815);
+}
+
+.colName{
+    color: whitesmoke;
+    border-top: solid;
+    border-color:rgba(111, 199, 221, 0.048);
+}
