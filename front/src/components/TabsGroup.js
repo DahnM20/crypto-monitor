@@ -20,7 +20,7 @@ function TabsGroup(){
             <p> OK 2 </p>
         </Tab>
         <Tab className="tab" eventKey="Cryptoast" title="Cryptoast">
-            <p> OK 3 </p>
+            <NewsTab />
         </Tab>
     </Tabs>
     )

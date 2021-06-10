@@ -5,16 +5,28 @@ import {Col, Row, Container} from 'react-bootstrap'
 import LeftPanel from './LeftPanel.js'
 import RightPanel from './RightPanel.js'
 import CenterPanel from './CenterPanel.js'
-import { wallet } from '../assets/cryptoDatas'
+import { socket } from './socket.js'
+import { useState, useEffect } from 'react'
 
 function App() {
+
+  const [wallet, updateWallet] = useState([])
+
+    useEffect(() => {
+        socket.on("MajWallet", data => {
+          updateWallet(data)
+        });
+        return () => socket.disconnect();
+    }, [])
+    
+
   return (
     <div className="App">
       <Header />
       <Container fluid >
         <Row>
           <LeftPanel wallet={wallet} />
-          <CenterPanel wallet={wallet} />
+          <CenterPanel />
           <RightPanel />
         </Row>
       </Container>

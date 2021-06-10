@@ -2,14 +2,14 @@ import ChartSummary from './ChartSummary.js'
 import ValueSummary from './ValueSummary.js'
 import {Col, Row, Container} from 'react-bootstrap'
 
-function Summary({wallet}) {
+function Summary() {
     return (
       <div>
           <Row> 
             <ChartSummary />
           </Row>
           <Row className={'bg-dark'}>
-            <ValueSummary wallet={wallet}/>
+            <ValueSummary />
           </Row>
       </div>
       )

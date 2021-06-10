@@ -4,18 +4,7 @@ import Card from 'react-bootstrap/Card'
 import {Col, Row, Container} from 'react-bootstrap'
 import whiteCrossmark from '../assets/whiteCrossmark.png'
 
-function CryptoAsset({name, quantity, id, color}) {
-    const host = 'https://api.coingecko.com/api/v3/simple/price'
-    const [price, updatePrice] = useState(0)
-
-    useEffect(() => {
-        async function loadPrice() {
-            const response = await fetch(`${host}?ids=${name}&vs_currencies=usd`);
-            const json = await response.json();
-            updatePrice(json[name].usd);
-        }
-        loadPrice()
-	}, [])
+function CryptoAsset({name, quantity, id, currentValue, dailyBenef, currentPrice, color}) {
 
     return (
         <Card style={{ margin:'auto' }} bg={'dark'}  text={'light'} key={id}>
@@ -33,7 +22,11 @@ function CryptoAsset({name, quantity, id, color}) {
           <Card.Text className='cryptoDetails'>
             Quantité : {quantity} {id} 
             < br/>
-            Valeur actuelle : {(price * quantity).toFixed(2)}$
+            Cours actuel : {currentPrice}$
+            < br/>
+            Valeur actuelle : {(currentValue).toFixed(2)}$ 
+            < br/>
+            Performance daily : {dailyBenef.toFixed(2)}$
           </Card.Text>
         </Card.Body>
       </Card>

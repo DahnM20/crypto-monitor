@@ -1,10 +1,23 @@
 import {Col} from 'react-bootstrap'
 import '../styles/ValueSummary.css'
+import { useState, useEffect } from 'react'
+import { server } from '../assets/env.js'
 
-function ValueSummary({wallet}) {
-    const total = wallet.reduce((acc, asset) => acc + asset.quantity * asset.value,0)
+function ValueSummary() {
+
+    const [total, updateTotal] = useState([])
+
+    useEffect(() => {
+        async function loadTotal() {
+            const response = await fetch(`http://${server.host}:${server.port}/value`);
+            const json = await response.json();
+            updateTotal(parseFloat(json[0]['value']));
+        }
+        loadTotal()
+    }, [])
+
     const invested = 13000
-    console.log(total)
+
     return (
         <>
             <Col className="colName"> Valeur totale <br /> 

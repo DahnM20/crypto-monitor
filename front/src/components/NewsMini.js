@@ -1,8 +1,8 @@
 import {Col, Row, Image} from 'react-bootstrap'
 import logo from '../assets/logoSolana.png'
-import '../styles/News.css'
+import '../styles/NewsMini.css'
 
-function News({id, link, text}){
+function NewsMini({id, link, text}){
     return (
         <Row>
             <Col md={1}>
@@ -27,4 +27,4 @@ function News({id, link, text}){
         </Row>
     )
 }
-export default News;
+export default NewsMini;

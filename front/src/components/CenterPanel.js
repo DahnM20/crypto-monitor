@@ -3,12 +3,12 @@ import Summary from './Summary.js'
 import '../styles/CentralPanel.css'
 import Watchlist from './Watchlist.js'
 
-function CenterPanel({wallet}){
+function CenterPanel(){
     return (
         <Col className='bg-dark centralPanel'>
             <Row>
                 <Col>
-                    <Summary wallet={wallet}/>
+                    <Summary />
                 </Col>
             </Row>
             <Row>

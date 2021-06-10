@@ -1,0 +1,31 @@
+.news{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+.colContent{
+    align-content: center;
+    background-color:rgba(146, 146, 146, 0.068);
+}
+.newsText{
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.15rem;
+}
+
+.linkCol{
+    text-align: right;
+    color: whitesmoke;
+    border-top: solid;
+    border-width: 1px;
+    border-color: rgba(208, 255, 137, 0.685);
+}
+
+.newsLink{
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+.newsLink:hover{
+    color: rgba(132, 255, 116, 0.76);
+}
