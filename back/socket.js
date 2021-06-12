@@ -74,10 +74,12 @@ exports.emitCryptoastMaj = () => {
 
 exports.emitValuesMaj = async () => {
     let docs = await mongoTools.walletValuesFindAll();
+    console.log('i :' + JSON.stringify(docs[0]))
 
     for (elem of docs){
         // Conversion en timestamp
         elem.time = Math.round(new Date(elem.date)/1000);
+        delete elem.id
     }
 
     for (var socketId in this.getRegisteredSockets()){

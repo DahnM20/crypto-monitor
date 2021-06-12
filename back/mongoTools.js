@@ -45,7 +45,7 @@ exports.getWalletLastTotalValue = async () => {
 }
 
 exports.walletValuesFindAll = async () => {
-    return await db.collection('wallet-value').find().toArray();
+    return await db.collection('wallet-value').find().sort( { id: 1 } ).toArray();
 }
 
 exports.updateWalletAsset = async(asset) => {
@@ -59,7 +59,9 @@ exports.updateWalletAssetQuantityByName = async(name, quantity) => {
 }
 
 exports.insertWalletValue = async(totalValue) => {
-    await db.collection("wallet-value").insertOne({"value" : totalValue, "date":getCurrentDate()});
+    const lastValue = await db.collection('wallet-value').find().limit(1).sort({$natural:-1}).toArray();
+    const newId = lastValue[0].id + 1;
+    await db.collection("wallet-value").insertOne({"value" : totalValue, "date" : getCurrentDate(), "id": newId});
 }
 
 
