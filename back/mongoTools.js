@@ -41,7 +41,7 @@ exports.updateNoteWatchlist = async(name, note) => {
 }
 
 exports.getWalletLastTotalValue = async () => {
-    return await db.collection('wallet-value').find().limit(1).sort({$natural:-1}).toArray();
+    return await db.collection('wallet-value').find().limit(1).sort( { id: -1 } ).toArray();
 }
 
 exports.walletValuesFindAll = async () => {
@@ -59,7 +59,7 @@ exports.updateWalletAssetQuantityByName = async(name, quantity) => {
 }
 
 exports.insertWalletValue = async(totalValue) => {
-    const lastValue = await db.collection('wallet-value').find().limit(1).sort({$natural:-1}).toArray();
+    const lastValue = await this.getWalletLastTotalValue();
     const newId = lastValue[0].id + 1;
     await db.collection("wallet-value").insertOne({"value" : totalValue, "date" : getCurrentDate(), "id": newId});
 }
