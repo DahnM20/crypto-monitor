@@ -13,3 +13,16 @@
 .crossCol {
     align-content: center;
 }
+
+.buttonModify:hover {
+    color: violet;
+}
+
+
+.loss{
+    color: rgba(255, 34, 27, 0.712);
+}
+
+.gain{
+    color:rgba(78, 255, 55, 0.733);
+}

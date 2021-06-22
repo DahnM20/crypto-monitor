@@ -1,5 +1,6 @@
 import {Tabs, Tab} from 'react-bootstrap'
 import NewsTab from './NewsTab.js'
+import TweetsTab from './TweetsTab.js'
 import { useState, useEffect } from 'react'
 import '../styles/TabsGroup.css'
 
@@ -17,7 +18,7 @@ function TabsGroup(){
             <NewsTab />
         </Tab>
         <Tab className="tab" eventKey="Tweets" title="Tweets">
-            <p> OK 2 </p>
+            <TweetsTab />
         </Tab>
         <Tab className="tab" eventKey="Cryptoast" title="Cryptoast">
             <NewsTab />
