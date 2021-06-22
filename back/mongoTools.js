@@ -76,7 +76,7 @@ function getCurrentDate(){
     let date = date_ob.getDate();
     let month = date_ob.getMonth() + 1;
     let year = date_ob.getFullYear();
-    let hour = date_ob.getHours() + 2;
+    let hour = date_ob.getHours();
     let min = date_ob.getMinutes();
     let seconds = date_ob.getSeconds();
 
