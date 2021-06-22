@@ -1,25 +1,22 @@
 import {Col, Row, Image} from 'react-bootstrap'
-import logo from '../assets/logoSolana.png'
-import '../styles/NewsMini.css'
+import '../styles/Tweet.css'
 
-function NewsMini({id, link, text}){
+function Tweet({id, link, text, author, author_image}){
     return (
-        <Row>
+        <Row key={id}>
             <Col md={1}>
-                <img
-                    src={logo}
-                    width="30"
-                    height="30"
+                <Image fluid roundedCircle
+                    src={author_image}
                 />{' '}
             </Col>
-            <Col>
+            <Col className='tweetContainer'>
                 <Row>
-                    <Col md={12} className='newsText'>
+                    <Col md={12} className='tweetText'>
                         {text}
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={12} className='newsLink'>
+                    <Col md={12} className='tweetLink'>
                         <a href={link} > Lien </a>
                     </Col>
                 </Row>
@@ -27,4 +24,4 @@ function NewsMini({id, link, text}){
         </Row>
     )
 }
-export default NewsMini;
+export default Tweet;

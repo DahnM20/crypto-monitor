@@ -3,7 +3,7 @@ import '../styles/News.css'
 
 function News({id, link, text, img}){
     return (
-        <Row className='news'>
+        <Row className='news' key={id}>
             <Col md={3}>
                 <a href={link} target="_blank">
                     <Image fluid

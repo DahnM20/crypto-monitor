@@ -6,7 +6,7 @@ import '../styles/TabsGroup.css'
 
 function TabsGroup(){
 
-    const [key, setKey] = useState('all');
+    const [key, setKey] = useState('Cryptoast');
 
     return (
     <Tabs 
@@ -14,14 +14,11 @@ function TabsGroup(){
         activeKey={key}
         onSelect={(k) => setKey(k)}
     >
-        <Tab className="tab scrollTab" eventKey="all" title="Toutes">
+        <Tab className="tab scrollTab" eventKey="Cryptoast" title="Cryptoast">
             <NewsTab />
         </Tab>
-        <Tab className="tab" eventKey="Tweets" title="Tweets">
+        <Tab className="tab scrollTab" eventKey="Tweets" title="Tweets">
             <TweetsTab />
-        </Tab>
-        <Tab className="tab" eventKey="Cryptoast" title="Cryptoast">
-            <NewsTab />
         </Tab>
     </Tabs>
     )

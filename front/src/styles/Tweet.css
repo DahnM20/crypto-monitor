@@ -1,0 +1,17 @@
+.tweetText{
+    text-align: left;
+}
+
+.tweetContainer{
+    border: solid;
+    border-color:rgba(24, 255, 255, 0.13);
+    border-width: 1px;
+    padding-top: 7px;
+    margin-bottom: 10px;
+}
+
+.tweetLink{
+    text-align: right;
+    color: whitesmoke;
+    padding-right: 25px;
+}
