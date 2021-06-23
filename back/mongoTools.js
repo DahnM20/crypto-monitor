@@ -15,7 +15,7 @@ exports.walletFindAll = async () => {
     return await db.collection('wallet').find({}).toArray();
 }
 
-exports.insertAssetInWallet = async () => {
+exports.insertAssetInWallet = async (asset) => {
     if(asset.hasOwnProperty('id') && asset.hasOwnProperty('name') && asset.hasOwnProperty('quantity')){
         await db.collection("wallet").insertOne(asset);
         return true;
