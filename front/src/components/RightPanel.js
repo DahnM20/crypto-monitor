@@ -4,7 +4,7 @@ import '../styles/RightPanel.css'
 
 function RightPanel(){
     return (
-        <Col className='bg-dark rightPanel'>
+        <Col className='bg-dark rightPanel' lg={5}>
             <TabsGroup />
         </Col>
     )

@@ -5,7 +5,7 @@ import Watchlist from './Watchlist.js'
 
 function CenterPanel(){
     return (
-        <Col className='bg-dark centralPanel'>
+        <Col className='bg-dark centralPanel' lg={5}>
             <Row>
                 <Col>
                     <Summary />

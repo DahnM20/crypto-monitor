@@ -1,10 +1,19 @@
 .cryptoName {
     font-weight: bold;
+    font-size: 0.9vw;
 }
 
 .cryptoDetails {
     text-align: left;
+    font-size: 0.8vw;
 }
+
+
+@media screen and (max-width: 600px) {
+    .cryptoDetails {
+        font-size: 3vw;
+    }
+  }
 
 .crossIcon {
     width: 15px;

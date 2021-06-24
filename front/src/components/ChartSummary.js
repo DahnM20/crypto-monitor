@@ -76,9 +76,16 @@ function ChartSummary(){
 
     }, []);
 
+    /*useEffect(() => {
+        function handleResize() {
+            console.log('resized to: ', window.innerWidth, 'x', window.innerHeight)
+            current_chart.resize(100,100)
+        }
+        window.addEventListener('resize', handleResize)
+    })*/
 
     return (
-        <div className={'bg-dark'} > 
+        <div className='bg-dark' > 
             <p className='chartTitle'>Evolution du portefeuille</p>
             <div ref={ref} />
         </div>
