@@ -31,9 +31,9 @@ function CryptoAsset({name, quantity, id, currentValue, dailyBenef, currentPrice
             < br/>
             Cours actuel : {currentPrice}$
             < br/>
-            Valeur actuelle : {(currentValue).toFixed(2)}$ 
+            Valeur actuelle : {currentValue?.toFixed(2)}$ 
             < br/>
-            Performance daily : <span className={dailyBenef < 0 ? 'loss' : 'gain' }> {dailyBenef.toFixed(2)}$ </span>
+            Performance daily : <span className={dailyBenef < 0 ? 'loss' : 'gain' }> {(dailyBenef != null ? dailyBenef.toFixed(2) + '$' : "N/A")} </span>
           </Card.Text>
         </Card.Body>
       </Card>
