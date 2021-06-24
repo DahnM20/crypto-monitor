@@ -4,6 +4,7 @@ import ButtonAddAsset from './ButtonAddAsset.js'
 import WalletPieChart from './WalletPieChart.js'
 import {Col, Row, Container} from 'react-bootstrap'
 import { compareAsset } from './utils.js';
+import DailyPerf from './DailyPerf.js';
 
 function Wallet({wallet}) {
 
@@ -15,6 +16,8 @@ function Wallet({wallet}) {
     < br />
     <ButtonAddAsset />
     < br />
+    < br />
+    <DailyPerf wallet={wallet} />
     < br />
     { wallet.sort(compareAsset).map(({name, quantity, id, currentValue, dailyBenef, currentPrice, color}) =>
             <>
