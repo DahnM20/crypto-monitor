@@ -2,7 +2,7 @@ import React from 'react'
 import TweetQuery from './TweetQuery'
 import { server } from '../assets/env.js'
 import { useState, useEffect } from 'react'
-import {Col, Row, Image} from 'react-bootstrap'
+import {Col, Row } from 'react-bootstrap'
 import Tweet from './Tweet'
 
 function TweetsTab() {
@@ -22,8 +22,8 @@ function TweetsTab() {
         <div>
             <TweetQuery />
             < br/>
-            {tweets.map(({id, link, text, author, author_image}) =>
-                <Row>
+            {tweets.map(({id, link, text, author, author_image, index}) =>
+                <Row key={`${index}-${id}`}>
                     <Col>
                         <Tweet id={id} text={text} link={link} author_image={author_image}/>
                     </Col>

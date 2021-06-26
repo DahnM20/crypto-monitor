@@ -21,7 +21,7 @@ function NewsTab(){
         <div className="newsTab">
         < br/>
             {news.map(({title, img, link, index}) =>
-                <Row>
+                <Row key={`${index}-${title}`}>
                     <Col>
                         <News id={index} text={title} link={link} img={img}/>
                     </Col>

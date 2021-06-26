@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect }  from 'react'
 import { createChart } from 'lightweight-charts'
 import '../styles/ChartSummary.css'
 import { socket } from './socket.js'

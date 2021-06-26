@@ -1,6 +1,6 @@
 import ChartSummary from './ChartSummary.js'
 import ValueSummary from './ValueSummary.js'
-import {Col, Row, Container} from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 
 function Summary() {
     return (

@@ -1,4 +1,4 @@
-import {Col, Row, Container} from 'react-bootstrap'
+import {Col} from 'react-bootstrap'
 import Wallet from './Wallet.js'
 import '../styles/LeftPanel.css'
 

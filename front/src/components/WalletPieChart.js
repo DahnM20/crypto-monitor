@@ -16,7 +16,7 @@ function WalletPieChart({wallet}){
         let percentageAdded = 0
 
         for (let asset of wallet.sort(compareAsset)){
-            if(cpt == 3) break;
+            if(cpt === 3) break;
             let currentPercentage = (asset.currentValue/totalValue)*100
             data_temp.push({title: asset.id, value: currentPercentage,  color: colors[cpt]})
             percentageAdded += currentPercentage

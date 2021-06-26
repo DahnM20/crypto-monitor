@@ -2,4 +2,7 @@
 .walletTitle {
     font-weight: bold;
 }
-    
+
+.assetRow {
+    margin-bottom: 10px;
+}

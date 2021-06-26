@@ -1,7 +1,7 @@
-import {Col, Row, Modal, Button} from 'react-bootstrap'
+import {Modal, Button} from 'react-bootstrap'
 import '../styles/ModalAddCrypto.css'
 import FormAddCrypto from './FormAddCrypto.js'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { server } from '../assets/env.js'
 
 function ModalAddCrypto({show, handleClose}){

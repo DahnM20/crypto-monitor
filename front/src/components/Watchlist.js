@@ -1,7 +1,6 @@
 import WatchlistItem from './WatchlistItem.js'
 import '../styles/Watchlist.css'
-import { watchlist } from '../assets/cryptoDatas'
-import {Col, Row, Container} from 'react-bootstrap'
+import {Col, Row } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 import { server } from '../assets/env.js'
 
@@ -22,15 +21,12 @@ function Watchlist(){
         <>
         <div className='title'> Watchlist </div>
         < br/>
-        {watchlist.map(({name, marketcap, note, site}) =>
-            <>
-            <Row key={name}>
+        {watchlist.map(({name, marketcap, note, site, index}) =>
+            <Row className='watchlistRow' key={`${index}-${name}`}>
               <Col>
                 <WatchlistItem name={name} marketcap={marketcap} note={note} site={site} />
               </Col>
-            </Row> 
-            < br/>
-            </>
+            </Row>
         )}
         </>
     )

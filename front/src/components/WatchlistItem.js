@@ -1,5 +1,5 @@
 import '../styles/WatchlistItem.css'
-import {Col, Row, Container} from 'react-bootstrap'
+import {Col, Row } from 'react-bootstrap'
 import whiteStar from '../assets/whiteStar.png'
 
 function WatchlistItem({name, marketcap, note, site}){

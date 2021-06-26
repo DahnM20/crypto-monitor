@@ -5,7 +5,7 @@ function News({id, link, text, img}){
     return (
         <Row className='news' key={id}>
             <Col md={3}>
-                <a href={link} target="_blank">
+                <a href={link} target="_blank" rel="noreferrer">
                     <Image fluid
                         src={img}
                     />{' '}
@@ -19,7 +19,7 @@ function News({id, link, text, img}){
                 </Row>
                 <Row>
                     <Col md={12} className='linkCol'>
-                        <a href={link} className='newsLink' target="_blank"> Voir l'article sur cryptoast </a>
+                        <a href={link} className='newsLink' target="_blank" rel="noreferrer"> Voir l'article sur cryptoast </a>
                     </Col>
                 </Row>
             </Col>

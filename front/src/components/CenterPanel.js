@@ -1,4 +1,4 @@
-import {Col, Row, Container} from 'react-bootstrap'
+import {Col, Row} from 'react-bootstrap'
 import Summary from './Summary.js'
 import '../styles/CentralPanel.css'
 import Watchlist from './Watchlist.js'

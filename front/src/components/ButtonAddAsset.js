@@ -1,6 +1,6 @@
 import {Button} from 'react-bootstrap'
 import '../styles/ButtonAddAsset.css'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import ModalAddCrypto from './ModalAddCrypto.js'
 
 function ButtonAddAsset(){

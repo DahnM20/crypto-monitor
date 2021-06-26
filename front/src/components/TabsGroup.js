@@ -1,7 +1,7 @@
 import {Tabs, Tab} from 'react-bootstrap'
 import NewsTab from './NewsTab.js'
 import TweetsTab from './TweetsTab.js'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import '../styles/TabsGroup.css'
 
 function TabsGroup(){
