@@ -1,0 +1,26 @@
+.swal-modal {
+    background-color: rgba(43, 43, 43, 0.959);
+}
+
+.swal-icon--success__hide-corners {
+    background-color: rgba(24, 26, 27, 0);
+}
+
+.swal-icon--success__line {
+    background-color: rgb(137, 202, 62);
+}
+
+.swal-icon--success__ring {
+    border-color: rgba(64, 116, 34, 0.2);
+}
+.swal-icon--success__ring {
+    border: 4px solid hsla(98,55%,69%,.2);
+}
+
+.swal-icon--success:after, .swal-icon--success:before {
+    background: rgba(51, 51, 51, 0.075);
+}
+
+.swal-text {
+    color:whitesmoke;
+}

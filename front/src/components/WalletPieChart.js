@@ -30,7 +30,6 @@ function WalletPieChart({wallet}){
 
     useEffect(() => {
         updateData(computeData())
-        console.log(data);
     }, [])
 
     useEffect(() => {
