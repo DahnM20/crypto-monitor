@@ -16,7 +16,7 @@ function ValueSummary() {
         loadTotal()
     }, [])
 
-    const invested = 14000
+    const invested = 15000
 
     return (
         <>
