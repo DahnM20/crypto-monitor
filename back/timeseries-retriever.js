@@ -65,7 +65,7 @@ async function getTimeSeriesUSDLastWeeks(asset, numberOfWeeks){
 
     values.forEach(value => {
         perfArray.push({
-            date: convertTimeStamp(value[0]),
+            date: convertTimeStampToDate(value[0]),
             open : value[1], 
             close : value[2],
             high : value[3],
@@ -74,8 +74,6 @@ async function getTimeSeriesUSDLastWeeks(asset, numberOfWeeks){
             perf : (value[2]-value[1])/value[2] * 100
         });
     });
-
-    console.log(perfArray);
 
     return perfArray;
 
@@ -118,7 +116,7 @@ async function getTimeSeriesBTCLastWeeks(asset, numberOfWeeks){
         const closeVsBTC =  value[4]/valueBTC[4]
 
         perfArray.push({
-            date: convertTimeStamp(value[0]),
+            date: convertTimeStampToDate(value[0]),
             open : openVsBTC, 
             close : closeVsBTC,
             high : value[2]/valueBTC[2],
@@ -129,17 +127,47 @@ async function getTimeSeriesBTCLastWeeks(asset, numberOfWeeks){
         
     }
 
-    console.log(perfArray);
     return perfArray;
 
 }
 
+function convertTimeSeriesArrayToSingleObject(timeSeries, asset, field){
+    const timeSerieObject = {
+        asset : asset
+    };
+
+    timeSeries.forEach(value => {
+        timeSerieObject[value.date] = value[field].toFixed(2);
+    });
+    return timeSerieObject;
+}
+
+
+
+exports.getPerfSummaryForList = async(assets, vsBTC, numberOfWeeks, kind) => {
+    const summary = []
+    for (const asset of assets) {
+        if(vsBTC){
+            let timeSeries = await getTimeSeriesBTCLastWeeks(asset, numberOfWeeks);
+            summary.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind));
+        } else {
+            let timeSeries = await getTimeSeriesUSDLastWeeks(asset, numberOfWeeks);
+            summary.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind));
+        }
+    }
+    return summary;
+}
+
 async function main() {
     //console.log(await getAssetData('btc'));
-    //console.log(await getAssetMarketDataField('btc', volumeLast24hFieldName));
     //console.log(await getAssetRoiData('btc'))
-    getTimeSeriesUSDLastWeeks('btc', 5);
-    getTimeSeriesBTCLastWeeks('sol', 5);
+    //const timeSeries = await getTimeSeriesUSDLastWeeks('btc', 5);
+    //await getTimeSeriesBTCLastWeeks('sol', 5);
+    //convertTimeSeriesArrayToSingleObject(timeSeries, 'btc', 'perf');
+    
+    //const watchlist = ['sol', 'btc', 'chz', 'matic'];
+    //const summary = await getPerfSummaryForList(watchlist, false, 5);
+    //console.log(summary);
 }
 
 main();
