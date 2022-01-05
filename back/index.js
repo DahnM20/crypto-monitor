@@ -97,7 +97,7 @@ cron.schedule('50 23 * * *', async function() {
     await computePerf();
 })
 
-const watchlist = ['sol', 'btc', 'chz', 'matic']
+const watchlist = ['sol', 'btc', 'chz', 'matic', 'stx', 'rose', 'egld']
 
 async function main(){
     await mongoTools.mongoConnect();
