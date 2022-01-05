@@ -1,0 +1,21 @@
+
+.analysis{
+    min-height: 93vh;
+}
+
+.analysisParamters{
+    padding-top: 2em;
+}
+
+.buttonAnalysis{
+    font-size: 0.825rem;
+    font-weight: 600;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background-color: transparent;
+    color: rgb(163, 39, 174);
+    border: 1px solid rgb(174, 39, 174);
+    width: fit-content;
+    justify-self: flex-end;
+    text-transform: uppercase;
+}
