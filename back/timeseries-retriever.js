@@ -157,7 +157,6 @@ exports.computeSummaryForPerf = async(assets, vsBTC, numberOfWeeks, kind) => {
             setTimeout(() => summaryWeeklyUSD.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind), 2000));
         }
     }
-    return summary;
 }
 
 exports.getCurrentSummaries = async(vsBTC, kind) => {
