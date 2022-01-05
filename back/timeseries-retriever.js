@@ -150,11 +150,11 @@ let summaryWeeklyUSD = []
 let summaryWeeklyBTC = []
 
 exports.computeSummaryForPerf = async(assets, vsBTC, numberOfWeeks, kind) => {
-    if(vsBTC == true) summaryWeeklyBTC = []
+    if(vsBTC == 'true') summaryWeeklyBTC = []
     else summaryWeeklyUSD = []
 
     for (const asset of assets) {
-        if(vsBTC == true){
+        if(vsBTC == 'true'){
             let timeSeries = await getTimeSeriesBTCLastWeeks(asset, numberOfWeeks);
             summaryWeeklyBTC.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind))
         } else {
@@ -165,7 +165,7 @@ exports.computeSummaryForPerf = async(assets, vsBTC, numberOfWeeks, kind) => {
 }
 
 exports.getCurrentSummaries = async(vsBTC, kind) => {
-    if(vsBTC == true){
+    if(vsBTC == 'true'){
         console.log("return vs btc")
         return summaryWeeklyBTC;
     } else {
