@@ -50,6 +50,7 @@ async function getTimeSeriesUSDLastWeeks(asset, numberOfWeeks){
     let date_end = convertTimeStampToDate(current_day);
     let date_start = convertTimeStampToDate(substractWeekToTimestamp(current_day, numberOfWeeks));
 
+    console.log("Laucnh request... vs USD")
     const response = await fetch(`${host}assets/${asset}/metrics/price/time-series?` + new URLSearchParams({
         start: date_start,
         end: date_end,
@@ -85,6 +86,7 @@ async function getTimeSeriesBTCLastWeeks(asset, numberOfWeeks){
     let date_end = convertTimeStampToDate(current_day);
     let date_start = convertTimeStampToDate(substractWeekToTimestamp(current_day, numberOfWeeks));
 
+    console.log("Launch request... vs USD")
     const response = await fetch(`${host}assets/${asset}/metrics/price/time-series?` + new URLSearchParams({
         start: date_start,
         end: date_end,
