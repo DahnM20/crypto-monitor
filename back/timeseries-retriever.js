@@ -64,16 +64,17 @@ async function getTimeSeriesUSDLastWeeks(asset, numberOfWeeks){
 
     const values = json.data.values;
     const perfArray = [];
-
+    console.log(values)
+    console.log( asset + ' ' + values[2] + ' ' + values[1] + '\n')
     values.forEach(value => {
         perfArray.push({
             date: convertTimeStampToDate(value[0]),
             open : value[1], 
-            close : value[2],
-            high : value[3],
-            low : value[4],
+            high : value[2],
+            low : value[3],
+            close : value[4],
             vol : value[5],
-            perf : (value[2]-value[1])/value[2] * 100
+            perf : (value[4]-value[1])/value[4] * 100
         });
     });
 
@@ -184,11 +185,11 @@ async function main() {
     //const watchlist = ['sol', 'btc', 'chz', 'matic'];
     //const summary = await getPerfSummaryForList(watchlist, false, 5);
     //console.log(summary);
-    /*const watchlist = ['sol', 'btc', 'chz', 'matic', 'stx', 'rose', 'egld']
-    await exports.computeSummaryForPerf(watchlist, true, 5, 'perf');
+    const watchlist = ['sol', 'btc']
+    //await exports.computeSummaryForPerf(watchlist, true, 5, 'perf');
     await exports.computeSummaryForPerf(watchlist, false, 5, 'perf');
-    console.log(summaryWeeklyBTC)
-    console.log(summaryWeeklyUSD)*/
+    //console.log(summaryWeeklyBTC)
+    console.log(summaryWeeklyUSD)
 }
 
 main();
