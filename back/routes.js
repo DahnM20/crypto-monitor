@@ -52,9 +52,8 @@ module.exports = function(app){
     })
 
     app.get('/watchlist-summary-chart/:kind', async function(req,res){
-        const watchlist = ['sol', 'btc', 'chz', 'matic']
-        console.log( req.query.vsBTC + ' ' + req.query.nbWeek + ' ' + req.params.kind)
-        let docs = await timeseriesRetriever.getPerfSummaryForList(watchlist, req.query.vsBTC, req.query.nbWeek, req.params.kind);
+        console.log(  "getCurrentSummaries - " + req.query.vsBTC + ' ' + req.query.nbWeek + ' ' + req.params.kind)
+        let docs = await timeseriesRetriever.getCurrentSummaries(req.query.vsBTC, req.params.kind);
         res.status(200).json(docs);
     })
 }

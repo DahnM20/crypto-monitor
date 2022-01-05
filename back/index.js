@@ -7,6 +7,7 @@ const scrappingTools = require('./scrapping-tools');
 const mongoTools = require('./mongoTools');
 const socketTools = require('./socket');
 const twitter = require('./twitter-interaction');
+const timeseriesRetriever = require('./timeseries-retriever');
 
 const port = 3001;
 
@@ -39,6 +40,11 @@ async function computeWalletValue(){
     await mongoTools.insertWalletValue(totalValue);
     console.log('END - Compute Wallet Value');
 
+}
+
+async function computePerf(){
+    await timeseriesRetriever.computeSummaryForPerf(watchlist, false, 5, 'perf');
+    await timeseriesRetriever.computeSummaryForPerf(watchlist, true, 5, 'perf');
 }
 
 async function saveWalletDailyValue(){
@@ -88,14 +94,17 @@ cron.schedule('0,10,20,30,40,50 * * * *', async function() {
 //Tous les jours à 23h50
 cron.schedule('50 23 * * *', async function() {
     await saveWalletDailyValue();
+    await computePerf();
 })
 
+const watchlist = ['sol', 'btc', 'chz', 'matic']
 
 async function main(){
     await mongoTools.mongoConnect();
     scrappingTools.scrapCryptoast();
     await computeWalletValue();
     socketTools.initializeSockets(server);
+    await computePerf();
 }
 
 

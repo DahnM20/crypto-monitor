@@ -142,20 +142,30 @@ function convertTimeSeriesArrayToSingleObject(timeSeries, asset, field){
     return timeSerieObject;
 }
 
+let summaryWeeklyUSD = []
+let summaryWeeklyBTC = []
 
-
-exports.getPerfSummaryForList = async(assets, vsBTC, numberOfWeeks, kind) => {
-    const summary = []
+exports.computeSummaryForPerf = async(assets, vsBTC, numberOfWeeks, kind) => {
+    summaryWeeklyUSD = []
+    summaryWeeklyBTC = []
     for (const asset of assets) {
         if(vsBTC){
             let timeSeries = await getTimeSeriesBTCLastWeeks(asset, numberOfWeeks);
-            summary.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind));
+            setTimeout(() => summaryWeeklyBTC.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind), 2000));
         } else {
             let timeSeries = await getTimeSeriesUSDLastWeeks(asset, numberOfWeeks);
-            summary.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind));
+            setTimeout(() => summaryWeeklyUSD.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind), 2000));
         }
     }
     return summary;
+}
+
+exports.getCurrentSummaries = async(vsBTC, kind) => {
+    if(vsBTC){
+        return summaryWeeklyBTC;
+    } else {
+        return summaryWeeklyUSD;
+    }
 }
 
 async function main() {
