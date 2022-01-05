@@ -24,11 +24,9 @@ function generateColor(value) {
   const n = parseFloat(value)
   if(n > 0){
     let greenValue = (n + 80)/100 * 255 ;
-    console.log(n + ' g ' + greenValue)
     return 'rgb(0,' + greenValue + ', 100)';
   } else if (n < 0){
       let redValue = (n - 80)/100 * 255 * -1;
-      console.log(n + ' r ' + redValue)
       return 'rgb(' + redValue + ', 0, 100)';
   } else {
       return 'rgb(200, 200, 200)';

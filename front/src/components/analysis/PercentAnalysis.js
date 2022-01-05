@@ -40,6 +40,7 @@ function PercentAnalysis({kind,title,vsBTC}){
 
     useEffect(() => {
         async function loadRawData() {
+            console.log(`http://${server.host}:${server.port}/watchlist-summary-chart/${kind}?vsBTC=${vsBTC}&nbWeek=5`)
             const response = await fetch(`http://${server.host}:${server.port}/watchlist-summary-chart/${kind}?vsBTC=${vsBTC}&nbWeek=5`);
             const json = await response.json();
             updateRawData(json);

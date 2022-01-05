@@ -26,7 +26,7 @@ function Analysis(){
                 </Row>
                 <Row>
                     <Col md={12}>
-                        <PercentAnalysis kind={kinds[0]} title={titles[0]} vsBTC={true}/> 
+                        <PercentAnalysis kind={kinds[0]} title={titles[0]} vsBTC={false}/> 
                     </Col>
                 </Row>
                 <Row>
