@@ -169,7 +169,7 @@ exports.getCurrentSummaries = async(vsBTC, kind) => {
         console.log("return vs btc")
         return summaryWeeklyBTC;
     } else {
-        console.log("return vs btc")
+        console.log("return vs usd")
         return summaryWeeklyUSD;
     }
 }
