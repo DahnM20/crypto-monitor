@@ -152,12 +152,12 @@ exports.computeSummaryForPerf = async(assets, vsBTC, numberOfWeeks, kind) => {
     summaryWeeklyBTC = []
     for (const asset of assets) {
         if(vsBTC){
-            setTimeout(() => {
+            setTimeout(async () => {
                 let timeSeries = await getTimeSeriesBTCLastWeeks(asset, numberOfWeeks);
                 summaryWeeklyBTC.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind))
             }, 5000);
         } else {
-            setTimeout(() => { 
+            setTimeout(async () => { 
                 let timeSeries = await getTimeSeriesUSDLastWeeks(asset, numberOfWeeks);
                 summaryWeeklyUSD.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind))
             }, 5000);
