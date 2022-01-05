@@ -165,10 +165,11 @@ exports.computeSummaryForPerf = async(assets, vsBTC, numberOfWeeks, kind) => {
 }
 
 exports.getCurrentSummaries = async(vsBTC, kind) => {
-    console.log('vsBTC = ' + vsBTC )
     if(vsBTC == true){
+        console.log("return vs btc")
         return summaryWeeklyBTC;
     } else {
+        console.log("return vs btc")
         return summaryWeeklyUSD;
     }
 }
