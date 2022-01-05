@@ -102,7 +102,7 @@ const watchlist = ['sol', 'btc', 'chz', 'matic', 'stx', 'rose', 'egld']
 async function main(){
     await mongoTools.mongoConnect();
     await computeWalletValue();
-    await scrappingTools.scrapCryptoast();
+    //await scrappingTools.scrapCryptoast();
     socketTools.initializeSockets(server);
     await computePerf();
 }
