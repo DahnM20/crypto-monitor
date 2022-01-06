@@ -173,7 +173,6 @@ exports.computeSummaryForPerf = async(assets, vsBTC, numberOfWeeks, kind) => {
         } else {
             let timeSeries = await getTimeSeriesUSDLastWeeks(asset, numberOfWeeks);
             computeVolumePerf(timeSeries)
-            console.log(timeSeries)
             summaryWeeklyUSD.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind))
             summaryVolumePerf.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, 'perfVolume'))
         }
