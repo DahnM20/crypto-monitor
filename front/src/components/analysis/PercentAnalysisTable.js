@@ -37,7 +37,7 @@ function generateColor(value) {
   // Render the UI for your table
   return (
     <Table bordered variant="dark" responsive size="sm" {...getTableProps()}>
-      <thead className="analysisThead">
+      <thead >
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
@@ -50,12 +50,12 @@ function generateColor(value) {
         {rows.map((row, i) => {
           prepareRow(row)
           return (
-            <tr {...row.getRowProps()}>
+            <tr className="valueCell" {...row.getRowProps()}>
               {row.cells.map(cell => {
                 if(isNumeric(cell.value)){
-                    return <td style={{ backgroundColor:generateColor(cell.value) }} {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    return <td className="valueCell" style={{ backgroundColor:generateColor(cell.value) }} {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 } else {
-                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    return <td className="textCell" {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 }
               })}
             </tr>
