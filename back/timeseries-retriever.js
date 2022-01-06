@@ -139,7 +139,7 @@ function computeVolumePerf(perfArray){
     for(let i = 1; i < perfArray.length; ++i) {
         const value = perfArray[i]
 	if(value.vol != null && perfArray[i-1].vol != null){
-        	value['perfVolume'] = (((value.vol - perfArray[i-1].vol)/value.vol)*100);
+        	value['perfVolume'] = (((value.vol - perfArray[i-1].vol)/perfArray[i-1].vol)*100);
 	}
     }
 }
@@ -173,6 +173,7 @@ exports.computeSummaryForPerf = async(assets, vsBTC, numberOfWeeks, kind) => {
         } else {
             let timeSeries = await getTimeSeriesUSDLastWeeks(asset, numberOfWeeks);
             computeVolumePerf(timeSeries)
+            console.log(timeSeries)
             summaryWeeklyUSD.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind))
             summaryVolumePerf.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, 'perfVolume'))
         }
@@ -183,7 +184,7 @@ exports.getCurrentSummaries = async(vsBTC, kind) => {
     if(kind == 'vol'){
         return summaryVolumePerf;
     }
-    
+
     if(vsBTC == 'true'){
         return summaryWeeklyBTC;
     } else {
@@ -194,20 +195,18 @@ exports.getCurrentSummaries = async(vsBTC, kind) => {
 async function main() {
     //console.log(await getAssetData('btc'));
     //console.log(await getAssetRoiData('btc'))
-    //const timeSeries = await getTimeSeriesUSDLastWeeks('btc', 5);
-    //computeVolumePerf(timeSeries)
-    //console.log(timeSeries)
+    const timeSeries = await getTimeSeriesUSDLastWeeks('sol', 5);
+    computeVolumePerf(timeSeries)
+    console.log(timeSeries)
     //await getTimeSeriesBTCLastWeeks('sol', 5);
     //convertTimeSeriesArrayToSingleObject(timeSeries, 'btc', 'perf');
     
     //const watchlist = ['sol', 'btc', 'chz', 'matic'];
     //const summary = await getPerfSummaryForList(watchlist, false, 5);
     //console.log(summary);
-    /*const watchlist = ['stx']
-    await exports.computeSummaryForPerf(watchlist, true, 5, 'perf');
+    /*const watchlist = ['sol','btc'];
     await exports.computeSummaryForPerf(watchlist, false, 5, 'perf');
-    console.log(summaryWeeklyBTC)
-    console.log(summaryWeeklyUSD)*/
+    console.log(summaryVolumePerf)*/
 }
 
 main();
