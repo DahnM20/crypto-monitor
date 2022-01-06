@@ -59,10 +59,10 @@ async function getTimeSeriesUSDLastWeeks(asset, numberOfWeeks){
         format: "json"
     }));
 
-
     const json = await response.json();
 
     const values = json.data.values;
+
     const perfArray = [];
     values.forEach(value => {
         perfArray.push({
@@ -183,7 +183,7 @@ async function main() {
     //const watchlist = ['sol', 'btc', 'chz', 'matic'];
     //const summary = await getPerfSummaryForList(watchlist, false, 5);
     //console.log(summary);
-    /*const watchlist = ['sol', 'btc']
+    /*const watchlist = ['stx']
     await exports.computeSummaryForPerf(watchlist, true, 5, 'perf');
     await exports.computeSummaryForPerf(watchlist, false, 5, 'perf');
     console.log(summaryWeeklyBTC)

@@ -1,6 +1,7 @@
 import '../../styles/PercentAnalysisTable.css'
 import { useTable } from 'react-table'
 import { Table } from 'react-bootstrap'
+import { cloneElement } from 'react';
 
 function PercentAnalysisTable({columns, data}){
 
@@ -23,10 +24,10 @@ function isNumeric(n) {
 function generateColor(value) {
   const n = parseFloat(value)
   if(n > 0){
-    let greenValue = (n + 80)/100 * 255 ;
+    let greenValue = (n + 70)/100 * 255 ;
     return 'rgb(0,' + greenValue + ', 100)';
   } else if (n < 0){
-      let redValue = (n - 80)/100 * 255 * -1;
+      let redValue = (n - 70)/100 * 255 * -1;
       return 'rgb(' + redValue + ', 0, 100)';
   } else {
       return 'rgb(200, 200, 200)';
@@ -35,8 +36,8 @@ function generateColor(value) {
 
   // Render the UI for your table
   return (
-    <Table bordered variant="dark" responsive {...getTableProps()}>
-      <thead>
+    <Table bordered variant="dark" responsive size="sm" {...getTableProps()}>
+      <thead className="analysisThead">
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
