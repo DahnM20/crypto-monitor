@@ -6,7 +6,7 @@ import { useMemo, useState, useEffect } from 'react'
 function Analysis(){
 
     const [kinds, updateKinds] = useState(['perf', 'vol'])
-    const [titles, updateTitles] = useState(['Recap de la performance des prix VS USD', 'Recap de la performance des prix VS BTC'])
+    const [titles, updateTitles] = useState(['Evolution hebdomadaire des prix VS USD', 'Evolution hebdomadaire des prix VS BTC', 'Evolutions des volumes hebdomadaire'])
 
     return (
         <Row className="bg-dark analysis">
@@ -32,6 +32,12 @@ function Analysis(){
                 <Row>
                     <Col md={12}>
                         <PercentAnalysis kind={kinds[0]} title={titles[1]} vsBTC={true}/> 
+                    </Col>
+                </Row>
+                
+                <Row>
+                    <Col md={12}>
+                        <PercentAnalysis kind={kinds[1]} title={titles[2]} vsBTC={false}/> 
                     </Col>
                 </Row>
             </Col>
