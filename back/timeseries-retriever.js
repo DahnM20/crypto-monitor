@@ -138,7 +138,9 @@ function computeVolumePerf(perfArray){
     perfArray[0]['perfVolume'] = null;
     for(let i = 1; i < perfArray.length; ++i) {
         const value = perfArray[i]
-        value['perfVolume'] = ((value.vol - perfArray[i-1].vol)/value.vol).toFixed(2);
+	if(value.vol != null && perfArray[i-1].vol != null){
+        	value['perfVolume'] = (((value.vol - perfArray[i-1].vol)/value.vol)*100);
+	}
     }
 }
 
@@ -148,7 +150,7 @@ function convertTimeSeriesArrayToSingleObject(timeSeries, asset, field){
     };
 
     timeSeries.forEach(value => {
-        timeSerieObject[value.date] = value[field].toFixed(2);
+	if(value[field] != null) timeSerieObject[value.date] = value[field].toFixed(2);
     });
     return timeSerieObject;
 }
@@ -172,7 +174,7 @@ exports.computeSummaryForPerf = async(assets, vsBTC, numberOfWeeks, kind) => {
             let timeSeries = await getTimeSeriesUSDLastWeeks(asset, numberOfWeeks);
             computeVolumePerf(timeSeries)
             summaryWeeklyUSD.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind))
-            summaryVolumePerf.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, 'volPerf'))
+            summaryVolumePerf.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, 'perfVolume'))
         }
     }
 }
