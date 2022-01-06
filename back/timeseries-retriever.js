@@ -195,9 +195,9 @@ exports.getCurrentSummaries = async(vsBTC, kind) => {
 async function main() {
     //console.log(await getAssetData('btc'));
     //console.log(await getAssetRoiData('btc'))
-    const timeSeries = await getTimeSeriesUSDLastWeeks('sol', 5);
+    /*const timeSeries = await getTimeSeriesUSDLastWeeks('sol', 5);
     computeVolumePerf(timeSeries)
-    console.log(timeSeries)
+    console.log(timeSeries)*/
     //await getTimeSeriesBTCLastWeeks('sol', 5);
     //convertTimeSeriesArrayToSingleObject(timeSeries, 'btc', 'perf');
     
