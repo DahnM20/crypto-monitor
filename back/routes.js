@@ -1,6 +1,7 @@
 const scrappingTools = require('./scrapping-tools');
 const mongoTools = require('./mongoTools');
 const twitter = require('./twitter-interaction');
+const timeseriesRetriever = require('./timeseries-retriever');
 
 module.exports = function(app){
 
@@ -47,6 +48,12 @@ module.exports = function(app){
 
     app.get('/values', async function(req,res){
         let docs = await mongoTools.walletValuesFindAll();
+        res.status(200).json(docs);
+    })
+
+    app.get('/watchlist-summary-chart/:kind', async function(req,res){
+        console.log(  "getCurrentSummaries - " + req.query.vsBTC + ' ' + req.query.nbWeek + ' ' + req.params.kind)
+        let docs = await timeseriesRetriever.getCurrentSummaries(req.query.vsBTC, req.params.kind);
         res.status(200).json(docs);
     })
 }

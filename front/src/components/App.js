@@ -7,10 +7,14 @@ import RightPanel from './RightPanel.js'
 import CenterPanel from './CenterPanel.js'
 import { socket } from './socket.js'
 import { useState, useEffect } from 'react'
+import Analysis from './analysis/Analysis'
 
 function App() {
 
   const [wallet, updateWallet] = useState([])
+  const [showWallet, updateShowWallet] = useState(true)
+  const [showAnalysis, updateShowAnalysis] = useState(false)
+
 
     useEffect(() => {
         socket.on("MajWallet", data => {
@@ -18,17 +22,22 @@ function App() {
         });
         return () => socket.disconnect();
     }, [])
-    
 
   return (
     <div className="App">
-      <Header />
-      <Container fluid >
-        <Row>
-          <LeftPanel wallet={wallet} />
-          <CenterPanel />
-          <RightPanel />
-        </Row>
+      <Header updateShowAnalysis={updateShowAnalysis} updateShowWallet={updateShowWallet} />
+      <Container fluid className="bg-dark">
+
+            <Row className={!showWallet ? 'hidden' : null}>
+              <LeftPanel wallet={wallet} />
+              <CenterPanel />
+              <RightPanel />
+            </Row>
+
+            <Row className={!showAnalysis ? 'hidden' : null}>
+              <Analysis />
+            </Row>
+
       </Container>
     </div>
   );
