@@ -1,3 +1,21 @@
 .percentAnalysisDiv{
     padding: 2rem;
 }
+
+thead > :last-child {
+    border-bottom-color: rgba(245, 245, 245, 0.767);
+    border-bottom-width: 3px;
+}
+
+thead > :first-child {
+}
+
+.valueCell {
+    border:none;
+}
+
+.textCell {
+    border: solid !important;
+    border-width: 1px !important;
+    border-color: rgba(161, 154, 142, 0.466) !important;
+}

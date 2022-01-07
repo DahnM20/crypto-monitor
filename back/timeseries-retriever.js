@@ -111,7 +111,7 @@ async function getTimeSeriesBTCLastWeeks(asset, numberOfWeeks){
 
     const perfArray = [];
 
-    for (let i = 0; i < values.length; i++) {
+    for (let i = 0; i < values.length; ++i) {
         const value = values[i];
         const valueBTC = valuesBTC[i];
 
@@ -134,23 +134,37 @@ async function getTimeSeriesBTCLastWeeks(asset, numberOfWeeks){
 
 }
 
+function computeVolumePerf(perfArray){
+    perfArray[0]['perfVolume'] = null;
+    for(let i = 1; i < perfArray.length; ++i) {
+        const value = perfArray[i]
+	if(value.vol != null && perfArray[i-1].vol != null){
+        	value['perfVolume'] = (((value.vol - perfArray[i-1].vol)/perfArray[i-1].vol)*100);
+	}
+    }
+}
+
 function convertTimeSeriesArrayToSingleObject(timeSeries, asset, field){
     const timeSerieObject = {
         asset : asset
     };
 
     timeSeries.forEach(value => {
-        timeSerieObject[value.date] = value[field].toFixed(2);
+	if(value[field] != null) timeSerieObject[value.date] = value[field].toFixed(2);
     });
     return timeSerieObject;
 }
 
 let summaryWeeklyUSD = []
+let summaryVolumePerf = []
 let summaryWeeklyBTC = []
 
 exports.computeSummaryForPerf = async(assets, vsBTC, numberOfWeeks, kind) => {
     if(vsBTC == true) summaryWeeklyBTC = []
-    else summaryWeeklyUSD = []
+    else {
+        summaryVolumePerf = []
+        summaryWeeklyUSD = []
+    }
 
     for (const asset of assets) {
         if(vsBTC == true){
@@ -158,17 +172,21 @@ exports.computeSummaryForPerf = async(assets, vsBTC, numberOfWeeks, kind) => {
             summaryWeeklyBTC.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind))
         } else {
             let timeSeries = await getTimeSeriesUSDLastWeeks(asset, numberOfWeeks);
+            computeVolumePerf(timeSeries)
             summaryWeeklyUSD.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind))
+            summaryVolumePerf.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, 'perfVolume'))
         }
     }
 }
 
 exports.getCurrentSummaries = async(vsBTC, kind) => {
+    if(kind == 'vol'){
+        return summaryVolumePerf;
+    }
+
     if(vsBTC == 'true'){
-        console.log("return vs btc")
         return summaryWeeklyBTC;
     } else {
-        console.log("return vs usd")
         return summaryWeeklyUSD;
     }
 }
@@ -176,18 +194,18 @@ exports.getCurrentSummaries = async(vsBTC, kind) => {
 async function main() {
     //console.log(await getAssetData('btc'));
     //console.log(await getAssetRoiData('btc'))
-    //const timeSeries = await getTimeSeriesUSDLastWeeks('btc', 5);
+    /*const timeSeries = await getTimeSeriesUSDLastWeeks('sol', 5);
+    computeVolumePerf(timeSeries)
+    console.log(timeSeries)*/
     //await getTimeSeriesBTCLastWeeks('sol', 5);
     //convertTimeSeriesArrayToSingleObject(timeSeries, 'btc', 'perf');
     
     //const watchlist = ['sol', 'btc', 'chz', 'matic'];
     //const summary = await getPerfSummaryForList(watchlist, false, 5);
     //console.log(summary);
-    /*const watchlist = ['stx']
-    await exports.computeSummaryForPerf(watchlist, true, 5, 'perf');
+    /*const watchlist = ['sol','btc'];
     await exports.computeSummaryForPerf(watchlist, false, 5, 'perf');
-    console.log(summaryWeeklyBTC)
-    console.log(summaryWeeklyUSD)*/
+    console.log(summaryVolumePerf)*/
 }
 
 main();
