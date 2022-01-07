@@ -54,7 +54,7 @@ async function scrapCryptoast() {
 	
 	//Process data
         let articles = [];
-        let elements = document.querySelectorAll('body > div:nth-child(4) > div > div > div > div:nth-child(2) > div.col-sm-3.my-3');
+        let elements = document.querySelectorAll('body > div:nth-child(5) > div > div > div > div:nth-child(2) > div.col-sm-3.my-3');
         
         for(element of elements) {
             articles.push({
