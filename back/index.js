@@ -82,6 +82,7 @@ cron.schedule('0,15,30,45 * * * *', async function() {
     await scrappingTools.scrapCryptoast();
     socketTools.emitCryptoastMaj();
     twitter.executeTwitterQuery("cumrocket OR algorand")
+    await scrappingTools.scrapIDO();
 });
 
 //Toutes les 10min
@@ -97,12 +98,13 @@ cron.schedule('50 23 * * *', async function() {
     await computePerf();
 })
 
-const watchlist = ['sol', 'btc', 'eth','dot','doge','shib','audio','avax','akt','xmr','aave','bat','cfx', 'link','theta', 'chz','grt','enj','vet','rlc','algo', 'matic', 'stx', 'rose', 'egld']
+const watchlist = ['sol', 'btc', 'eth','dot','sand','mana','doge','shib','audio','avax','akt','xmr','aave','bat','cfx', 'link','theta', 'chz','grt','enj','vet','rlc','algo', 'matic', 'stx', 'rose', 'egld']
 
 async function main(){
     await mongoTools.mongoConnect();
     await computeWalletValue();
-    //await scrappingTools.scrapCryptoast();
+    await scrappingTools.scrapCryptoast();
+    await scrappingTools.scrapIDO();
     socketTools.initializeSockets(server);
     await computePerf();
 }

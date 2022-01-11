@@ -10,6 +10,10 @@ module.exports = function(app){
         res.send(scrappingTools.getNews());
     });
 
+    app.get('/ido', function (req, res) {
+        res.send(scrappingTools.getIdo());
+    });
+
     app.get('/wallet', async function(req,res){
         let docs = await mongoTools.walletFindAll();
         res.status(200).json(docs);
