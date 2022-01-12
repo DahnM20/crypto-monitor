@@ -136,7 +136,7 @@ async function scrapIDO() {
             for(element of elements) {
                 projects.push({
                     name: element.querySelector(await getIdoNameSelector()).textContent,
-                    img:  getIdoIndex() != 2 ? element.querySelector(await getImageSelector()).src : element.querySelector(await getImageSelector()).style.backgroundImage,
+                    img:  await getIdoIndex() != 1 ? element.querySelector(await getImageSelector()).src : element.querySelector(await getImageSelector()).style.backgroundImage,
                     link: element.querySelector(await getLinkSelector())?.href,
                     status: element.querySelector(await getStatusSelector())?.textContent,
                     //blockchain : getIdoIndex() > 1 ? 'solana' : element?.querySelector(await getBlockchainSelector())?.dataset?.projectPartialTarget
@@ -155,8 +155,7 @@ async function scrapIDO() {
     idoProjects = idoProjects.filter(project => !statusFilters.includes(project.status?.toLowerCase()))
     idoProjects.forEach(project => project.name = project.name.replaceAll(' ', '').replaceAll('\n', '').replaceAll('$',''));
     idoProjects.forEach(project => project.status = project.status?.replaceAll('ends in:', '-end-soon')?.replaceAll('starts in:', '-soon')?.replaceAll(' ', ''));
-
-    console.log(idoProjects);
+    idoProjects.forEach(project => project.img = project.img.replaceAll("url(\"","").replaceAll("\")",""));
 
     await browser.close();
     console.log('END - Scrapping IDO');
@@ -200,7 +199,7 @@ async function exposeAllIdoMethods(page, i) {
 
 //scrapCryptoast();
 
-//scrapIDO();
+scrapIDO();
 
 exports.getNews = getNews;
 exports.getIdo = getIdo;

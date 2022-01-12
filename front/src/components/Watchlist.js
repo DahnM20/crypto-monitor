@@ -10,7 +10,7 @@ function Watchlist(){
 
     useEffect(() => {
         async function loadWatchlist() {
-            const response = await fetch(`http://${server.host}:${server.port}/watchlist`);
+            const response = await fetch(`http://${server.host}:${server.port}/ido`);
             const json = await response.json();
             updateWatchlist(json);
         }
@@ -19,12 +19,12 @@ function Watchlist(){
 
     return (
         <>
-        <div className='title'> Watchlist </div>
+        <div className='title'> IDO en cours </div>
         < br/>
-        {watchlist.map(({name, marketcap, note, site, index}) =>
+        {watchlist.map(({name, img, link, status, index}) =>
             <Row className='watchlistRow' key={`${index}-${name}`}>
               <Col>
-                <WatchlistItem name={name} marketcap={marketcap} note={note} site={site} />
+                <WatchlistItem name={name} img={img} status={status} link={link} />
               </Col>
             </Row>
         )}
