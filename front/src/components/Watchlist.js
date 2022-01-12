@@ -19,7 +19,7 @@ function Watchlist(){
 
     return (
         <>
-        <div className='title'> IDO en cours </div>
+        <div className='title'> IDO Watchlist </div>
         < br/>
         {watchlist.map(({name, img, link, status, index}) =>
             <Row className='watchlistRow' key={`${index}-${name}`}>
