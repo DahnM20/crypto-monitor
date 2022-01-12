@@ -21,6 +21,7 @@ function Watchlist(){
         <>
         <div className='title'> IDO Watchlist </div>
         < br/>
+        <div className='watchlistScroller'>
         {watchlist.map(({name, img, link, status, index}) =>
             <Row className='watchlistRow' key={`${index}-${name}`}>
               <Col>
@@ -28,6 +29,7 @@ function Watchlist(){
               </Col>
             </Row>
         )}
+        </div>
         </>
     )
 }

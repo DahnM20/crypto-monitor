@@ -11,3 +11,11 @@
 .watchlistRow{
     margin-bottom: 15px;
 }
+
+.watchlistScroller{
+    border-right: solid;
+    border-color:#6fc7dd1f;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 40vh;
+}
