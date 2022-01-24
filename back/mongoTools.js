@@ -12,7 +12,7 @@ exports.mongoConnect = async () => {
 }
 
 exports.walletFindAll = async () => {
-    return await db.collection('wallet').find({}).toArray();
+    return await db.collection('wallet').find({}).limit(15000).toArray();
 }
 
 exports.insertAssetInWallet = async (asset) => {
