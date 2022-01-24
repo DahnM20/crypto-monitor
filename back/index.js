@@ -79,10 +79,14 @@ require('./routes')(app);
 
 //Toutes les 15mins
 cron.schedule('0,15,30,45 * * * *', async function() {
-    await scrappingTools.scrapCryptoast();
-    socketTools.emitCryptoastMaj();
-    twitter.executeTwitterQuery("cumrocket OR algorand")
-    await scrappingTools.scrapIDO();
+    try {
+        await scrappingTools.scrapCryptoast();
+        socketTools.emitCryptoastMaj();
+        twitter.executeTwitterQuery("cumrocket OR algorand")
+        await scrappingTools.scrapIDO()
+    } catch(e) {
+        console.log("Erreur lors des scrappings")
+    }
 });
 
 //Toutes les 10min
@@ -103,8 +107,12 @@ const watchlist = ['sol', 'btc', 'eth','dot','sand','mana','doge','shib','audio'
 async function main(){
     await mongoTools.mongoConnect();
     await computeWalletValue();
+    try {
     await scrappingTools.scrapCryptoast();
     await scrappingTools.scrapIDO();
+    } catch(e) { 
+        console.log("Erreur lors des scrappings")
+    }
     socketTools.initializeSockets(server);
     await computePerf();
 }
