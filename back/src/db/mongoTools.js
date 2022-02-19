@@ -10,7 +10,7 @@ const mongoConnect = async () => {
 }
 
 const walletFindAll = async () => {
-    return await db.collection('wallet').find({}).limit(15000).toArray();
+    return await db.collection('wallet').find({}).toArray();
 }
 
 const insertAssetInWallet = async (asset) => {
@@ -43,7 +43,7 @@ const getWalletLastTotalValue = async () => {
 }
 
 const walletValuesFindAll = async () => {
-    return await db.collection('wallet-value').find().sort( { id: 1 } ).toArray();
+    return await db.collection('wallet-value').find().sort( { id: 1 } ).limit(15000).toArray();
 }
 
 const updateWalletAsset = async(asset) => {
