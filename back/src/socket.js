@@ -75,7 +75,6 @@ exports.emitCryptoastMaj = () => {
 
 exports.emitValuesMaj = async () => {
     let docs = await mongoTools.walletValuesFindAll();
-    console.log('i :' + JSON.stringify(docs[0]))
 
     for (elem of docs){
         // Conversion en timestamp

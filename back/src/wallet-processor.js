@@ -4,7 +4,8 @@ const timeseriesRetriever = require('./external-apis/timeseries-retriever');
 const log = require('loglevel');
 
 
-const watchlist = ['sol', 'btc', 'eth','dot','sand','mana','doge','shib','audio','avax','akt','xmr','aave','bat','cfx', 'link','theta', 'chz','grt','enj','vet','rlc','algo', 'matic', 'stx', 'rose', 'egld']
+const watchlist = ['sol', 'btc', 'eth','dot','sand','mana','doge','shib','audio','avax','akt','xmr','aave','bat','cfx', 'link','theta', 
+'chz','grt','enj','vet','rlc','algo', 'matic', 'stx', 'rose', 'egld']
 
 const computeWalletValue = async() => {
     log.info('START - Compute Wallet Value');

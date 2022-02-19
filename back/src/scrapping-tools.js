@@ -35,49 +35,56 @@ async function autoScroll(page){
 
 async function scrapCryptoast() {
     log.info('START - Scrapping cryptoast');
-
-    log.debug(process.env.MACHINE_SYSTEM);
+    log.debug('System : ' + process.env.MACHINE_SYSTEM);
     const browserOption = (process.env.MACHINE_SYSTEM == 'PI' ? {executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox', '--disable-setuid-sandbox'], headless:true}
-							      : {headless : true});
+							      : {headless : false});
 
     const browser = await puppeteer.launch(browserOption);
     const page = await browser.newPage();
-    await page.goto(pageUrl, {
-	"waitUntil" : "networkidle0" //Wait for all non-lazy images to load
-    });
 
-    await page.waitForSelector('body > div:nth-child(4) > div > div > div > div:nth-child(2) > div.col-sm-3.my-3')
+    try {
+        await page.goto(pageUrl, {
+        "waitUntil" : "networkidle0" //Wait for all non-lazy images to load
+        });
 
-    await page.setViewport({
-        width: 1200,
-        height: 800
-    });
+        await page.waitForSelector('body > div:nth-child(6) > div > div > div > div:nth-child(2) > div.col-sm-3.my-3')
 
-    await autoScroll(page);
+        await page.setViewport({
+            width: 1200,
+            height: 800
+        });
+
+        await autoScroll(page);
 
 
-    news = await page.evaluate(async () => {
-	
-	//Process data
+        news = await page.evaluate(processCryptoastPage);
+    } catch(e){
+        log.error(`Erreur lors du scrapping Cryptoast ` + e )
+    } finally {
+        await browser.close();
+        log.info('END - Scrapping cryptoast');
+    }
+
+}
+
+
+const processCryptoastPage = () => {
+        //Process data
         let articles = [];
-        let elements = document.querySelectorAll('body > div:nth-child(5) > div > div > div > div:nth-child(2) > div.col-sm-3.my-3');
-        
-        for(element of elements) {
+        let elements = document.querySelectorAll('body > div:nth-child(6) > div > div > div > div:nth-child(2) > div.col-sm-3.my-3');
+
+        for (element of elements) {
             articles.push({
                 title: element.querySelector('div.card div.card-body a h4.card-title').textContent,
                 img: element.querySelector('div.card a img.card-img-top').src,
                 link: element.querySelector('div.card a').href,
-                kind : 'news'
-            })
+                kind: 'news'
+            });
         }
 
         return articles;
-    });
-
-    await browser.close();
-    log.info('END - Scrapping cryptoast');
-
 }
+
 
 const pagesIDO = ['https://polkastarter.com/projects','https://www.solanium.io/project','https://raydium.io/acceleRaytor/']
 
@@ -100,11 +107,12 @@ const idoBlockChainSelectors = ['div.ps--project-card.ps--hover > a > div.ps--pr
 
 const statusFilters = ['ended', 'distribution', 'whitelist closed', 'closed']
 
+
 async function scrapIDO() {
     log.info('START - Scrapping IDO');
     idoProjects = [];
 
-    log.debug(process.env.MACHINE_SYSTEM);
+    log.debug('System : ' + process.env.MACHINE_SYSTEM);
     const browserOption = (process.env.MACHINE_SYSTEM == 'PI' ? {executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox', '--disable-setuid-sandbox'], headless:true}
 							      : {headless : false});
 
@@ -130,7 +138,7 @@ async function scrapIDO() {
             await exposeAllIdoMethods(page, i);
 
 
-            currentProjects = await page.evaluate(processPage);
+            currentProjects = await page.evaluate(processIdoPage);
             idoProjects = idoProjects.concat(currentProjects);
         } catch(e) {
             log.error(`Erreur lors du scrapping ${pagesIDO[i]} ` + e )
@@ -150,7 +158,7 @@ async function scrapIDO() {
 }
 
 
-const processPage = async () => {
+const processIdoPage = async () => {
 
         //Process data
         let projects = [];
@@ -205,7 +213,7 @@ async function exposeAllIdoMethods(page, i) {
 
 
 //scrapCryptoast();
-scrapIDO();
+//scrapIDO();
 
 
 module.exports = { getNews, getIdo, scrapCryptoast, scrapIDO }

@@ -1,25 +1,7 @@
+const log = require('loglevel');
 const fetch = require('node-fetch');
 
 const host = process.env.MESSARI_API_URL
-
-async function getAssetData(asset){
-    const response = await fetch(`${host}assets/${asset}/metrics/market-data`);
-    const json = await response.json();
-
-    const data = json.data;
-
-    return data; 
-}
-
-async function getAssetMarketDataField(asset, field){
-    const market_data = getAssetData(asset).market_data;
-    return ({ [field] : market_data[field] });
-}
-
-async function getAssetRoiData(asset){
-    const roi_data = getAssetData(asset).roi_data;
-    return roi_data; 
-}
 
 function convertTimeStamp(unix_timestamp){
     var a = new Date(unix_timestamp);
@@ -63,7 +45,12 @@ async function getTimeSeriesUSDLastWeeks(asset, numberOfWeeks){
 
     const values = json.data.values;
 
+    if(!values){
+        throw new Error(`Pas de valeur USD disponible pour ${asset}`)
+    }
+
     const perfArray = [];
+
     values.forEach(value => {
         perfArray.push({
             date: convertTimeStampToDate(value[0]),
@@ -108,6 +95,10 @@ async function getTimeSeriesBTCLastWeeks(asset, numberOfWeeks){
 
     const values = json.data.values;
     const valuesBTC = jsonBTC.data.values;
+
+    if(!values || !valuesBTC){
+        throw new Error(`Pas de valeur BTC disponible pour ${asset}`)
+    }
 
     const perfArray = [];
 
@@ -168,13 +159,21 @@ exports.computeSummaryForPerf = async(assets, vsBTC, numberOfWeeks, kind) => {
 
     for (const asset of assets) {
         if(vsBTC == true){
-            let timeSeries = await getTimeSeriesBTCLastWeeks(asset, numberOfWeeks);
-            summaryWeeklyBTC.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind))
+            try {
+                let timeSeries = await getTimeSeriesBTCLastWeeks(asset, numberOfWeeks);
+                summaryWeeklyBTC.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind))
+            } catch (error) {
+                log.error(error.message)
+            }
         } else {
-            let timeSeries = await getTimeSeriesUSDLastWeeks(asset, numberOfWeeks);
-            computeVolumePerf(timeSeries)
-            summaryWeeklyUSD.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind))
-            summaryVolumePerf.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, 'perfVolume'))
+            try{
+                let timeSeries = await getTimeSeriesUSDLastWeeks(asset, numberOfWeeks);
+                computeVolumePerf(timeSeries)
+                summaryWeeklyUSD.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, kind))
+                summaryVolumePerf.push(convertTimeSeriesArrayToSingleObject(timeSeries, asset, 'perfVolume'))
+            } catch (error) {
+                log.error(error.message)
+            }
         }
     }
 }
