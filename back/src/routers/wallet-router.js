@@ -1,7 +1,8 @@
 const mongoTools = require('../db/mongoTools');
 const timeseriesRetriever = require('../external-apis/timeseries-retriever');
 
-const express = require('express')
+const express = require('express');
+const log = require('loglevel');
 const router = new express.Router()
 
 router.get('/wallet', async function (req, res) {
@@ -36,7 +37,7 @@ router.get('/values', async function (req, res) {
 })
 
 router.get('/watchlist-summary-chart/:kind', async function (req, res) {
-    console.log("getCurrentSummaries - " + req.query.vsBTC + ' ' + req.query.nbWeek + ' ' + req.params.kind)
+    log.debug("getCurrentSummaries - " + req.query.vsBTC + ' ' + req.query.nbWeek + ' ' + req.params.kind)
     let docs = await timeseriesRetriever.getCurrentSummaries(req.query.vsBTC, req.params.kind);
     res.status(200).json(docs);
 })

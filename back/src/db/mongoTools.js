@@ -1,11 +1,12 @@
+const log = require('loglevel');
 const MongoClient = require('mongodb').MongoClient;
 
 let db;
 
 const mongoConnect = async () => {
-    const client = await MongoClient.connect(process.env.MONGODB_URL);
+    const client = await MongoClient.connect(process.env.MONGODB_URL, { useUnifiedTopology: true });
     db = client.db(process.env.MONGODB_NAME);
-    console.log("Connected successfully to server");
+    log.info("Connected successfully to server");
 }
 
 const walletFindAll = async () => {

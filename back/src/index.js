@@ -3,10 +3,12 @@ const app = require('./app')
 const scrappingTools = require('./scrapping-tools');
 const socketTools = require('./socket');
 const mongoTools = require('./db/mongoTools')
+const log = require('loglevel');
 
-const { computePerf,computeWalletValue,saveWalletDailyValue} = require('./wallet-processor')
+const { computePerf,computeWalletValue} = require('./wallet-processor')
 require('./cron-tasks/daily-cron')
 
+log.setLevel(process.env.LOG_LEVEL)
 const server = http.createServer(app);
 
 async function main(){
@@ -16,7 +18,7 @@ async function main(){
         await scrappingTools.scrapCryptoast();
         await scrappingTools.scrapIDO();
     } catch(e) { 
-        console.log("Erreur lors des scrappings")
+        log.error("Exception scrappingTools")
     }
     socketTools.initializeSockets(server);
     await computePerf();
@@ -25,4 +27,4 @@ async function main(){
 
 main();
 
-server.listen(process.env.APP_PORT, () => console.log(`Listening on port ${process.env.APP_PORT}`));
+server.listen(process.env.APP_PORT, () => log.info(`Listening on port ${process.env.APP_PORT}`));

@@ -2,6 +2,7 @@ const scrappingTools = require('./scrapping-tools');
 const mongoTools = require('./db/mongoTools');
 const socketIo = require("socket.io");
 var constants = require("./utils/constants");
+const log = require('loglevel');
 
 
 exports.registeredSockets = [];
@@ -18,14 +19,14 @@ exports.initializeSockets = (server) => {
     io.on("connection", (socket) => {
         this.registerSocket(socket)
 
-        console.log('Nb sockets : ' + Object.keys(this.getRegisteredSockets()).length)
+        log.debug('Nb sockets : ' + Object.keys(this.getRegisteredSockets()).length)
     
         this.emitValuesMaj()
         this.emitWalletMaj();
         this.emitCryptoastMaj()
     
         socket.on("disconnect", () => {
-            console.log("Client disconnected");
+            log.debug("Client disconnected");
             this.deleteSocket(socket)
         });
     });

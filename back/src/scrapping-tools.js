@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const log = require('loglevel');
 
 const pageUrl = 'https://cryptoast.fr/';
 let news = [];
@@ -33,9 +34,9 @@ async function autoScroll(page){
 }
 
 async function scrapCryptoast() {
-    console.log('START - Scrapping cryptoast');
+    log.info('START - Scrapping cryptoast');
 
-    console.log(process.env.MACHINE_SYSTEM);
+    log.debug(process.env.MACHINE_SYSTEM);
     const browserOption = (process.env.MACHINE_SYSTEM == 'PI' ? {executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox', '--disable-setuid-sandbox'], headless:true}
 							      : {headless : true});
 
@@ -69,17 +70,16 @@ async function scrapCryptoast() {
                 kind : 'news'
             })
         }
-	console.log('Articles');
+
         return articles;
     });
 
     await browser.close();
-    console.log(news[0]);
-    console.log('END - Scrapping cryptoast');
+    log.info('END - Scrapping cryptoast');
 
 }
 
-const pagesIDO = ['https://polkastarter.com/projects','https://www.solanium.io/pools','https://raydium.io/acceleRaytor/']
+const pagesIDO = ['https://polkastarter.com/projects','https://www.solanium.io/projects','https://raydium.io/acceleRaytor/']
 
 const idoWaiters = ['#app-content > div > div:nth-child(1) > div > div.ps--card-grid > .ps--project-card__blur', 
                     '#__layout > div > section > div > div:nth-child(1) > div',
@@ -101,54 +101,41 @@ const idoBlockChainSelectors = ['div.ps--project-card.ps--hover > a > div.ps--pr
 const statusFilters = ['ended', 'distribution', 'whitelist closed', 'closed']
 
 async function scrapIDO() {
-    console.log('START - Scrapping IDO');
+    log.info('START - Scrapping IDO');
     idoProjects = [];
 
-    console.log(process.env.MACHINE_SYSTEM);
+    log.debug(process.env.MACHINE_SYSTEM);
     const browserOption = (process.env.MACHINE_SYSTEM == 'PI' ? {executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox', '--disable-setuid-sandbox'], headless:true}
 							      : {headless : false});
 
     const browser = await puppeteer.launch(browserOption);
 
     for(let i = 0; i < pagesIDO.length ; ++i){
+        log.info(`Scrapping ${pagesIDO[i]} en cours`)
+
         idoUrl = pagesIDO[i];
         const page = await browser.newPage();
 
         await page.goto(idoUrl);
     
-        await page.waitForSelector(idoWaiters[i])
-    
-        await page.setViewport({
-            width: 1200,
-            height: 800
-        });
-    
-        await autoScroll(page);
-        await exposeAllIdoMethods(page, i);
-
-
-        currentProjects = await page.evaluate(async () => {
+        try{
+            await page.waitForSelector(idoWaiters[i])
         
-            //Process data
-            let projects = [];
-            let elements = document.querySelectorAll(await getIdoWaiter());
-            
-            for(element of elements) {
-                projects.push({
-                    name: element.querySelector(await getIdoNameSelector()).textContent,
-                    img:  await getIdoIndex() != 1 ? element.querySelector(await getImageSelector()).src : element.querySelector(await getImageSelector()).style.backgroundImage,
-                    link: element.querySelector(await getLinkSelector())?.href,
-                    status: element.querySelector(await getStatusSelector())?.textContent,
-                    //blockchain : getIdoIndex() > 1 ? 'solana' : element?.querySelector(await getBlockchainSelector())?.dataset?.projectPartialTarget
-                })
-            }
+            await page.setViewport({
+                width: 1200,
+                height: 800
+            });
+        
+            await autoScroll(page);
+            await exposeAllIdoMethods(page, i);
 
-            return projects;
 
-        });
-
-        idoProjects = idoProjects.concat(currentProjects);
-
+            currentProjects = await page.evaluate(processPage);
+            idoProjects = idoProjects.concat(currentProjects);
+        } catch(e) {
+            log.error(`Erreur lors du scrapping ${pagesIDO[i]} ` + e )
+            continue;
+        }
     }
 
 
@@ -158,10 +145,30 @@ async function scrapIDO() {
     idoProjects.forEach(project => project.img = project.img.replaceAll("url(\"","").replaceAll("\")",""));
 
     await browser.close();
-    console.log('END - Scrapping IDO');
+    log.info('END - Scrapping IDO');
 
 }
 
+
+const processPage = async () => {
+
+        //Process data
+        let projects = [];
+        let elements = document.querySelectorAll(await getIdoWaiter());
+
+        for (element of elements) {
+            projects.push({
+                name: element.querySelector(await getIdoNameSelector()).textContent,
+                img: await getIdoIndex() != 1 ? element.querySelector(await getImageSelector()).src : element.querySelector(await getImageSelector()).style.backgroundImage,
+                link: element.querySelector(await getLinkSelector())?.href,
+                status: element.querySelector(await getStatusSelector())?.textContent,
+                //blockchain : getIdoIndex() > 1 ? 'solana' : element?.querySelector(await getBlockchainSelector())?.dataset?.projectPartialTarget
+            });
+        }
+
+        return projects;
+
+}
 
 async function exposeAllIdoMethods(page, i) {
     await page.exposeFunction("getIdoNameSelector", function () {
@@ -198,10 +205,7 @@ async function exposeAllIdoMethods(page, i) {
 
 
 //scrapCryptoast();
-
 scrapIDO();
 
-exports.getNews = getNews;
-exports.getIdo = getIdo;
-exports.scrapCryptoast = scrapCryptoast;
-exports.scrapIDO = scrapIDO;
+
+module.exports = { getNews, getIdo, scrapCryptoast, scrapIDO }
