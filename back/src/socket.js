@@ -1,7 +1,7 @@
 const scrappingTools = require('./scrapping-tools');
-const mongoTools = require('./mongoTools');
+const mongoTools = require('./db/mongoTools');
 const socketIo = require("socket.io");
-var constants = require("./constants.js");
+var constants = require("./utils/constants");
 
 
 exports.registeredSockets = [];

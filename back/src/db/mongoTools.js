@@ -2,17 +2,17 @@ const MongoClient = require('mongodb').MongoClient;
 
 let db;
 
-exports.mongoConnect = async () => {
+const mongoConnect = async () => {
     const client = await MongoClient.connect(process.env.MONGODB_URL);
     db = client.db(process.env.MONGODB_NAME);
     console.log("Connected successfully to server");
 }
 
-exports.walletFindAll = async () => {
+const walletFindAll = async () => {
     return await db.collection('wallet').find({}).limit(15000).toArray();
 }
 
-exports.insertAssetInWallet = async (asset) => {
+const insertAssetInWallet = async (asset) => {
     if(asset.hasOwnProperty('id') && asset.hasOwnProperty('name') && asset.hasOwnProperty('quantity')){
         await db.collection("wallet").insertOne(asset);
         return true;
@@ -20,11 +20,11 @@ exports.insertAssetInWallet = async (asset) => {
     return false;
 }
 
-exports.watchlistFindAll = async () => {
+const watchlistFindAll = async () => {
     return await db.collection('watchlist').find({}).toArray();
 }
 
-exports.insertInWatchlist = async(asset) => {
+const insertInWatchlist = async(asset) => {
     if(asset.hasOwnProperty('name') && asset.hasOwnProperty('marketcap') && asset.hasOwnProperty('site')){
         await db.collection("watchlist").insertOne(asset);
         return true;
@@ -32,40 +32,54 @@ exports.insertInWatchlist = async(asset) => {
     return false;
 }
 
-exports.updateNoteWatchlist = async(name, note) => {
+const updateNoteWatchlist = async(name, note) => {
     let result = await db.collection("watchlist").updateOne({'name' : name}, {$set : {'note' : note} } );
     return result
 }
 
-exports.getWalletLastTotalValue = async () => {
+const getWalletLastTotalValue = async () => {
     return await db.collection('wallet-value').find().limit(1).sort( { id: -1 } ).toArray();
 }
 
-exports.walletValuesFindAll = async () => {
+const walletValuesFindAll = async () => {
     return await db.collection('wallet-value').find().sort( { id: 1 } ).toArray();
 }
 
-exports.updateWalletAsset = async(asset) => {
+const updateWalletAsset = async(asset) => {
     let result = await db.collection("wallet").updateOne({'name' : asset.name}, {$set : asset} );
     return result
 }
 
-exports.updateWalletAssetQuantityByName = async(name, quantity) => {
+const updateWalletAssetQuantityByName = async(name, quantity) => {
     let result = await db.collection("wallet").updateOne({'name' : name}, {$set : {'quantity' : quantity} } );
     return result
 }
 
-exports.insertWalletValue = async(totalValue) => {
-    const lastValue = await this.getWalletLastTotalValue();
+const insertWalletValue = async(totalValue) => {
+    const lastValue = await getWalletLastTotalValue();
     const newId = lastValue[0].id + 1;
     await db.collection("wallet-value").insertOne({"value" : totalValue, "date" : getCurrentDate(), "id": newId});
 }
 
+module.exports = {
+    insertAssetInWallet,
+    insertInWatchlist,
+    insertWalletValue,
+    updateNoteWatchlist,
+    updateWalletAssetQuantityByName,
+    updateWalletAsset,
+    walletValuesFindAll,
+    getWalletLastTotalValue,
+    watchlistFindAll,
+    walletFindAll,
+    mongoConnect
+}
 
-function paddingWithOneZero(element){
+
+const paddingWithOneZero = (element) => {
     return (element < 10 ? '0' + element : element)
 }
-function getCurrentDate(){
+const  getCurrentDate = () => {
     // current timestamp in milliseconds
     let ts = Date.now();
 

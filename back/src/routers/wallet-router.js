@@ -1,13 +1,9 @@
-const scrappingTools = require('../scrapping-tools');
-const mongoTools = require('../mongoTools');
-const twitter = require('../twitter-interaction');
-const timeseriesRetriever = require('../timeseries-retriever');
+const mongoTools = require('../db/mongoTools');
+const timeseriesRetriever = require('../external-apis/timeseries-retriever');
 
 const express = require('express')
 const router = new express.Router()
 
-
-//Routes
 router.get('/wallet', async function (req, res) {
     let docs = await mongoTools.walletFindAll();
     res.status(200).json(docs);

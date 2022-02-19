@@ -1,12 +1,10 @@
 const scrappingTools = require('../scrapping-tools');
-const mongoTools = require('../mongoTools');
-const twitter = require('../twitter-interaction');
+const mongoTools = require('../db/mongoTools');
+const twitter = require('../external-apis/twitter-interaction');
 
 const express = require('express')
 const router = new express.Router()
 
-
-//Routes 
 router.get('/cryptoast', function (req, res) {
     res.send(scrappingTools.getNews());
 });
