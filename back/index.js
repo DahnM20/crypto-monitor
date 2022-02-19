@@ -8,20 +8,20 @@ const mongoTools = require('./mongoTools');
 const socketTools = require('./socket');
 const twitter = require('./twitter-interaction');
 const timeseriesRetriever = require('./timeseries-retriever');
-
-const port = 3001;
+const walletRouter = require('./routers/wallet-router')
+const externalToolsRouter = require('./routers/external-tools-router')
 
 app = express();
 const server = http.createServer(app);
 
 async function computeWalletValue(){
     console.log('START - Compute Wallet Value');
-    const host = 'https://api.coingecko.com/api/v3/simple/price'
+    const coinGeckoUrl = process.env.COINGECKO_API_URL
     const docs = await mongoTools.walletFindAll();
     let totalValue = 0;
 
     for(asset of docs){
-        const response = await fetch(`${host}?ids=${asset.name}&vs_currencies=usd`);
+        const response = await fetch(`${coinGeckoUrl}?ids=${asset.name}&vs_currencies=usd`);
         const json = await response.json();
 
         asset.currentPrice = json[asset.name].usd
@@ -72,11 +72,11 @@ app.use((req, res, next) => {
     });
 });
 
-//Routes
-require('./routes')(app);
+//Routers
+app.use(walletRouter)
+app.use(externalToolsRouter)
 
 //Cron
-
 //Toutes les 15mins
 cron.schedule('0,15,30,45 * * * *', async function() {
     try {
@@ -120,4 +120,4 @@ async function main(){
 
 main();
 
-server.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen(process.env.APP_PORT, () => console.log(`Listening on port ${process.env.APP_PORT}`));

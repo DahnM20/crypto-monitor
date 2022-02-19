@@ -3,11 +3,8 @@ const MongoClient = require('mongodb').MongoClient;
 let db;
 
 exports.mongoConnect = async () => {
-    const url = 'mongodb://192.168.1.14:27017';
-    const dbName = 'monitor-crypto-db';
-
-    const client = await MongoClient.connect(url);
-    db = client.db(dbName);
+    const client = await MongoClient.connect(process.env.MONGODB_URL);
+    db = client.db(process.env.MONGODB_NAME);
     console.log("Connected successfully to server");
 }
 

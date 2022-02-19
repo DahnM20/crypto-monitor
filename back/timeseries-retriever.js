@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 
-const host = 'https://data.messari.io/api/v1/'
+const host = process.env.MESSARI_API_URL
 
 async function getAssetData(asset){
     const response = await fetch(`${host}assets/${asset}/metrics/market-data`);
