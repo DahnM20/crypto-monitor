@@ -79,7 +79,7 @@ async function scrapCryptoast() {
 
 }
 
-const pagesIDO = ['https://polkastarter.com/projects','https://www.solanium.io/projects','https://raydium.io/acceleRaytor/']
+const pagesIDO = ['https://polkastarter.com/projects','https://www.solanium.io/project','https://raydium.io/acceleRaytor/']
 
 const idoWaiters = ['#app-content > div > div:nth-child(1) > div > div.ps--card-grid > .ps--project-card__blur', 
                     '#__layout > div > section > div > div:nth-child(1) > div',
