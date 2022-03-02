@@ -89,7 +89,7 @@ const processCryptoastPage = () => {
 const pagesIDO = ['https://polkastarter.com/projects','https://www.solanium.io/project','https://raydium.io/acceleRaytor/']
 
 const idoWaiters = ['#app-content > div > div:nth-child(1) > div > div.ps--card-grid > .ps--project-card__blur', 
-                    '#__layout > div > section > div > div:nth-child(1) > div',
+                    '.invest-card',
                     '#__layout > section > main > div > div:nth-child(3) > div.ant-table-wrapper > div > div > div > div > div > table > tbody > tr']
 
 const idoImageSelectors = ['div.ps--project-card__header > div.ps--project-card__logo > img',
@@ -105,7 +105,7 @@ const idoLinkSelectors = ['div.ps--project-card.ps--hover > a','a','td:nth-child
 
 const idoBlockChainSelectors = ['div.ps--project-card.ps--hover > a > div.ps--project-card__wrapper > div.ps--project-card__info > div.ps--project-card__info__networks > svg:nth-child(1)','','']
 
-const statusFilters = ['ended', 'distribution', 'whitelist closed', 'closed']
+const statusFilters = ['ended', 'distribution', 'whitelist closed', 'closed', 'Inconnu']
 
 
 async function scrapIDO() {
@@ -147,10 +147,14 @@ async function scrapIDO() {
     }
 
 
+    log.debug('Projets récupérés : ' + JSON.stringify(idoProjects))
+
     idoProjects = idoProjects.filter(project => !statusFilters.includes(project.status?.toLowerCase()))
     idoProjects.forEach(project => project.name = project.name.replaceAll(' ', '').replaceAll('\n', '').replaceAll('$',''));
     idoProjects.forEach(project => project.status = project.status?.replaceAll('ends in:', '-end-soon')?.replaceAll('starts in:', '-soon')?.replaceAll(' ', ''));
     idoProjects.forEach(project => project.img = project.img.replaceAll("url(\"","").replaceAll("\")",""));
+
+    log.debug('Projets filtrés : ' + JSON.stringify(idoProjects))
 
     await browser.close();
     log.info('END - Scrapping IDO');
@@ -212,7 +216,9 @@ async function exposeAllIdoMethods(page, i) {
 }
 
 
-//scrapCryptoast();
+scrapCryptoast();
+
+log.setLevel(process.env.LOG_LEVEL)
 //scrapIDO();
 
 

@@ -5,8 +5,8 @@ const { computePerf,computeWalletValue,saveWalletDailyValue} = require('../walle
 const twitter = require('../external-apis/twitter-interaction');
 
 //Cron
-//Toutes les 15mins
-cron.schedule('0,15,30,45 * * * *', async function() {
+//Toutes les 30mins
+cron.schedule('0,30 * * * *', async function() {
     try {
         await scrappingTools.scrapCryptoast();
         socketTools.emitCryptoastMaj();
@@ -17,8 +17,8 @@ cron.schedule('0,15,30,45 * * * *', async function() {
     }
 });
 
-//Toutes les 10min
-cron.schedule('0,10,20,30,40,50 * * * *', async function() {
+//Toutes les 15min
+cron.schedule('0,15,30,45 * * * *', async function() {
     await computeWalletValue();
     socketTools.emitValuesMaj();
     socketTools.emitWalletMaj();
