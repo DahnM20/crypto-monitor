@@ -4,6 +4,8 @@ const log = require('loglevel');
 const pageUrl = 'https://cryptoast.fr/';
 let news = [];
 let idoProjects = []
+let oldIdoProjects = []
+let idoErrors = []
  
 
 function getNews(){
@@ -110,7 +112,9 @@ const statusFilters = ['ended', 'distribution', 'whitelist closed', 'closed', 'I
 
 async function scrapIDO() {
     log.info('START - Scrapping IDO');
+    oldIdoProjects = idoProjects;
     idoProjects = [];
+    idoErrors = [];
 
     log.debug('System : ' + process.env.MACHINE_SYSTEM);
     const browserOption = (process.env.MACHINE_SYSTEM == 'PI' ? {executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox', '--disable-setuid-sandbox'], headless:true}
@@ -137,15 +141,31 @@ async function scrapIDO() {
             await autoScroll(page);
             await exposeAllIdoMethods(page, i);
 
-
             currentProjects = await page.evaluate(processIdoPage);
+            
+            if(pagesIDO[i] == pagesIDO[2]){
+                throw new Error()
+            }
+
+            currentProjects.forEach(project => project.origin = pagesIDO[i])
             idoProjects = idoProjects.concat(currentProjects);
         } catch(e) {
             log.error(`Erreur lors du scrapping ${pagesIDO[i]} ` + e )
+            idoErrors.push(pagesIDO[i])
             continue;
         }
     }
 
+
+    log.debug('Pages en erreur' + JSON.stringify(idoErrors) + ' - Ajout des projets en mémoire pour ces pages. ')
+    
+    idoErrors.forEach(idoE => {
+        oldIdoProjects.forEach(project => {
+            if(project.origin == idoE){
+                idoProjects.push(project) // On rajoute les anciens projets que l'on avait pu récupérer auparavant quand même. 
+            }
+        })
+    })
 
     log.debug('Projets récupérés : ' + JSON.stringify(idoProjects))
 
@@ -216,9 +236,8 @@ async function exposeAllIdoMethods(page, i) {
 }
 
 
-scrapCryptoast();
-
-log.setLevel(process.env.LOG_LEVEL)
+//scrapCryptoast();
+//log.setLevel(process.env.LOG_LEVEL)
 //scrapIDO();
 
 
