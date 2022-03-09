@@ -81,6 +81,7 @@ module.exports = {
 const paddingWithOneZero = (element) => {
     return (element < 10 ? '0' + element : element)
 }
+
 const  getCurrentDate = () => {
     // current timestamp in milliseconds
     let ts = Date.now();
@@ -103,7 +104,23 @@ const  getCurrentDate = () => {
     return (year + "-" + month + "-" + date + " " + hour + ':' + min + ':' + seconds);
 }
 
+const cleanValues = async (diffMax) => {
+    const values = await db.collection('wallet-value').find({}).sort({id: -1}).limit(15000).toArray();
 
+    const valuesBad = []
+    for(let i = 0; i<values.length-2; ++i){
+
+        if((values[i].value - values[i+1].value)/values[i].value * 100 > diffMax){
+            valuesBad.push(values[i+1])
+        }
+    }
+
+    for (const value of valuesBad) {
+        await db.collection('wallet-value').remove({id: value.id });
+    }
+
+    console.log(valuesBad)
+}
 
 
 // const main = async () => {
