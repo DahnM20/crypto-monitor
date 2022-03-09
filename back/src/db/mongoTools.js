@@ -43,7 +43,8 @@ const getWalletLastTotalValue = async () => {
 }
 
 const walletValuesFindAll = async () => {
-    return await db.collection('wallet-value').find().sort( { id: 1 } ).limit(15000).toArray();
+    const values = await db.collection('wallet-value').find().sort({id: -1}).limit(15000).toArray();
+    return values.reverse();
 }
 
 const updateWalletAsset = async(asset) => {
@@ -101,3 +102,13 @@ const  getCurrentDate = () => {
     // prints date & time in YYYY-MM-DD format
     return (year + "-" + month + "-" + date + " " + hour + ':' + min + ':' + seconds);
 }
+
+
+
+
+// const main = async () => {
+//     log.setLevel(process.env.LOG_LEVEL)
+//     await mongoConnect()
+// }
+
+// main()
