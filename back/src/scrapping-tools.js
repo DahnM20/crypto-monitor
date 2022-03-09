@@ -143,10 +143,6 @@ async function scrapIDO() {
 
             currentProjects = await page.evaluate(processIdoPage);
             
-            if(pagesIDO[i] == pagesIDO[2]){
-                throw new Error()
-            }
-
             currentProjects.forEach(project => project.origin = pagesIDO[i])
             idoProjects = idoProjects.concat(currentProjects);
         } catch(e) {
