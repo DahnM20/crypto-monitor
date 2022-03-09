@@ -14,12 +14,13 @@ const computeWalletValue = async() => {
     let totalValue = 0;
 
     try {
+
         for(asset of docs){
             const response = await fetch(`${coinGeckoUrl}?ids=${asset.name}&vs_currencies=usd`);
             const json = await response.json();
             asset.currentPrice = json[asset.name].usd
             asset.currentValue = asset.currentPrice * asset.quantity
-
+            
             if(asset.lastDailyValue != null){
                 asset.dailyBenef = asset.currentValue - asset.lastDailyValue;
             }
@@ -28,14 +29,14 @@ const computeWalletValue = async() => {
 
             totalValue += asset.currentValue;
         } 
+
+        log.info('Valeur totale : ' + totalValue);
+        await mongoTools.insertWalletValue(totalValue);
+        log.info('END - Compute Wallet Value');
+
     } catch(e) {
         log.error("Erreur lors du calcul de la valeur du wallet " + e)
     }
-
-    log.info('Valeur totale : ' + totalValue);
-    await mongoTools.insertWalletValue(totalValue);
-    log.info('END - Compute Wallet Value');
-
 }
 
 const computePerf = async () => {
