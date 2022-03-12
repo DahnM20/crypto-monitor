@@ -18,19 +18,18 @@ function Watchlist(){
     }, [])
 
     return (
-        <>
-        <div className='title'> IDO Watchlist </div>
-        < br/>
-        <div className='watchlistScroller'>
-        {watchlist.map(({name, img, link, status, index}) =>
-            <Row className='watchlistRow' key={`${index}-${name}`}>
-              <Col>
-                <WatchlistItem name={name} img={img} status={status} link={link} />
-              </Col>
-            </Row>
-        )}
+        <div className='wl-wrapper'>
+            <div className='title'> IDO Watchlist </div>
+            <div className='watchlistScroller'>
+                {watchlist.map(({name, img, link, status, index}) =>
+                    <Row className='watchlistRow' key={`${index}-${name}`}>
+                    <Col>
+                        <WatchlistItem name={name} img={img} status={status} link={link} />
+                    </Col>
+                    </Row>
+                )}
+            </div>
         </div>
-        </>
     )
 }
 export default Watchlist;

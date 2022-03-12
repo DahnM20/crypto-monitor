@@ -13,7 +13,6 @@ function CenterPanel(){
             </Row>
             <Row>
                 <Col>
-                    < br/>
                     <Watchlist />
                 </Col>
             </Row>

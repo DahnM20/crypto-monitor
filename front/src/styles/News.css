@@ -1,31 +1,57 @@
 .news{
+    font-family: 'Poppins', sans-serif;
     margin-top: 10px;
     margin-bottom: 10px;
     margin-right: 10px;
+    
 }
+
+.news-animation{
+    animation: fadeIn 5s;
+    -webkit-animation: fadeIn 5s;
+  -moz-animation: fadeIn 5s;
+}
+
+@keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+  
+
 .colContent{
     align-content: center;
-    background-color:rgba(146, 146, 146, 0.068);
 }
 .newsText{
+    background-color:rgba(146, 146, 146, 0.082);
     text-align: left;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.15rem;
+    font-size: 1rem;
+    font-weight: 300;
 }
 
 .linkCol{
     text-align: right;
     color: whitesmoke;
+    background-color: rgba(175, 175, 175, 0.103);
     border-top: solid;
     border-width: 1px;
-    border-color: rgba(208, 255, 137, 0.685);
+    border-color: rgba(208, 255, 137, 0.61);
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
 }
 
 .newsLink{
     text-decoration: none;
     color: whitesmoke;
+    font-size: 0.9rem;
+    font-weight: 200;
 }
 
+.colContent:hover{
+    background-color: rgba(175, 175, 175, 0.253);
+    font-weight: 400;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
 .newsLink:hover{
     color: rgba(132, 255, 116, 0.76);
 }

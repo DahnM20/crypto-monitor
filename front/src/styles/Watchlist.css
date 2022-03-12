@@ -1,3 +1,8 @@
+.wl-wrapper{
+    padding-top: 20px;
+    height: 40vh;
+}
+
 .title{
     color:whitesmoke;
     font-weight: bold;
@@ -7,15 +12,15 @@
     border-radius: 10px;
 }
 
-
 .watchlistRow{
     margin-bottom: 15px;
 }
 
 .watchlistScroller{
+    margin-top: 20px;
     border-right: solid;
     border-color:#6fc7dd1f;
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 40vh;
+    max-height: 100%;
 }

@@ -1,24 +1,71 @@
-.item{
-    background-color: rgba(73, 73, 73, 0.582);
+.wl-i{
     width: 80%;
     margin: auto;
+    padding: 10px;
     color: whitesmoke;
+    font-family: 'Poppins', sans-serif;
+    background-color: #49494994;
+    border-radius: 10px;
+
+    -webkit-box-shadow: 5px 5px 15px -7px rgba(214,87,255,0.37); 
+    box-shadow: 5px 5px 15px -7px rgba(214,87,255,0.37);
 }
 
-.starIcon{
-    max-width: 7%;
+.wl-i-live{
+    border-color: rgba(151, 240, 17, 0.151) !important;
+    border: solid 1px;
+    -webkit-box-shadow: 5px 5px 15px -7px rgba(135, 255, 87, 0.37); 
+    box-shadow: 5px 5px 15px -7px rgba(135, 255, 87, 0.37); 
 }
 
-.itemName{
+.wl-i-info-wrapper{
+    width: 80%;
+}
+
+.wl-i-status{
+    margin-top: 6px;
+    background-color: rgba(192, 192, 192, 0.068);
+    border-radius: 50px;
+}
+
+.wl-i-status-live{
+    margin-top: 6px;
+    font-weight: 500;
+    background-color: rgba(192, 192, 192, 0.24);
+    animation: glow 5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+      box-shadow: -50px -50px 0px -30px rgba(135, 255, 87, 0.37);
+    }
+    to {
+      box-shadow: 5px 5px 15px -7px rgba(135, 255, 87, 0.822);
+    }
+  }
+
+.wl-i-name{
     font-weight: bold;
+    align-items: center;
+    align-content: center;
 }
 
-.link{
+.wl-i-img{
+    border-radius: 50px;
+}
+
+.wl-i-link-text{
     color: whitesmoke;
     text-decoration: none;
     font-style: italic;
 }
 
-.link:hover{
+.wl-i-link{
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.wl-i-link:hover{
     color:rgba(141, 212, 214, 0.945);
 }
