@@ -38,7 +38,7 @@ const updateWalletAsset = async(asset) => {
     let oldValue = await walletFindAsset(asset.name).quantity
     let result = await db.collection("wallet").updateOne({'name' : asset.name}, {$set : asset} );
 
-    if(oldValue != asset.quantity){
+    if(oldValue != asset.quantity && asset.quantity != null){
         const tx = {
             asset : asset.name,
             quantity : asset.quantity - oldValue
