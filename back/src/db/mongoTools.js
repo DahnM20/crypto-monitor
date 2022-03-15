@@ -1,5 +1,5 @@
 const log = require('loglevel');
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient, ObjectID }  = require('mongodb');
 
 let db;
 
@@ -13,12 +13,60 @@ const walletFindAll = async () => {
     return await db.collection('wallet').find({}).toArray();
 }
 
+const walletFindAsset = async(name) => {
+    return await db.collection('wallet').findOne({'name' : name});
+}
+
 const insertAssetInWallet = async (asset) => {
     if(asset.hasOwnProperty('id') && asset.hasOwnProperty('name') && asset.hasOwnProperty('quantity')){
         await db.collection("wallet").insertOne(asset);
+
+        const tx = {
+            asset : asset.name,
+            quantity : asset.quantity
+        }
+
+        await insertTransaction(tx)
+
         return true;
     }
     return false;
+}
+
+
+const updateWalletAsset = async(asset) => {
+    let oldValue = await walletFindAsset(asset.name).quantity
+    let result = await db.collection("wallet").updateOne({'name' : asset.name}, {$set : asset} );
+
+    const tx = {
+        asset : asset.name,
+        quantity : asset.quantity - oldValue
+    }
+    await insertTransaction(tx)
+    return result
+}
+
+const getAllTransaction = async () => {
+    return await db.collection('wallet-tx').find({}).toArray();
+}
+
+const insertTransaction = async(tx) => {
+    tx.timeStamp = getCurrentDate()
+    tx.operation = tx.quantity > 0 ? 'add' : 'remove'
+    return await db.collection("wallet-tx").insertOne(tx);
+}
+
+const removeTransaction = async(_id) => {
+    try {
+        return await db.collection("wallet-tx").deleteOne({_id : new ObjectID(_id) });
+    } catch(e) {
+        log.error(`Impossible de supprimer la tx ${_id} `)
+    }
+}
+
+const updateWalletAssetQuantityByName = async(name, quantity) => {
+    let result = await db.collection("wallet").updateOne({'name' : name}, {$set : {'quantity' : quantity} } );
+    return result
 }
 
 const watchlistFindAll = async () => {
@@ -47,15 +95,6 @@ const walletValuesFindAll = async () => {
     return values.reverse();
 }
 
-const updateWalletAsset = async(asset) => {
-    let result = await db.collection("wallet").updateOne({'name' : asset.name}, {$set : asset} );
-    return result
-}
-
-const updateWalletAssetQuantityByName = async(name, quantity) => {
-    let result = await db.collection("wallet").updateOne({'name' : name}, {$set : {'quantity' : quantity} } );
-    return result
-}
 
 const insertWalletValue = async(totalValue) => {
     const lastValue = await getWalletLastTotalValue();
@@ -126,6 +165,10 @@ const cleanValues = async (diffMax) => {
 // const main = async () => {
 //     log.setLevel(process.env.LOG_LEVEL)
 //     await mongoConnect()
+//     //await insertTransaction({asset: "s", quantity: "1"})
+//     await removeTransaction('622ddbdcf8d88e5068b31bc2')
+//     console.log(await getAllTransaction());
+//     //console.log(await walletFindAsset("solana"))
 // }
 
 // main()

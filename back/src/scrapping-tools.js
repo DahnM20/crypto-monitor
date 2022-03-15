@@ -233,8 +233,8 @@ async function exposeAllIdoMethods(page, i) {
 
 
 //scrapCryptoast();
-//log.setLevel(process.env.LOG_LEVEL)
-//scrapIDO();
+log.setLevel(process.env.LOG_LEVEL)
+scrapIDO();
 
 
 module.exports = { getNews, getIdo, scrapCryptoast, scrapIDO }
