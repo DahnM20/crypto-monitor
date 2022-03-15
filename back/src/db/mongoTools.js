@@ -106,6 +106,7 @@ module.exports = {
     insertAssetInWallet,
     insertInWatchlist,
     insertWalletValue,
+    getAllTransaction,
     updateNoteWatchlist,
     updateWalletAssetQuantityByName,
     updateWalletAsset,
