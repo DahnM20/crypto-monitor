@@ -10,6 +10,11 @@ router.get('/wallet', async function (req, res) {
     res.status(200).json(docs);
 })
 
+router.get('/tx', async function(req,res) {
+    let tx = await mongoTools.getAllTransaction();
+    res.status(200).json(tx)
+})
+
 router.put('/wallet', async function (req, res) {
     let resultat = await mongoTools.updateWalletAssetQuantityByName(req.body.name, req.body.quantity);
     res.status(200).json(resultat);
