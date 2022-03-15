@@ -8,12 +8,14 @@ import CenterPanel from './CenterPanel.js'
 import { socket } from './socket.js'
 import { useState, useEffect } from 'react'
 import Analysis from './analysis/Analysis'
+import TxPage from './tx/TxPage'
 
 function App() {
 
   const [wallet, updateWallet] = useState([])
   const [showWallet, updateShowWallet] = useState(true)
   const [showAnalysis, updateShowAnalysis] = useState(false)
+  const [showTx, updateShowTx] = useState(false)
 
 
     useEffect(() => {
@@ -25,7 +27,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header updateShowAnalysis={updateShowAnalysis} updateShowWallet={updateShowWallet} />
+      <Header updateShowAnalysis={updateShowAnalysis} updateShowWallet={updateShowWallet} updateShowTx={updateShowTx}/>
       <Container fluid className="bg-dark">
 
             <Row className={!showWallet ? 'hidden' : null}>
@@ -36,6 +38,10 @@ function App() {
 
             <Row className={!showAnalysis ? 'hidden' : null}>
               <Analysis />
+            </Row>
+
+            <Row className={!showTx ? 'hidden' : null}>
+              <TxPage />
             </Row>
 
       </Container>

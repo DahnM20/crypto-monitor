@@ -1,0 +1,34 @@
+.tx-wrapper{
+    padding: 10px;
+    margin-top: 5px;
+    background-color: rgba(68, 75, 75, 0.384);
+    border-radius: 20px;
+    text-align: center;
+    align-items: center;
+}
+
+
+.tx-icon{
+    margin-right: 10px;
+    width: 35px;
+}
+
+.tx-op-icon-add{
+    color: greenyellow;
+}
+
+.tx-op-icon-del{
+    color: red;
+}
+
+.tx-button{
+     background-color: rgba(179, 19, 19, 0.555);
+     font-weight: 500;
+     border: none;
+     align-items: center;
+     text-align: center;
+}
+
+.tx-button:hover{
+    background-color: rgba(180, 21, 21, 0.911);
+}

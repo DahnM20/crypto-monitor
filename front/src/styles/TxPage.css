@@ -1,0 +1,13 @@
+.tx-page-wrapper{
+    height: 93vh;
+    color: whitesmoke;
+    font-family: 'Poppins', sans-serif;
+}
+
+.tx-page-title{
+    font-weight: 350;
+    margin: 20px 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: solid rgba(245, 245, 245, 0.219);
+    border-radius: 10px;
+}
