@@ -42,9 +42,9 @@ async function scrapCryptoast() {
 							      : {headless : false});
 
     const browser = await puppeteer.launch(browserOption);
-    const page = await browser.newPage();
-
     try {
+        const page = await browser.newPage();
+    
         await page.goto(pageUrl, {
         "waitUntil" : "networkidle0" //Wait for all non-lazy images to load
         });
@@ -126,11 +126,13 @@ async function scrapIDO() {
         log.info(`Scrapping ${pagesIDO[i]} en cours`)
 
         idoUrl = pagesIDO[i];
-        const page = await browser.newPage();
-
-        await page.goto(idoUrl);
-    
+        
         try{
+            const page = await browser.newPage();
+
+            await page.goto(idoUrl);
+    
+        
             await page.waitForSelector(idoWaiters[i])
         
             await page.setViewport({
