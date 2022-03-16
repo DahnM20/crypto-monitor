@@ -56,7 +56,7 @@ const getAllTransaction = async () => {
 }
 
 const insertTransaction = async(tx) => {
-    tx.timeStamp = getCurrentDate()
+    tx.timestamp = getCurrentDate()
     tx.operation = tx.quantity > 0 ? 'add' : 'remove'
     return await db.collection("wallet-tx").insertOne(tx);
 }
