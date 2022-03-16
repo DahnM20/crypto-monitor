@@ -35,13 +35,16 @@ const insertAssetInWallet = async (asset) => {
 
 
 const updateWalletAsset = async(asset) => {
-    let oldValue = await walletFindAsset(asset.name).quantity
+    let oldAssetValue = await walletFindAsset(asset.name)
+    let oldQuantity = oldAssetValue.quantity
     let result = await db.collection("wallet").updateOne({'name' : asset.name}, {$set : asset} );
 
-    if(oldValue != asset.quantity && asset.quantity != null){
+    log.debug(`oldQuantity ${oldQuantity}  quantity ${asset.quantity}  name ${asset.name}`)
+
+    if(oldQuantity != asset.quantity && asset.quantity != null){
         const tx = {
             asset : asset.name,
-            quantity : asset.quantity - oldValue
+            quantity : asset.quantity - oldQuantity
         }
         await insertTransaction(tx)
     }
@@ -168,9 +171,18 @@ const cleanValues = async (diffMax) => {
 // const main = async () => {
 //     log.setLevel(process.env.LOG_LEVEL)
 //     await mongoConnect()
+//     await db.collection("wallet-tx").deleteMany({operation: "remove" });
+//     const assetETH = {
+//         name:"ethereum",
+//         id:"ETH",
+//         quantity:null
+//     }
+
+//     await updateWalletAsset(assetETH)
+//     //console.log("ok")
 //     //await insertTransaction({asset: "s", quantity: "1"})
-//     await removeTransaction('622ddbdcf8d88e5068b31bc2')
-//     console.log(await getAllTransaction());
+//     //await removeTransaction('622ddbdcf8d88e5068b31bc2')
+//     //console.log(await getAllTransaction());
 //     //console.log(await walletFindAsset("solana"))
 // }
 
