@@ -30,17 +30,17 @@ const TxPage = () => {
     const componentArray = []
     let currentTimeStamp = undefined
 
-    txs?.forEach(({ asset, quantity, operation, timestamp }) => {
+    txs?.forEach(({ asset, quantity, operation, timestamp, index }) => {
       if (currentTimeStamp !== timestamp) {
         componentArray.push(
           <>
-            <TxDate timestamp={timestamp} />
-            <Tx asset={asset} quantity={quantity} operation={operation} />
+            <TxDate timestamp={timestamp} key={timestamp + 'date'}/>
+            <Tx asset={asset} quantity={quantity} operation={operation} key={timestamp}/>
           </>
         )
       } else {
         componentArray.push(
-          <Tx asset={asset} quantity={quantity} operation={operation} />
+          <Tx asset={asset} quantity={quantity} operation={operation} key={timestamp}/>
         )
       }
       currentTimeStamp = timestamp
