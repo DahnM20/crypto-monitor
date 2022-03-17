@@ -35,19 +35,7 @@ const insertAssetInWallet = async (asset) => {
 
 
 const updateWalletAsset = async(asset) => {
-    let oldAssetValue = await walletFindAsset(asset.name)
-    let oldQuantity = oldAssetValue.quantity
     let result = await db.collection("wallet").updateOne({'name' : asset.name}, {$set : asset} );
-
-    log.debug(`oldQuantity ${oldQuantity}  quantity ${asset.quantity}  name ${asset.name}`)
-
-    if(oldQuantity != asset.quantity && asset.quantity != null){
-        const tx = {
-            asset : asset.name,
-            quantity : asset.quantity - oldQuantity
-        }
-        await insertTransaction(tx)
-    }
     return result
 }
 
@@ -70,7 +58,20 @@ const removeTransaction = async(_id) => {
 }
 
 const updateWalletAssetQuantityByName = async(name, quantity) => {
+    let oldAssetValue = await walletFindAsset(asset.name)
+    let oldQuantity = oldAssetValue.quantity
+
     let result = await db.collection("wallet").updateOne({'name' : name}, {$set : {'quantity' : quantity} } );
+    
+    log.debug(`oldQuantity ${oldQuantity}  quantity ${asset.quantity}  name ${asset.name}`)
+
+    if(oldQuantity != asset.quantity && asset.quantity != null){
+        const tx = {
+            asset : asset.name,
+            quantity : asset.quantity - oldQuantity
+        }
+        await insertTransaction(tx)
+    }
     return result
 }
 
