@@ -6,17 +6,18 @@ import TxHeader from './TxHeader'
 import TxDate from './TxDate'
 import { server } from '../../assets/env.js'
 
-const TxPage = () => {
+const TxPage = ({wallet}) => {
   const [txs, updateTxs] = useState()
+  const [iconsMap, updateIconsMap] = useState()
 
   async function loadTxs() {
     const response = await fetch(`http://${server.host}:${server.port}/tx`);
-    const json = await response.json();
-    json.forEach((tx) => formatTx(tx))
-    updateTxs(json);
+    const txs = await response.json();
+    txs.forEach((tx) => formatTx(tx))
+    updateTxs(txs);
   }
 
-  function formatTx(tx){
+  function formatTx(tx) {
     tx.quantity = tx.quantity?.toFixed(2)
     tx.timestamp = tx.timestamp?.split(' ')[0]
   }
@@ -26,23 +27,27 @@ const TxPage = () => {
     loadTxs()
   }, [])
 
+  useEffect(() => {
+    const iconsMapTemp = []
+    wallet.forEach((asset) => {
+      iconsMapTemp[asset.name] = asset.icon
+    })
+    updateIconsMap(iconsMapTemp)
+  }, [wallet])
+
   const renderTx = (txs) => {
     const componentArray = []
     let currentTimeStamp = undefined
 
-    txs?.forEach(({ asset, quantity, operation, timestamp, index }) => {
+    txs?.forEach(({ asset, quantity, operation, timestamp }, i) => {
       if (currentTimeStamp !== timestamp) {
         componentArray.push(
-          <>
-            <TxDate timestamp={timestamp} key={timestamp + 'date'}/>
-            <Tx asset={asset} quantity={quantity} operation={operation} key={timestamp}/>
-          </>
-        )
-      } else {
-        componentArray.push(
-          <Tx asset={asset} quantity={quantity} operation={operation} key={timestamp}/>
+          <TxDate timestamp={timestamp} key={i + '-' + timestamp + 'date'} />
         )
       }
+      componentArray.push(
+        <Tx asset={asset} quantity={quantity} operation={operation} icon={iconsMap[asset]} key={i + '-' + timestamp} />
+      )
       currentTimeStamp = timestamp
     })
     return componentArray

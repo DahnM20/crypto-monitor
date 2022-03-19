@@ -1,11 +1,40 @@
-.cryptoName {
+.ca-wrapper{
+    color: white;
+    background-color: rgba(45, 52, 56, 0.678);
+    font-family: 'Poppins', sans-serif;
+    border-radius: 10px;
+    padding: 15px;
+
+    -webkit-box-shadow: 5px 5px 15px -3px rgba(27, 20, 31, 0.719);
+    box-shadow: 5px 5px 15px -3px rgba(27, 20, 31, 0.719);
+}
+
+.ca-image{
+    border-radius: 100px;
+    width: 30px;
+    text-align: center;
+    align-items: center;
+}
+
+.ca-image-wrapper{
+    text-align: center;
+    align-items: center;
+    padding-bottom: 5px;
+}
+
+.ca-name {
     font-weight: bold;
-    font-size: 0.9vw;
+    text-align: center;
+    align-items: center;
+    font-size: 15px;
+    border-bottom: solid;
+    border-color: rgba(61, 61, 65, 0.507);
+    margin-bottom: 5px;
 }
 
 .cryptoDetails {
     text-align: left;
-    font-size: 0.8vw;
+    font-size: 13px;
 }
 
 

@@ -3,9 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../../styles/Tx.css'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 
-import icon from '../../assets/logoSolana.png'
-
-const Tx = ({asset, quantity, operation}) => {
+const Tx = ({asset, quantity, icon, operation}) => {
   return (
     <Row className='tx-wrapper'>
         <Col md={1}>
@@ -17,12 +15,12 @@ const Tx = ({asset, quantity, operation}) => {
         <Col>
             {quantity}
         </Col>
-        <Col>
+        <Col className='tx-name'>
             <Image fluid src={icon} className='tx-icon'></Image>
             {asset.toUpperCase()}
         </Col>
         <Col md={2}>
-            <Button className='tx-button' variant="primary"> Supprimer </Button>
+            <Button className='tx-button' variant="primary"> Annuler </Button>
         </Col>
     </Row>
   )

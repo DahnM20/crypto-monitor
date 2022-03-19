@@ -1,5 +1,5 @@
 import {Col} from 'react-bootstrap'
-import Wallet from './Wallet.js'
+import Wallet from './Wallet'
 import '../styles/LeftPanel.css'
 
 function LeftPanel({wallet}){

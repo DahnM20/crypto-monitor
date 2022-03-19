@@ -1,10 +1,10 @@
 import '../styles/App.css'
-import Header from './Header.js'
+import Header from './Header'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {Row, Container} from 'react-bootstrap'
-import LeftPanel from './LeftPanel.js'
-import RightPanel from './RightPanel.js'
-import CenterPanel from './CenterPanel.js'
+import LeftPanel from './LeftPanel'
+import RightPanel from './RightPanel'
+import CenterPanel from './CenterPanel'
 import { socket } from './socket.js'
 import { useState, useEffect } from 'react'
 import Analysis from './analysis/Analysis'
@@ -41,7 +41,7 @@ function App() {
             </Row>
 
             <Row className={!showTx ? 'hidden' : null}>
-              <TxPage />
+              <TxPage wallet={wallet}/>
             </Row>
 
       </Container>

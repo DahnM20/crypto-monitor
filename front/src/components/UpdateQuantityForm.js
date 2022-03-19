@@ -1,42 +1,43 @@
-import {Form, Button, InputGroup} from 'react-bootstrap'
+import { Form, Button, InputGroup } from 'react-bootstrap'
+import { Col, Row, Image } from 'react-bootstrap'
 import { useState } from 'react'
 import { server } from '../assets/env.js'
 import '../styles/UpdateQuantityForm.css'
 import swal from 'sweetalert';
 
-function UpdateQuantityForm({quantity, updateQuantity, name, updateModify}){
+function UpdateQuantityForm({ quantity, updateQuantity, name, updateModify }) {
 
     const [fieldValue, updateFieldValue] = useState(quantity)
 
-    function handleQuantityChange(field){
+    function handleQuantityChange(field) {
         updateFieldValue(parseFloat(field.target.value))
     }
 
-    function manageAlert(status){
-        if(status){
-          swal(`Quantité de ${name} modifiée !`, {
-              buttons: false,
-              icon: 'success',
-              timer: 1500,
-          });
-          updateModify(false)
+    function manageAlert(status) {
+        if (status) {
+            swal(`Quantité de ${name} modifiée !`, {
+                buttons: false,
+                icon: 'success',
+                timer: 1500,
+            });
+            updateModify(false)
         } else {
-          swal(`Erreur lors de l'envoi, veuillez réessayer`, {
-              buttons: false,
-              icon: 'error',
-              timer: 1500,
-          });
-      }
+            swal(`Erreur lors de l'envoi, veuillez réessayer`, {
+                buttons: false,
+                icon: 'error',
+                timer: 1500,
+            });
+        }
     }
 
-    async function handleValidate(){
-        const body = { 'name' : name, 'quantity' : fieldValue }
+    async function handleValidate() {
+        const body = { 'name': name, 'quantity': fieldValue }
         updateQuantity(fieldValue)
-      
+
         const requestOptions = {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
         };
 
         try {
@@ -44,18 +45,29 @@ function UpdateQuantityForm({quantity, updateQuantity, name, updateModify}){
             console.log('rep' + response)
             const data = await response.json()
             manageAlert(data.result.ok)
-        } catch(e) {
+        } catch (e) {
             manageAlert(false)
         }
     }
 
     return (
-        <InputGroup className="mb-3">
-            <Form.Control placeholder={fieldValue} onChange={(e) => handleQuantityChange(e)} />
-            <InputGroup.Append>
-                <Button variant="outline-secondary" onClick={handleValidate}> Update </Button>
-            </InputGroup.Append>
-        </InputGroup>
+        <>
+            <Row>
+                <Col>
+                    <p> Quantité : </p>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <InputGroup className='uqf-input-group'>
+                        <Form.Control placeholder={fieldValue} onChange={(e) => handleQuantityChange(e)} />
+                        <InputGroup.Append>
+                            <Button variant="outline-secondary" onClick={handleValidate}> Update </Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </Col>
+            </Row>
+        </>
     )
 }
 

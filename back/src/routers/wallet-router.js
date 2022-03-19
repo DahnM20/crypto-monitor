@@ -20,6 +20,11 @@ router.put('/wallet', async function (req, res) {
     res.status(200).json(resultat);
 })
 
+router.put('/wallet/:name/icon', async function(req, res) {
+    let resultat = await mongoTools.updateWalletAssetIconByName(req.params.name, req.body.icon);
+    res.status(200).json(resultat);
+})
+
 router.post('/wallet', async function (req, res) {
     let asset = req.body;
     let sucess = mongoTools.insertAssetInWallet(asset);

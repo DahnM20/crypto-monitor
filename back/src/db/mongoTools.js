@@ -75,6 +75,11 @@ const updateWalletAssetQuantityByName = async(name, quantity) => {
     return result
 }
 
+const updateWalletAssetIconByName = async(name, icon) => {
+    let result = await db.collection("wallet").updateOne({'name' : name}, {$set : {'icon' : icon} } );
+    return result
+}
+
 const watchlistFindAll = async () => {
     return await db.collection('watchlist').find({}).toArray();
 }
@@ -115,6 +120,7 @@ module.exports = {
     getAllTransaction,
     updateNoteWatchlist,
     updateWalletAssetQuantityByName,
+    updateWalletAssetIconByName,
     updateWalletAsset,
     walletValuesFindAll,
     getWalletLastTotalValue,

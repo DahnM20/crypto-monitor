@@ -9,8 +9,14 @@
 
 
 .tx-icon{
+    border-radius: 100px;
     margin-right: 10px;
     width: 35px;
+}
+
+.tx-name{
+    align-items: center;
+    text-align: center;
 }
 
 .tx-op-icon-add{
