@@ -40,12 +40,22 @@ const updateWalletAsset = async(asset) => {
 }
 
 const getAllTransaction = async () => {
-    return await db.collection('wallet-tx').find({}).toArray();
+    return await db.collection('wallet-tx').find({}).sort( { id: 1 } ).toArray();
+}
+
+const getLastTransaction = async () => {
+    return await db.collection('wallet-tx').find().limit(1).sort( { id: -1 } ).toArray();
 }
 
 const insertTransaction = async(tx) => {
     tx.timestamp = getCurrentDate()
     tx.operation = tx.quantity > 0 ? 'add' : 'remove'
+
+    const lastTx = await getLastTransaction();
+    const newId = lastTx[0].id + 1; // TODO : A ameliorer
+
+    tx.id = newId +1 
+
     return await db.collection("wallet-tx").insertOne(tx);
 }
 
@@ -109,7 +119,7 @@ const walletValuesFindAll = async () => {
 
 const insertWalletValue = async(totalValue) => {
     const lastValue = await getWalletLastTotalValue();
-    const newId = lastValue[0].id + 1;
+    const newId = lastValue[0].id + 1; // TODO : A ameliorer
     await db.collection("wallet-value").insertOne({"value" : totalValue, "date" : getCurrentDate(), "id": newId});
 }
 
