@@ -40,7 +40,7 @@ const updateWalletAsset = async(asset) => {
 }
 
 const getAllTransaction = async () => {
-    return await db.collection('wallet-tx').find({}).sort( { id: 1 } ).toArray();
+    return await db.collection('wallet-tx').find({}).sort( { id: -1 } ).toArray();
 }
 
 const getLastTransaction = async () => {
