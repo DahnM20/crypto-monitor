@@ -18,7 +18,7 @@ router.get('/wallet', async function (req, res) {
 
 router.get('/tx', async function(req,res) {
     try{
-        res.status(200).json(await Tx.find({}))
+        res.status(200).json(await Tx.find({}).sort({ id: -1 }))
     } catch(e){
         log.error('Erreur GET /tx' + e )
         res.status(400).send(e)
@@ -37,7 +37,7 @@ router.put('/wallet/:name/icon', async function(req, res) {
 
 router.post('/wallet', async function (req, res) {
     let asset = req.body;
-    let sucess = mongoTools.insertAssetInWallet(asset);
+    let sucess = await mongoTools.insertAssetInWallet(asset);
     (sucess ? res.status(200) : res.status(400))
 });
 
