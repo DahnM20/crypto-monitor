@@ -4,19 +4,6 @@ const Ido = require('./models/ido')
 const Article = require('./models/article')
 
 const pageUrl = 'https://cryptoast.fr/';
-let news = [];
-let idoProjects = []
-let oldIdoProjects = []
-let idoErrors = []
- 
-
-function getNews(){
-    return news;
-}
-
-function getIdo(){
-    return idoProjects;
-}
 
 async function autoScroll(page){
     await page.evaluate(async () => {
@@ -60,10 +47,7 @@ async function scrapCryptoast() {
 
         await autoScroll(page);
 
-
-        news = await page.evaluate(processCryptoastPage);
-
-        saveArticle(news)
+        saveArticle(await page.evaluate(processCryptoastPage));
 
     } catch(e){
         log.error(`Erreur lors du scrapping Cryptoast ` + e )
@@ -138,9 +122,7 @@ const statusFilters = ['ended', 'distribution', 'whitelist closed', 'closed', 'I
 
 async function scrapIDO() {
     log.info('START - Scrapping IDO');
-    oldIdoProjects = idoProjects;
-    idoProjects = [];
-    idoErrors = [];
+    let idoProjects = [];
 
     log.debug('System : ' + process.env.MACHINE_SYSTEM);
     const browserOption = (process.env.MACHINE_SYSTEM == 'PI' ? {executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox', '--disable-setuid-sandbox'], headless:true}
@@ -175,21 +157,9 @@ async function scrapIDO() {
             idoProjects = idoProjects.concat(currentProjects);
         } catch(e) {
             log.error(`Erreur lors du scrapping ${pagesIDO[i]} ` + e )
-            idoErrors.push(pagesIDO[i])
             continue;
         }
     }
-
-
-    log.debug('Pages en erreur' + JSON.stringify(idoErrors) + ' - Ajout des projets en mémoire pour ces pages. ')
-    
-    idoErrors.forEach(idoE => {
-        oldIdoProjects.forEach(project => {
-            if(project.origin == idoE){
-                idoProjects.push(project) // On rajoute les anciens projets que l'on avait pu récupérer auparavant quand même. 
-            }
-        })
-    })
 
     log.debug('Projets récupérés : ' + JSON.stringify(idoProjects))
 
@@ -296,4 +266,4 @@ async function exposeAllIdoMethods(page, i) {
 // scrapIDO();
 
 
-module.exports = { getNews, getIdo, scrapCryptoast, scrapIDO }
+module.exports = { scrapCryptoast, scrapIDO }
