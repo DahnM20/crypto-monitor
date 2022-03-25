@@ -1,15 +1,15 @@
-const scrappingTools = require('./scrapping-tools');
 const mongoTools = require('./db/mongoTools');
 const socketIo = require("socket.io");
 var constants = require("./utils/constants");
 const log = require('loglevel');
+const Article = require('./models/article');
 
 
 exports.registeredSockets = [];
 
-exports.initializeSockets = (server) => { 
+exports.initializeSockets = (server) => {
 
-    const io = socketIo(server, { 
+    const io = socketIo(server, {
         cors: {
             origin: '*',
         }
@@ -20,17 +20,17 @@ exports.initializeSockets = (server) => {
         this.registerSocket(socket)
 
         log.debug('Nb sockets : ' + Object.keys(this.getRegisteredSockets()).length)
-    
+
         this.emitValuesMaj()
         this.emitWalletMaj();
         this.emitCryptoastMaj()
-    
+
         socket.on("disconnect", () => {
             log.debug("Client disconnected");
             this.deleteSocket(socket)
         });
     });
-    
+
 }
 
 exports.registerSocket = (socket) => {
@@ -42,7 +42,7 @@ exports.deleteSocket = (socket) => {
     delete this.registeredSockets[socket.id];
 }
 
-exports.getRegisteredSockets = () =>{
+exports.getRegisteredSockets = () => {
     return this.registeredSockets;
 }
 
@@ -53,22 +53,31 @@ exports.getRegisteredSocket = (socketId) => {
 exports.emitWalletMaj = async () => {
     wallet = await mongoTools.walletFindAll();
 
-    for (var socketId in this.getRegisteredSockets()){
+    for (var socketId in this.getRegisteredSockets()) {
 
         const socket = this.getRegisteredSocket(socketId);
-        if(socket != null){
+        if (socket != null) {
             socket.emit(constants.EMIT_MAJ_WALLET, wallet);
         }
     }
 
 }
 
-exports.emitCryptoastMaj = () => {
-    for (var socketId in this.getRegisteredSockets()){
+exports.emitCryptoastMaj = async () => {
+    for (var socketId in this.getRegisteredSockets()) {
 
         const socket = this.getRegisteredSocket(socketId);
-        if(socket != null){
-            socket.emit(constants.EMIT_MAJ_NEWS, scrappingTools.getNews());
+        if (socket != null) {
+            let articles;
+            try {
+                articles = await Article.find({}).limit(20)
+            } catch (e) {
+                log.error('Erreur lors de la recherche des articles ' + e)
+            }
+
+            if(articles){
+                socket.emit(constants.EMIT_MAJ_NEWS, articles);
+            }
         }
     }
 }
@@ -76,16 +85,16 @@ exports.emitCryptoastMaj = () => {
 exports.emitValuesMaj = async () => {
     let docs = await mongoTools.walletValuesFindAll();
 
-    for (elem of docs){
+    for (elem of docs) {
         // Conversion en timestamp
-        elem.time = Math.round(new Date(elem.date)/1000);
+        elem.time = Math.round(new Date(elem.date) / 1000);
         delete elem.id
     }
 
-    for (var socketId in this.getRegisteredSockets()){
+    for (var socketId in this.getRegisteredSockets()) {
 
         const socket = this.getRegisteredSocket(socketId);
-        if(socket != null){
+        if (socket != null) {
             socket.emit(constants.EMIT_MAJ_WALLET_VALUES, docs);
         }
     }
