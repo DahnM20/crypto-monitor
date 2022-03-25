@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer');
 const log = require('loglevel');
+const Ido = require('./models/ido')
+const Article = require('./models/article')
 
 const pageUrl = 'https://cryptoast.fr/';
 let news = [];
@@ -60,6 +62,9 @@ async function scrapCryptoast() {
 
 
         news = await page.evaluate(processCryptoastPage);
+
+        saveArticle(news)
+
     } catch(e){
         log.error(`Erreur lors du scrapping Cryptoast ` + e )
     } finally {
@@ -69,6 +74,27 @@ async function scrapCryptoast() {
 
 }
 
+/**
+ * Save all new articles in database
+ * @param {string[]} articles : The article list we want to save
+ */
+ const saveArticle = async (articles) => {
+
+    articles.forEach( async (article) => {
+         const name = article.name
+
+         try{
+            const articleFound = await Article.findOne({ name })
+
+            if(!articleFound){
+                const newArticle = new Article(article)
+                await newArticle.save()
+            } 
+        } catch(e) {
+            log.error(`Erreur lors de la sauvegarde de l'article ${article} ` + e)
+        }
+    })
+}
 
 const processCryptoastPage = () => {
         //Process data
@@ -173,12 +199,43 @@ async function scrapIDO() {
     idoProjects.forEach(project => project.img = project.img.replaceAll("url(\"","").replaceAll("\")",""));
 
     log.debug('Projets filtrés : ' + JSON.stringify(idoProjects))
-
     await browser.close();
+
+    saveProjects(idoProjects)
     log.info('END - Scrapping IDO');
 
 }
 
+/**
+ * Save all new ido projects in database and update existing ones. 
+ * @param {string[]} idoProjects : The project list we want to save
+ */
+const saveProjects = async (idoProjects) => {
+
+    const allowedUpdates = ['status','img']
+
+    idoProjects.forEach( async (project) => {
+         const name = project.name
+
+         try{
+            const ido = await Ido.findOne({ name })
+
+            if(!ido){
+                const newIdo = new Ido(project)
+                await newIdo.save()
+            } else {
+                allowedUpdates.forEach((update) => {
+                    if(project[update]){
+                        ido[update] = project[update]
+                    }
+                })
+                await ido.save()
+            }
+        } catch(e) {
+            log.error(`Erreur lors de la sauvegarde du projet ${project} ` + e)
+        }
+    })
+}
 
 const processIdoPage = async () => {
 
@@ -235,8 +292,8 @@ async function exposeAllIdoMethods(page, i) {
 
 
 //scrapCryptoast();
-log.setLevel(process.env.LOG_LEVEL)
-scrapIDO();
+// log.setLevel(process.env.LOG_LEVEL)
+// scrapIDO();
 
 
 module.exports = { getNews, getIdo, scrapCryptoast, scrapIDO }

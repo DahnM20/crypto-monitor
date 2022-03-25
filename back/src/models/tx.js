@@ -30,7 +30,7 @@ const txSchema = new mongoose.Schema({
         type: Number,
         required: true
     }
-})
+}, { collection: 'wallet-tx' })
 
 const Tx = mongoose.model('Tx', txSchema)
 

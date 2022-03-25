@@ -1,16 +1,18 @@
 const scrappingTools = require('../scrapping-tools');
 const mongoTools = require('../db/mongoTools');
+const Ido = require('../models/ido')
+const Article = require('../models/article')
 const twitter = require('../external-apis/twitter-interaction');
 
 const express = require('express')
 const router = new express.Router()
 
-router.get('/cryptoast', function (req, res) {
-    res.send(scrappingTools.getNews());
+router.get('/cryptoast', async function (req, res) {
+    res.send(await Article.find({}));
 });
 
-router.get('/ido', function (req, res) {
-    res.send(scrappingTools.getIdo());
+router.get('/ido', async function (req, res) {
+    res.send(await Ido.find({}).limit(20));
 });
 
 router.put('/twitterQuery', function (req, res) {

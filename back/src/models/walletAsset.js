@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const assetSchema = new mongoose.Schema({
+const walletAssetSchema = new mongoose.Schema({
     name:{
         type: String,
         required: true,
@@ -26,8 +26,8 @@ const assetSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-})
+}, { collection: 'wallet' })
 
-const Asset = mongoose.model('Asset', assetSchema)
+const WalletAsset = mongoose.model('WalletAsset', walletAssetSchema)
 
-module.exports = Asset
+module.exports = WalletAsset

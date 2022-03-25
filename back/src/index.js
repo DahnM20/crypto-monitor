@@ -1,8 +1,8 @@
 const http = require('http');
 const app = require('./app')
-const scrappingTools = require('./scrapping-tools');
 const socketTools = require('./socket');
 const mongoTools = require('./db/mongoTools')
+require('./db/mongoose')
 const log = require('loglevel');
 
 const { computePerf,computeWalletValue} = require('./wallet-processor')
@@ -14,12 +14,6 @@ const server = http.createServer(app);
 async function main(){
     await mongoTools.mongoConnect();
     await computeWalletValue();
-    try {
-        await scrappingTools.scrapCryptoast();
-        await scrappingTools.scrapIDO();
-    } catch(e) { 
-        log.error("Exception scrappingTools")
-    }
     socketTools.initializeSockets(server);
     await computePerf();
 }
