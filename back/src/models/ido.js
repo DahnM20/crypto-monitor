@@ -23,7 +23,7 @@ const idoSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    iconLink:{
+    img:{
         type: String,
         trim: true
     }
