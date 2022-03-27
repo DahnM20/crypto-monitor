@@ -8,37 +8,52 @@ const Tx = require('../models/tx')
 const router = new express.Router()
 
 router.get('/wallet', async function (req, res) {
-    try{
+    try {
         res.status(200).json(await WalletAsset.find({}));
-    } catch(e){
-        log.error('Erreur GET /wallet' + e )
+    } catch (e) {
+        log.error('Erreur GET /wallet' + e)
         res.status(400).send(e)
     }
 })
 
-router.get('/tx', async function(req,res) {
-    try{
+router.get('/tx', async function (req, res) {
+    try {
         res.status(200).json(await Tx.find({}).sort({ id: -1 }))
-    } catch(e){
-        log.error('Erreur GET /tx' + e )
+    } catch (e) {
+        log.error('Erreur GET /tx' + e)
         res.status(400).send(e)
     }
 })
 
 router.put('/wallet', async function (req, res) {
-    let resultat = await mongoTools.updateWalletAssetQuantityByName(req.body.name, req.body.quantity);
-    res.status(200).json(resultat);
+    try {
+        const dbAsset = await WalletAsset.findOne({ name: req.body.name })
+        if (dbAsset) {
+            dbAsset.quantity = req.body.quantity
+            const resultat = await dbAsset.save()
+            res.status(200).json(resultat);
+        } else {
+            res.status(400).send()
+        }
+    } catch (e) {
+        log.error('Erreur PUT /wallet')
+    }
 })
 
-router.put('/wallet/:name/icon', async function(req, res) {
+router.put('/wallet/:name/icon', async function (req, res) {
     let resultat = await mongoTools.updateWalletAssetIconByName(req.params.name, req.body.icon);
     res.status(200).json(resultat);
 })
 
 router.post('/wallet', async function (req, res) {
-    let asset = req.body;
-    let sucess = await mongoTools.insertAssetInWallet(asset);
-    (sucess ? res.status(200) : res.status(400))
+    const asset = new WalletAsset(req.body)
+    try {
+        const assetSaved = await asset.save()
+        res.status(200).send(assetSaved)
+    } catch (e) {
+        log.error("Erreur POST /wallet")
+        res.status(400).send()
+    }
 });
 
 router.get('/watchlist', async function (req, res) {

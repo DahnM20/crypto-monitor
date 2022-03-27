@@ -7,14 +7,16 @@
     "start": "env-cmd -f ./config/pi.env node ./src/index.js",
     "dev": "env-cmd -f ./config/dev.env node ./src/index.js",
     "scrapping-only": "env-cmd -f ./config/dev.env node ./src/scrapping-tools.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "env-cmd -f ./config/test.env jest --runInBand"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "env-cmd": "^10.1.0",
     "express": "^4.17.1",
     "loglevel": "^1.8.0",
     "mongodb": "^3.6.9",
@@ -23,6 +25,11 @@
     "node-fetch": "^2.6.1",
     "puppeteer": "^10.0.0",
     "socket.io": "^4.1.2",
+    "supertest": "^6.2.2",
     "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "jest": "^27.5.1"
   }
 }

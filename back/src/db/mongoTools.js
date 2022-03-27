@@ -44,15 +44,18 @@ const getAllTransaction = async () => {
 }
 
 const getLastTransaction = async () => {
-    return await db.collection('wallet-tx').find().limit(1).sort( { id: -1 } ).toArray();
+    return await db.collection('wallet-tx').find().limit(1).sort( { id: -1 } ).toArray()[0];
 }
 
 const insertTransaction = async(tx) => {
     tx.timestamp = getCurrentDate()
     tx.operation = tx.quantity > 0 ? 'add' : 'remove'
 
+    let newId = 1
     const lastTx = await getLastTransaction();
-    const newId = lastTx[0].id + 1; // TODO : A ameliorer
+    if(lastTx) {
+        newId = lastTx.id + 1; // TODO : A ameliorer
+    }
 
     tx.id = newId +1 
 

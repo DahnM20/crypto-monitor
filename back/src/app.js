@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const walletRouter = require('./routers/wallet-router')
 const externalToolsRouter = require('./routers/external-tools-router')
+require('./db/mongoose')
 
 app = express();
 
@@ -15,6 +16,5 @@ app.use(cors());
 //Routers
 app.use(walletRouter)
 app.use(externalToolsRouter)
-
 
 module.exports = app
