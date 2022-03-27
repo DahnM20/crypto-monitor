@@ -11,7 +11,7 @@ function ValueSummary() {
         async function loadTotal() {
             const response = await fetch(`http://${server.host}:${server.port}/value`);
             const json = await response.json();
-            updateTotal(parseFloat(json[0]['value']));
+            updateTotal(parseFloat(json['value']));
         }
         loadTotal()
     }, [])
