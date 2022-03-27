@@ -9,57 +9,13 @@ const mongoConnect = async () => {
     log.info("Connected successfully to server");
 }
 
-const walletFindAll = async () => {
-    return await db.collection('wallet').find({}).toArray();
-}
-
 const walletFindAsset = async(name) => {
     return await db.collection('wallet').findOne({'name' : name});
 }
 
-const insertAssetInWallet = async (asset) => {
-    if(asset.hasOwnProperty('id') && asset.hasOwnProperty('name') && asset.hasOwnProperty('quantity')){
-        await db.collection("wallet").insertOne(asset);
-
-        const tx = {
-            asset : asset.name,
-            quantity : asset.quantity
-        }
-
-        await insertTransaction(tx)
-
-        return true;
-    }
-    return false;
-}
-
-
 const updateWalletAsset = async(asset) => {
     let result = await db.collection("wallet").updateOne({'name' : asset.name}, {$set : asset} );
     return result
-}
-
-const getAllTransaction = async () => {
-    return await db.collection('wallet-tx').find({}).sort( { id: -1 } ).toArray();
-}
-
-const getLastTransaction = async () => {
-    return await db.collection('wallet-tx').find().limit(1).sort( { id: -1 } ).toArray()[0];
-}
-
-const insertTransaction = async(tx) => {
-    tx.timestamp = getCurrentDate()
-    tx.operation = tx.quantity > 0 ? 'add' : 'remove'
-
-    let newId = 1
-    const lastTx = await getLastTransaction();
-    if(lastTx) {
-        newId = lastTx.id + 1; // TODO : A ameliorer
-    }
-
-    tx.id = newId +1 
-
-    return await db.collection("wallet-tx").insertOne(tx);
 }
 
 const removeTransaction = async(_id) => {
@@ -127,10 +83,8 @@ const insertWalletValue = async(totalValue) => {
 }
 
 module.exports = {
-    insertAssetInWallet,
     insertInWatchlist,
     insertWalletValue,
-    getAllTransaction,
     updateNoteWatchlist,
     updateWalletAssetQuantityByName,
     updateWalletAssetIconByName,
@@ -138,7 +92,6 @@ module.exports = {
     walletValuesFindAll,
     getWalletLastTotalValue,
     watchlistFindAll,
-    walletFindAll,
     mongoConnect
 }
 
@@ -186,24 +139,3 @@ const cleanValues = async (diffMax) => {
 
     console.log(valuesBad)
 }
-
-
-// const main = async () => {
-//     log.setLevel(process.env.LOG_LEVEL)
-//     await mongoConnect()
-//     await db.collection("wallet-tx").deleteMany({operation: "remove" });
-//     const assetETH = {
-//         name:"ethereum",
-//         id:"ETH",
-//         quantity:null
-//     }
-
-//     await updateWalletAsset(assetETH)
-//     //console.log("ok")
-//     //await insertTransaction({asset: "s", quantity: "1"})
-//     //await removeTransaction('622ddbdcf8d88e5068b31bc2')
-//     //console.log(await getAllTransaction());
-//     //console.log(await walletFindAsset("solana"))
-// }
-
-// main()

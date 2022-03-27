@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Tx = require("../../src/models/tx")
 const WalletAsset = require("../../src/models/walletAsset")
+const WalletValue = require('../../src/models/walletValue')
 
 const assetOneId = new mongoose.Types.ObjectId()
 const assetTwoId = new mongoose.Types.ObjectId()
@@ -33,6 +34,10 @@ const sampleAssetSolana = {
     id: "SOL"
 }
 
+const sampleWalletValue = {
+    value:1000
+}
+
 
 /**
  * Populate database for testing purpose
@@ -51,6 +56,7 @@ const populateDatabase = async () => {
 async function deleteAll() {
     await WalletAsset.deleteMany()
     await Tx.deleteMany()
+    await WalletValue.deleteMany()
 }
 
 module.exports = {
@@ -60,5 +66,6 @@ module.exports = {
     assetOne,
     assetTwo,
     sampleAssetSolana,
+    sampleWalletValue,
     populateDatabase
 }

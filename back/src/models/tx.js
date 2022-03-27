@@ -32,7 +32,8 @@ const txSchema = new mongoose.Schema({
 
 
 txSchema.statics.findLastTx = async () => {
-    return await Tx.find({}).sort({ id: -1 })[0]
+    const txs = await Tx.find({}).sort({ id: -1 })
+    return txs[0]
 }
 /**
  * Middleware for adding custom timestamp to every tx
@@ -48,7 +49,7 @@ txSchema.pre('save', async function (next) {
             newId = lastTx.id + 1; // TODO : A ameliorer
         }
 
-        this.id = newId + 1
+        this.id = newId
         next()
     } catch(e) {
         log.error("Erreur pre save for Tx " + e)

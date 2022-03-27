@@ -5,13 +5,11 @@ const log = require('loglevel');
 
 const { computePerf,computeWalletValue} = require('./wallet-processor')
 require('./cron-tasks/daily-cron')
-const mongoTools = require('./db/mongoTools')
 
 log.setLevel(process.env.LOG_LEVEL)
 const server = http.createServer(app);
 
 async function main(){
-    await mongoTools.mongoConnect();
     await computeWalletValue();
     socketTools.initializeSockets(server);
     await computePerf();

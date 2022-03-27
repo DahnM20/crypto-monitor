@@ -1,7 +1,8 @@
-const mongoTools = require('./db/mongoTools');
 const fetch = require('node-fetch');
 const timeseriesRetriever = require('./external-apis/timeseries-retriever');
 const log = require('loglevel');
+const WalletAsset = require('./models/walletAsset');
+const WalletValue = require('./models/walletValue');
 
 
 const watchlist = ['sol', 'btc', 'eth','dot','sand','mana','doge','shib','audio','avax','akt','xmr','aave','bat','cfx', 'link','theta', 
@@ -10,7 +11,7 @@ const watchlist = ['sol', 'btc', 'eth','dot','sand','mana','doge','shib','audio'
 const computeWalletValue = async() => {
     log.info('START - Compute Wallet Value');
     const coinGeckoUrl = process.env.COINGECKO_API_URL
-    const docs = await mongoTools.walletFindAll();
+    const docs = await WalletAsset.find({});
     let totalValue = 0;
 
     try {
@@ -25,13 +26,14 @@ const computeWalletValue = async() => {
                 asset.dailyBenef = asset.currentValue - asset.lastDailyValue;
             }
 
-            await mongoTools.updateWalletAsset(asset);
+            await asset.save()
 
             totalValue += asset.currentValue;
         } 
 
         log.info('Valeur totale : ' + totalValue);
-        await mongoTools.insertWalletValue(totalValue);
+        const value = new WalletValue({ value: totalValue });
+        await value.save()
         log.info('END - Compute Wallet Value');
 
     } catch(e) {
@@ -46,11 +48,11 @@ const computePerf = async () => {
 
 const saveWalletDailyValue = async () => {
     log.info('START - Save DAILY wallet value');
-    const docs = await mongoTools.walletFindAll();
+    const docs = await WalletAsset.find({});
 
     for(asset of docs){
         asset.lastDailyValue = asset.currentValue
-        await mongoTools.updateWalletAsset(asset);
+        await asset.save()
     }
 }
 

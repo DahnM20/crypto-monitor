@@ -38,7 +38,9 @@ const walletAssetSchema = new mongoose.Schema({
     }
 }, { collection: 'wallet' })
 
-
+/**
+ * Middleware for setting previousQuantity before saving asset
+ */
 walletAssetSchema.pre('save', async function (next) {
     const previousAsset = await WalletAsset.findOne({name : this.name})
     if(previousAsset){

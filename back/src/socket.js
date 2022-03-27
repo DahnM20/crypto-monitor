@@ -1,8 +1,8 @@
-const mongoTools = require('./db/mongoTools');
 const socketIo = require("socket.io");
 var constants = require("./utils/constants");
 const log = require('loglevel');
 const Article = require('./models/article');
+const WalletAsset = require('./models/walletAsset');
 
 
 exports.registeredSockets = [];
@@ -51,7 +51,7 @@ exports.getRegisteredSocket = (socketId) => {
 }
 
 exports.emitWalletMaj = async () => {
-    wallet = await mongoTools.walletFindAll();
+    wallet = await WalletAsset.find({});
 
     for (var socketId in this.getRegisteredSockets()) {
 
@@ -83,7 +83,7 @@ exports.emitCryptoastMaj = async () => {
 }
 
 exports.emitValuesMaj = async () => {
-    let docs = await mongoTools.walletValuesFindAll();
+    let docs = await WalletAsset.find({});
 
     for (elem of docs) {
         // Conversion en timestamp

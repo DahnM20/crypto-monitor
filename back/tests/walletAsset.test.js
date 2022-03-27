@@ -1,7 +1,7 @@
 const request = require('supertest')
 const app = require('../src/app')
 const WalletAsset = require('../src/models/walletAsset')
-const { assetOneId, assetTwoId, assetOne, assetTwo, sampleAssetSolana, populateDatabase } = require('./fixtures/db')
+const { assetOne, assetTwo, sampleAssetSolana, populateDatabase } = require('./fixtures/db')
 
 beforeEach(populateDatabase)
 
