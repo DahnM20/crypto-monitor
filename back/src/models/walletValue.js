@@ -22,6 +22,11 @@ walletValueSchema.statics.findLastValue = async () => {
     return values[0]
 }
 
+walletValueSchema.statics.findAllValue = async () => {
+    const values = await WalletValue.find({}).sort({ id: -1 })
+    return values.reverse()
+}
+
 
 /**
  * Middleware for adding custom timestamp & id to every value

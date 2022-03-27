@@ -79,7 +79,7 @@ router.get('/value', async function (req, res) {
 
 router.get('/values', async function (req, res) {
     try {
-        let values = await WalletValue.find({}).find().sort({ id: -1 }).limit(15000)
+        let values = await WalletValue.findAllValue()
         res.status(200).json(values.reverse());
     } catch (e) {
         log.error("Erreur GET /values " + e)

@@ -3,6 +3,7 @@ var constants = require("./utils/constants");
 const log = require('loglevel');
 const Article = require('./models/article');
 const WalletAsset = require('./models/walletAsset');
+const WalletValue = require("./models/walletValue");
 
 
 exports.registeredSockets = [];
@@ -83,19 +84,19 @@ exports.emitCryptoastMaj = async () => {
 }
 
 exports.emitValuesMaj = async () => {
-    let docs = await WalletAsset.find({});
+    let docs = await WalletValue.findAllValue()
 
     for (elem of docs) {
         // Conversion en timestamp
-        elem.time = Math.round(new Date(elem.date) / 1000);
+        elem.time = Math.round(new Date(elem.date) / 1000)
         delete elem.id
     }
 
     for (var socketId in this.getRegisteredSockets()) {
 
-        const socket = this.getRegisteredSocket(socketId);
+        const socket = this.getRegisteredSocket(socketId)
         if (socket != null) {
-            socket.emit(constants.EMIT_MAJ_WALLET_VALUES, docs);
+            socket.emit(constants.EMIT_MAJ_WALLET_VALUES, docs)
         }
     }
 }
