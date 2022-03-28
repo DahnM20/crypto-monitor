@@ -18,12 +18,12 @@ const walletValueSchema = new mongoose.Schema({
 }, { collection: 'wallet-value' })
 
 walletValueSchema.statics.findLastValue = async () => {
-    const values = await WalletValue.find({}).sort({ id: -1 })
+    const values = await WalletValue.find({}).sort({ id: -1 }).lean()
     return values[0]
 }
 
 walletValueSchema.statics.findAllValue = async () => {
-    const values = await WalletValue.find({}).sort({ id: -1 })
+    const values = await WalletValue.find({}).sort({ id: -1 }).lean()
     return values.reverse()
 }
 
