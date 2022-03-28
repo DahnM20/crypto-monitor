@@ -65,10 +65,10 @@ async function scrapCryptoast() {
  const saveArticle = async (articles) => {
 
     articles.forEach( async (article) => {
-         const name = article.name
+         const title = article.title
 
          try{
-            const articleFound = await Article.findOne({ name })
+            const articleFound = await Article.findOne({ title })
 
             if(!articleFound){
                 const newArticle = new Article(article)
