@@ -56,15 +56,17 @@ walletAssetSchema.post('save', async function () {
     const txQuantity = this.previousQuantity ?
         this.quantity - this.previousQuantity : this.quantity
 
-    const tx = new Tx({
-        asset: this.name,
-        quantity: txQuantity
-    })
+    if(txQuantity && txQuantity != 0){
+        const tx = new Tx({
+            asset: this.name,
+            quantity: txQuantity
+        })
 
-    try {
-        await tx.save()
-    } catch (e) {
-        log.error("Erreur lors de la creation de la Tx " + e)
+        try {
+            await tx.save()
+        } catch (e) {
+            log.error("Erreur lors de la creation de la Tx " + e)
+        }
     }
 })
 

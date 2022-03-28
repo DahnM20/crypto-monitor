@@ -18,6 +18,21 @@ test('Asset creation should create new tx', async () => {
     expect(tx.operation).toBe('add')
 })
 
+test('Empty update should not create new tx', async () => {
+
+    const assetOneUpdate = {
+        name: 'ethereum',
+        quantity: assetOne.quantity
+    }
+
+    const response = await request(app).put('/wallet')
+        .send(assetOneUpdate).expect(200)
+
+    const txs = await Tx.find({ asset: assetOne.name })
+
+    expect(txs.length).toBe(1)
+})
+
 test('Asset update (add) should create new tx', async () => {
 
     const assetOneUpdate = {
