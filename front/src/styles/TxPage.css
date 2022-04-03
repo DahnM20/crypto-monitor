@@ -1,5 +1,5 @@
 .tx-page-wrapper{
-    height: 93vh;
+    min-height: 93vh;
     color: whitesmoke;
     font-family: 'Poppins', sans-serif;
 }
