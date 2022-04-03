@@ -1,12 +1,14 @@
-const fetch = require('node-fetch');
 const timeseriesRetriever = require('./external-apis/timeseries-retriever');
 const log = require('loglevel');
 const WalletAsset = require('./models/walletAsset');
 const WalletValue = require('./models/walletValue');
+const {CoinGeckoPriceRetriever} = require('./external-apis/price-retriever')
 
 
 const watchlist = ['sol', 'btc', 'eth','dot','sand','mana','doge','shib','audio','avax','akt','xmr','aave','bat','cfx', 'link','theta', 
 'chz','grt','enj','vet','rlc','algo', 'matic', 'stx', 'rose', 'egld']
+
+const priceRetriever = new CoinGeckoPriceRetriever();
 
 const computeWalletValue = async() => {
     log.info('START - Compute Wallet Value');
@@ -17,9 +19,8 @@ const computeWalletValue = async() => {
     try {
 
         for(asset of docs){
-            const response = await fetch(`${coinGeckoUrl}?ids=${asset.name}&vs_currencies=usd`);
-            const json = await response.json();
-            asset.currentPrice = json[asset.name].usd
+            log.debug('Asset en cours : ' + asset.name)
+            asset.currentPrice = await priceRetriever.retrieveAssetCurrentPrice(asset.name)
             asset.currentValue = asset.currentPrice * asset.quantity
             
             if(asset.lastDailyValue != null){

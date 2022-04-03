@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Article = require('../../src/models/article')
 const Tx = require("../../src/models/tx")
 const WalletAsset = require("../../src/models/walletAsset")
 const WalletValue = require('../../src/models/walletValue')
@@ -57,6 +58,7 @@ async function deleteAll() {
     await WalletAsset.deleteMany()
     await Tx.deleteMany()
     await WalletValue.deleteMany()
+    await Article.deleteMany()
 }
 
 module.exports = {

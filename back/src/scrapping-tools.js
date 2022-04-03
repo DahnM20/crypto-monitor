@@ -64,6 +64,7 @@ async function scrapCryptoast() {
  */
  const saveArticle = async (articles) => {
 
+    articles = articles.reverse() //Save from the last to the newest article
     articles.forEach( async (article) => {
          const title = article.title
 
@@ -111,7 +112,7 @@ const idoNameSelectors = ['div.ps--project-card.ps--hover > a > div.ps--project-
 ,'a > article > div.media-content > div > div.is-flex.is-justify-content-space-between > h5','td:nth-child(1) > span > span']
 
 const idoStatusSelectors = ['div.ps--project-card.ps--hover > a > div.ps--project-card__status > div',
-'a > article > div.media-content > div > div:nth-child(3) > div > div > div > div.is-label','td:nth-child(7) > span > span']
+'.is-subtitle','td:nth-child(7) > span > span']
 
 const idoLinkSelectors = ['div.ps--project-card.ps--hover > a','a','td:nth-child(7) > span > span']
 
@@ -161,19 +162,31 @@ async function scrapIDO() {
         }
     }
 
-    log.debug('Projets récupérés : ' + JSON.stringify(idoProjects))
+    //log.debug('Projets récupérés : ' + JSON.stringify(idoProjects))
 
-    idoProjects = idoProjects.filter(project => !statusFilters.includes(project.status?.toLowerCase()))
-    idoProjects.forEach(project => project.name = project.name.replaceAll(' ', '').replaceAll('\n', '').replaceAll('$',''));
-    idoProjects.forEach(project => project.status = project.status?.replaceAll('ends in:', '-end-soon')?.replaceAll('starts in:', '-soon')?.replaceAll(' ', ''));
-    idoProjects.forEach(project => project.img = project.img.replaceAll("url(\"","").replaceAll("\")",""));
+    idoProjects = filterProjects(idoProjects);
 
-    log.debug('Projets filtrés : ' + JSON.stringify(idoProjects))
     await browser.close();
 
     saveProjects(idoProjects)
     log.info('END - Scrapping IDO');
 
+}
+
+
+function filterProjects(idoProjects) {
+
+    idoProjects = idoProjects.filter(project => !statusFilters.includes(project.status?.toLowerCase()));
+    idoProjects.forEach(project => project.name = project.name.replaceAll(' ', '').replaceAll('\n', '').replaceAll('$', ''));
+    idoProjects.forEach(project => {
+         project.status = project.status?.replaceAll('ends in:', 'end soon')?.replaceAll('starts in:', 'soon')
+         project.status?.toLowerCase().includes('prepar') ? project.status = 'Upcoming' : project.status //do nothing
+        });
+    idoProjects.forEach(project => project.img = project.img.replaceAll("url(\"", "").replaceAll("\")", ""));
+
+    log.debug('Projets filtrés : \n')
+    idoProjects.forEach( (p) => log.debug(p.name + ' ' + p?.status) )
+    return idoProjects;
 }
 
 /**
@@ -227,6 +240,7 @@ const processIdoPage = async () => {
 
 }
 
+
 async function exposeAllIdoMethods(page, i) {
     await page.exposeFunction("getIdoNameSelector", function () {
         return idoNameSelectors[i];
@@ -263,7 +277,7 @@ async function exposeAllIdoMethods(page, i) {
 
 //scrapCryptoast();
 // log.setLevel(process.env.LOG_LEVEL)
-// scrapIDO();
+//scrapIDO();
 
 
 module.exports = { scrapCryptoast, scrapIDO }

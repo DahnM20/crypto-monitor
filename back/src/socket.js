@@ -71,7 +71,7 @@ exports.emitCryptoastMaj = async () => {
         if (socket != null) {
             let articles;
             try {
-                articles = await Article.find({}).limit(20)
+                articles = await Article.find({}).sort({_id : -1}).limit(20)
             } catch (e) {
                 log.error('Erreur lors de la recherche des articles ' + e)
             }
