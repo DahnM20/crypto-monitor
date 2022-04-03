@@ -74,7 +74,11 @@ async function scrapCryptoast() {
             if(!articleFound){
                 const newArticle = new Article(article)
                 await newArticle.save()
-            } 
+            } else {
+                articleFound.img = article.img ?? articleFound.img
+                articleFound.link = article.link ?? articleFound.img
+                await articleFound.save()
+            }
         } catch(e) {
             log.error(`Erreur lors de la sauvegarde de l'article ${article} ` + e)
         }
@@ -275,7 +279,7 @@ async function exposeAllIdoMethods(page, i) {
 }
 
 
-//scrapCryptoast();
+scrapCryptoast();
 // log.setLevel(process.env.LOG_LEVEL)
 //scrapIDO();
 
