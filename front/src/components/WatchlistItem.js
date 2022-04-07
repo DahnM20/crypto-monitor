@@ -6,7 +6,7 @@ function WatchlistItem({name, img, link, status}){
     const isLive = (name) => {
         if(name == null) return false;
         name = name.toLowerCase()
-        return name.includes('open') || name.includes('live')
+        return name.includes('open') || name.includes('live') || name.includes('upcoming')
     }
     return (
                 <Row className={isLive(status) ? 'wl-i wl-i-live' : 'wl-i'}> 

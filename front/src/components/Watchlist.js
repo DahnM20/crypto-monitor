@@ -8,10 +8,24 @@ function Watchlist(){
 
     const [watchlist, updateWatchlist] = useState([])
 
+    function comparatorWacthlist(a,b){
+        const aStatus = a.status?.toLowerCase()
+        const bStatus = b.status?.toLowerCase()
+
+        if(aStatus?.includes('upcoming') || aStatus?.includes('open')){
+            return -1
+        } else if (bStatus?.includes('upcoming') || bStatus?.includes('open')){
+            return 1
+        } else {
+            return 0
+        }
+    }
+
     useEffect(() => {
         async function loadWatchlist() {
             const response = await fetch(`http://${server.host}:${server.port}/ido`);
             const json = await response.json();
+            json.sort(comparatorWacthlist)
             updateWatchlist(json);
         }
         loadWatchlist()
