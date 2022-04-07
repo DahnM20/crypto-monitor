@@ -44,7 +44,7 @@ function UpdateQuantityForm({ quantity, updateQuantity, name, updateModify }) {
             const response = await fetch(`http://${server.host}:${server.port}/wallet`, requestOptions)
             console.log('rep' + response)
             const data = await response.json()
-            manageAlert(data.result.ok)
+            manageAlert(data._id ? true : false)
         } catch (e) {
             manageAlert(false)
         }
