@@ -11,19 +11,6 @@ function Analysis(){
     return (
         <Row className="bg-dark analysis">
             <Col md={{ span: 8, offset: 2 }}>
-                <Row className="analysisParamters">
-                    <Col md={{ span: 3, offset: 1 }}>
-                        <InputGroup className="mb-3">
-                            <Form.Control placeholder='ok' onChange={(e) => console.log(e)} />
-                        </InputGroup>
-                    </Col>
-                    <Col>
-                        Placeholder 2
-                    </Col>
-                    <Col>
-                        <Button className='buttonAnalysis'> Charger données </Button>
-                    </Col>
-                </Row>
                 <Row>
                     <Col md={6}>
                         <PercentAnalysis kind={kinds[0]} title={titles[0]} vsBTC={false}/> 

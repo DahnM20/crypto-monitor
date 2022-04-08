@@ -13,7 +13,7 @@ function UpdateQuantityForm({ quantity, updateQuantity, name, updateModify }) {
         updateFieldValue(parseFloat(field.target.value))
     }
 
-    function manageAlert(status) {
+    function manageSendAlert(status) {
         if (status) {
             swal(`Quantité de ${name} modifiée !`, {
                 buttons: false,
@@ -30,9 +30,26 @@ function UpdateQuantityForm({ quantity, updateQuantity, name, updateModify }) {
         }
     }
 
+    function sendFormatAlert() {
+        swal(`Format incorrect, veuillez modifier`, {
+                buttons: false,
+                icon: 'error',
+                timer: 1500,
+        });
+    }
+
     async function handleValidate() {
         const body = { 'name': name, 'quantity': fieldValue }
-        updateQuantity(fieldValue)
+
+        const fieldValueConverted = parseFloat(fieldValue)
+
+        if(!fieldValueConverted) {
+            sendFormatAlert()
+            return
+        }
+
+
+        updateQuantity(fieldValueConverted)
 
         const requestOptions = {
             method: 'PUT',
@@ -42,11 +59,10 @@ function UpdateQuantityForm({ quantity, updateQuantity, name, updateModify }) {
 
         try {
             const response = await fetch(`http://${server.host}:${server.port}/wallet`, requestOptions)
-            console.log('rep' + response)
             const data = await response.json()
-            manageAlert(data._id ? true : false)
+            manageSendAlert(data._id ? true : false)
         } catch (e) {
-            manageAlert(false)
+            manageSendAlert(false)
         }
     }
 

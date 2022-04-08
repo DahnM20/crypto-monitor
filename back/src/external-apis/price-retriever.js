@@ -24,6 +24,12 @@ class CoinGeckoPriceRetriever extends PriceRetriever {
         return json[assetName].usd
     }
 
+    async getAsset(assetName){
+        const response = await fetch(`${this.url}?ids=${assetName}&vs_currencies=usd`);
+        const json = await response.json();
+        return json[assetName]
+    }
+
 
 }
 

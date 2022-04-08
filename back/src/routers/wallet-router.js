@@ -4,8 +4,10 @@ const timeseriesRetriever = require('../external-apis/timeseries-retriever');
 const WalletAsset = require('../models/walletAsset')
 const Tx = require('../models/tx');
 const WalletValue = require('../models/walletValue');
+const {CoinGeckoPriceRetriever} = require('../external-apis/price-retriever')
 
 const router = new express.Router()
+const priceRetriever = new CoinGeckoPriceRetriever();
 
 router.get('/wallet', async function (req, res) {
     try {
@@ -57,10 +59,17 @@ router.put('/wallet/:name/icon', async function (req, res) {
 })
 
 router.post('/wallet', async function (req, res) {
+
     const asset = new WalletAsset(req.body)
     try {
-        const assetSaved = await asset.save()
-        res.status(200).send(assetSaved)
+        const response = await priceRetriever.getAsset(asset.name)
+        if(response){ //L'asset existe dans le price retriever
+            asset.currentPrice = response.usd
+            const assetSaved = await asset.save()
+            res.status(200).send(assetSaved)
+        } else {
+            res.status(400).send("L'asset n'existe pas")
+        }
     } catch (e) {
         log.error("Erreur POST /wallet " + e)
         res.status(400).send()

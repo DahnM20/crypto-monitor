@@ -95,7 +95,8 @@ const processCryptoastPage = () => {
                 title: element.querySelector('div.card div.card-body a h4.card-title').textContent,
                 img: element.querySelector('div.card a img.card-img-top').src,
                 link: element.querySelector('div.card a').href,
-                kind: 'news'
+                kind: 'news',
+                source: 'cryptoast'
             });
         }
 
@@ -279,7 +280,7 @@ async function exposeAllIdoMethods(page, i) {
 }
 
 
-scrapCryptoast();
+// scrapCryptoast();
 // log.setLevel(process.env.LOG_LEVEL)
 //scrapIDO();
 

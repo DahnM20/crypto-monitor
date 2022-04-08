@@ -38,9 +38,8 @@ function ModalAddCrypto({show, handleClose}){
         };
 
         const response = await fetch(`http://${server.host}:${server.port}/wallet`, requestOptions)
-        const data = await response.json()
-
         try{
+          const data = await response.json()
           manageAlert(data._id ? true : false);
         } catch(e) {
           manageAlert(false)
