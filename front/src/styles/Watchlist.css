@@ -12,6 +12,10 @@
     border-radius: 10px;
 }
 
+.wl-message{
+    color:whitesmoke;
+}
+
 .watchlistRow{
     margin-bottom: 15px;
 }
