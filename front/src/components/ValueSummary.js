@@ -1,17 +1,18 @@
 import {Col} from 'react-bootstrap'
 import '../styles/ValueSummary.css'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { server } from '../assets/env.js'
 
 function ValueSummary() {
+
+    const { data, status, error} = useQuery('total', fetchTotal)
 
     async function fetchTotal() {
         const response = await fetch(`http://${server.host}:${server.port}/value`);
         const json = await response.json();
         return json.value
     }
-
-    const { data, status } = useQuery('total', fetchTotal)
 
     const invested = 16500
     
@@ -23,7 +24,7 @@ function ValueSummary() {
 
     if(status == "error"){
         return (
-            <p className='colValue'> Erreur lors du chargement </p>
+            <p className='colValue'> Erreur lors du chargement - {error.message} </p>
         )
     }
 
