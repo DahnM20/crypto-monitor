@@ -12,7 +12,7 @@ router.get('/cryptoast', async function (req, res) {
 });
 
 router.get('/ido', async function (req, res) {
-    res.send(await Ido.find({}).limit(20));
+    res.send(await Ido.find({}));
 });
 
 router.put('/twitterQuery', function (req, res) {
