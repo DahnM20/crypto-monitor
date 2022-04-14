@@ -66,17 +66,17 @@ async function scrapCryptoast() {
 
     articles = articles.reverse() //Save from the last to the newest article
     articles.forEach( async (article) => {
-         const title = article.title
+         const link = article.link
 
          try{
-            const articleFound = await Article.findOne({ title })
+            const articleFound = await Article.findOne({ link })
 
             if(!articleFound){
                 const newArticle = new Article(article)
                 await newArticle.save()
             } else {
                 articleFound.img = article.img ?? articleFound.img
-                articleFound.link = article.link ?? articleFound.img
+                articleFound.name = article.name ?? articleFound.name
                 await articleFound.save()
             }
         } catch(e) {
