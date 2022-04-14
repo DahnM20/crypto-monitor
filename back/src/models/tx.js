@@ -17,7 +17,7 @@ const txSchema = new mongoose.Schema({
         trim: true,
         lowercase: true,
         validate(value) {
-            if (value !== 'add' || value != 'remove') {
+            if (value !== 'add' && value !== 'remove') {
                 throw new Error('Operation is incorrect')
             }
         }
