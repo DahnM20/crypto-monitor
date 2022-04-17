@@ -19,22 +19,35 @@ const perfSchema = new mongoose.Schema({
         type: String,
         trim: true,
         validate(value) {
-            if (value !== 'wBTC' && value !== 'wUSD' && value !== 'vol') {
+            if (value !== 'vsBTC' && value !== 'vsUSD' && value !== 'vol') {
                 throw new Error('kind is incorrect')
             }
         }
-    },
-    id: {
-        type: Number
     }
+}, { collection: 'perf-summaries' })
+
+perfSchema.pre('save', async function (next) {
+    this.value = this.value.toFixed(2)
+    next()
 })
 
-perfSchema.statics.getAllSummaryForAsset= async (asset,nbWeek) => {
+perfSchema.statics.getAllSummaryForAsset= async (asset, kind, nbWeek) => {
     let perfs = await PerfSummary.find({
-            asset : asset
-    }).sort({ id: -1 })
+            asset : asset,
+            kind : kind
+    })
 
     perfs = perfs.slice(0,nbWeek)
+
+    // Ordre chronologique croissant
+    perfs.sort((a,b) => {
+        var d1 = new Date(a.week);
+        var d2 = new Date(b.week);
+
+        if(d1 > d2) return 1;
+        else if(d1 < d2) return -1;
+        else return 0
+    })
 
     const summary = {}
     summary.asset = asset
@@ -44,6 +57,18 @@ perfSchema.statics.getAllSummaryForAsset= async (asset,nbWeek) => {
     }
 
     return  summary
+}
+
+perfSchema.statics.getGlobalSummary= async (kind, nbWeek) => {
+    let assetsNames = await PerfSummary.distinct('asset')
+
+    const globalSummary = []
+
+    for(asset of assetsNames){
+        globalSummary.push(await PerfSummary.getAllSummaryForAsset(asset, kind, nbWeek))
+    }
+
+    return  globalSummary
 }
 
 const PerfSummary = mongoose.model('PerfSummary', perfSchema)

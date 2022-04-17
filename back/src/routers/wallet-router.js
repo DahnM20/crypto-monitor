@@ -1,9 +1,9 @@
 const express = require('express');
 const log = require('loglevel');
-const timeseriesRetriever = require('../external-apis/timeseries-retriever');
 const WalletAsset = require('../models/walletAsset')
 const Tx = require('../models/tx');
 const WalletValue = require('../models/walletValue');
+const PerfSummary = require('../models/perfSummary');
 const {CoinGeckoPriceRetriever} = require('../external-apis/price-retriever')
 
 const router = new express.Router()
@@ -97,8 +97,7 @@ router.get('/values', async function (req, res) {
 })
 
 router.get('/watchlist-summary-chart/:kind', async function (req, res) {
-    log.debug("getCurrentSummaries - " + req.query.vsBTC + ' ' + req.query.nbWeek + ' ' + req.params.kind)
-    let docs = await timeseriesRetriever.getCurrentSummaries(req.query.vsBTC, req.params.kind);
+    let docs = await PerfSummary.getGlobalSummary(req.params.kind, req.query.nbWeek);
     res.status(200).json(docs);
 })
 

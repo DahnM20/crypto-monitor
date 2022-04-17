@@ -42,9 +42,8 @@ const computeWalletValue = async() => {
     }
 }
 
-const computePerf = async () => {
-    await timeseriesRetriever.computeSummaryForPerf(watchlist, false, 5, 'perf');
-    await timeseriesRetriever.computeSummaryForPerf(watchlist, true, 5, 'perf');
+const computePerf = async (nbWeek) => {
+    await timeseriesRetriever.computeSummaryForPerf(watchlist, nbWeek);
 }
 
 const saveWalletDailyValue = async () => {

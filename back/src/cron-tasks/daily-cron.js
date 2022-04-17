@@ -12,6 +12,7 @@ cron.schedule('0,30 * * * *', async function() {
         socketTools.emitCryptoastMaj();
         twitter.executeTwitterQuery("algorand or thegraph")
         await scrappingTools.scrapIDO()
+        await computePerf(2);
     } catch(e) {
         console.log("Erreur lors des scrappings")
     }
@@ -27,5 +28,5 @@ cron.schedule('0,15,30,45 * * * *', async function() {
 //Tous les jours à 23h50
 cron.schedule('50 23 * * *', async function() {
     await saveWalletDailyValue();
-    await computePerf();
+    await computePerf(4);
 })

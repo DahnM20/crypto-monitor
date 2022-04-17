@@ -12,7 +12,6 @@ const server = http.createServer(app);
 async function main(){
     await computeWalletValue();
     socketTools.initializeSockets(server);
-    await computePerf();
 }
 
 
