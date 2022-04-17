@@ -9,7 +9,6 @@ function ChartSummary(){
     const ref = React.useRef();
     let current_chart, current_areaSeries; 
 
-
     useEffect(() => {
         function buildChart() {
 
@@ -72,6 +71,11 @@ function ChartSummary(){
                 current_chart.timeScale().fitContent();
         });
 
+        window.addEventListener('resize', () => {
+            current_chart.resize(document.querySelector('.chart').offsetHeight, document.querySelector('.chart').offsetWidth)
+        })
+    
+
         return () => socket.disconnect();
 
     }, []);
@@ -87,7 +91,7 @@ function ChartSummary(){
     return (
         <div className='bg-dark' > 
             <p className='chartTitle'>Evolution du portefeuille</p>
-            <div ref={ref} />
+            <div ref={ref} className='chart'/>
         </div>
     );
 }

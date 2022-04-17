@@ -11,6 +11,10 @@ function PercentAnalysis({ kind, title, vsBTC }) {
 
   function createColumnsName(data) {
     let sampleKeys = Object.keys(data[0])
+    for(let i = 1; i<data.length; ++i){
+      let currentKeys = Object.keys(data[i])
+      if(currentKeys.length > sampleKeys.length) sampleKeys = currentKeys
+    }
 
     let columnsComputed = []
     columnsComputed.push({
