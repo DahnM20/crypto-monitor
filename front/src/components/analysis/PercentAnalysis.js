@@ -1,12 +1,12 @@
-import { Col } from 'react-bootstrap'
-import { useMemo, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import { useQuery } from 'react-query'
 import '../../styles/PercentAnalysis.css'
 import PercentAnalysisTable from './PercentAnalysisTable';
 import { server } from '../../assets/env.js'
 
 function PercentAnalysis({ kind, title, vsBTC }) {
 
-  const [rawData, updateRawData] = useState([])
+  const { data, status } = useQuery('rawData' + kind, fetchRawData)
   const [columns, updateColumns] = useState([])
 
   function createColumnsName(data) {
@@ -41,31 +41,29 @@ function PercentAnalysis({ kind, title, vsBTC }) {
     ];
   }
 
-  async function loadRawData() {
+  async function fetchRawData() {
     try {
       const response = await fetch(`http://${server.host}:${server.port}/watchlist-summary-chart/${kind}?vsBTC=${vsBTC}&nbWeek=5`);
       const json = await response.json();
       json.forEach(element => { element.asset = element.asset.toUpperCase(); });
-      updateRawData(json);
+      return json
+
     } catch (e) {
-      console.log("Exception lors du fetch dans PercentAnalysis loadRawData")
-      updateRawData([])
+      console.log("Exception lors du fetch dans PercentAnalysis fetchRawData")
     }
   }
 
   useEffect(() => {
-    loadRawData()
-  }, [])
-
-  useEffect(() => {
-    if (rawData != null && rawData.length > 0) {
-      updateColumns(createColumnsName(rawData, title))
+    if (status === 'success') {
+      updateColumns(createColumnsName(data, title))
     }
-  }, [rawData])
+  }, [data])
 
   return (
     <div className='percentAnalysisDiv'>
-      {columns != null && <PercentAnalysisTable data={rawData} columns={columns} />}
+      {status === 'loading' && <p className='a-msg'> Chargement en cours </p>}
+      {status === 'error' && <p className='a-msg'> Erreur lors du chargement </p>}
+      {status === 'success' && <PercentAnalysisTable data={data} columns={columns} />}
     </div>
   )
 }

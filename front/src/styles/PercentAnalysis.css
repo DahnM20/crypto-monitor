@@ -19,3 +19,7 @@ thead > :first-child {
     border-width: 1px !important;
     border-color: rgba(161, 154, 142, 0.466) !important;
 }
+
+.a-msg{
+    color: beige;
+}
