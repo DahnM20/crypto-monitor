@@ -54,7 +54,7 @@ function PercentAnalysis({ kind, title, vsBTC }) {
   }
 
   useEffect(() => {
-    if (status === 'success') {
+    if (status === 'success' && data.length != 0) {
       updateColumns(createColumnsName(data, title))
     }
   }, [data])

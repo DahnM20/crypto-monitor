@@ -53,7 +53,7 @@
 
 .wl-i-img{
     border-radius: 50px;
-    height: 60px;
+    max-height: 60px;
 }
 
 .wl-i-link-text{

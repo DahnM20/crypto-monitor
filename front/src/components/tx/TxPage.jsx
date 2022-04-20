@@ -35,14 +35,14 @@ const TxPage = ({ wallet }) => {
     const componentArray = []
     let currentTimeStamp = undefined
 
-    txs?.forEach(({ asset, quantity, operation, timestamp }, i) => {
+    txs?.forEach(({ asset, quantity, operation, priceAtTime, timestamp }, i) => {
       if (currentTimeStamp !== timestamp) {
         componentArray.push(
           <TxDate timestamp={timestamp} key={i + '-' + timestamp + 'date'} />
         )
       }
       componentArray.push(
-        <Tx asset={asset} quantity={quantity} operation={operation} icon={iconsMap[asset]} key={i + '-' + timestamp} />
+        <Tx asset={asset} quantity={quantity} operation={operation} priceAtTime={priceAtTime} icon={iconsMap[asset]} key={i + '-' + timestamp} />
       )
       currentTimeStamp = timestamp
     })

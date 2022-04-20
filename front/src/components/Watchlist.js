@@ -19,9 +19,9 @@ function Watchlist(){
         const aStatus = a.status?.toLowerCase()
         const bStatus = b.status?.toLowerCase()
 
-        if(aStatus?.includes('upcoming') || aStatus?.includes('open')){
+        if(aStatus?.includes('upcoming') || aStatus?.includes('open') || aStatus?.includes('live')){
             return -1
-        } else if (bStatus?.includes('upcoming') || bStatus?.includes('open')){
+        } else if (bStatus?.includes('upcoming') || bStatus?.includes('open') || aStatus?.includes('live')){
             return 1
         } else {
             return 0
