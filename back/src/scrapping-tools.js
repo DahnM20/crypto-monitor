@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const log = require('loglevel');
 const Ido = require('./models/ido')
 const Article = require('./models/article')
-require('./db/mongoose')
+//require('./db/mongoose')
 
 
 const pageUrl = 'https://cryptoast.fr/';
@@ -285,7 +285,7 @@ async function exposeAllIdoMethods(page, i) {
 
 // scrapCryptoast();
 // log.setLevel(process.env.LOG_LEVEL)
-scrapIDO();
+// scrapIDO();
 
 
 module.exports = { scrapCryptoast, scrapIDO }
