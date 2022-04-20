@@ -18,8 +18,8 @@ const Tx = ({asset, quantity, priceAtTime, icon, operation}) => {
         { 
             priceAtTime != undefined ? 
             <Col>
-                 Valeur Tx : {priceAtTime} $
-            </Col> : <Col>Valeur non disponible</Col>
+                 {priceAtTime} $
+            </Col> : <Col> Non disponible </Col>
         }
         <Col className='tx-name'>
             <Image fluid src={icon} className='tx-icon'></Image>
