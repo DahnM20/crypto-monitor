@@ -2,6 +2,8 @@ const puppeteer = require('puppeteer');
 const log = require('loglevel');
 const Ido = require('./models/ido')
 const Article = require('./models/article')
+require('./db/mongoose')
+
 
 const pageUrl = 'https://cryptoast.fr/';
 
@@ -104,24 +106,25 @@ const processCryptoastPage = () => {
 }
 
 
-const pagesIDO = ['https://polkastarter.com/projects','https://www.solanium.io/project','https://raydium.io/acceleRaytor/']
+const pagesIDO = ['https://polkastarter.com/projects','https://www.solanium.io/project','https://raydium.io/acceleRaytor/','https://maiar.exchange/metabonding']
 
 const idoWaiters = ['#app-content > div > div:nth-child(1) > div > div.ps--card-grid > .ps--project-card__blur', 
                     '.invest-card',
-                    '#__layout > section > main > div > div:nth-child(3) > div.ant-table-wrapper > div > div > div > div > div > table > tbody > tr']
+                    '#__layout > section > main > div > div:nth-child(3) > div.ant-table-wrapper > div > div > div > div > div > table > tbody > tr',
+                    '.card-bg-light']
 
 const idoImageSelectors = ['div.ps--project-card__header > div.ps--project-card__logo > img',
-'a > article > div.media-left > div','td:nth-child(1) > span > img']
+'a > article > div.media-left > div','td:nth-child(1) > span > img','.icon > img']
 
 const idoNameSelectors = ['div.ps--project-card.ps--hover > a > div.ps--project-card__wrapper > div.ps--project-card__info > div.ps--project-card__info__project > h3'
-,'a > article > div.media-content > div > div.is-flex.is-justify-content-space-between > h5','td:nth-child(1) > span > span']
+,'a > article > div.media-content > div > div.is-flex.is-justify-content-space-between > h5','td:nth-child(1) > span > span','.name']
 
 const idoStatusSelectors = ['div.ps--project-card.ps--hover > a > div.ps--project-card__status > div',
-'.is-subtitle','td:nth-child(7) > span > span']
+'.is-subtitle','td:nth-child(7) > span > span','.status']
 
-const idoLinkSelectors = ['div.ps--project-card.ps--hover > a','a','td:nth-child(7) > span > span']
+const idoLinkSelectors = ['div.ps--project-card.ps--hover > a','a','td:nth-child(7) > span > span','.link']
 
-const idoBlockChainSelectors = ['div.ps--project-card.ps--hover > a > div.ps--project-card__wrapper > div.ps--project-card__info > div.ps--project-card__info__networks > svg:nth-child(1)','','']
+const idoBlockChainSelectors = ['div.ps--project-card.ps--hover > a > div.ps--project-card__wrapper > div.ps--project-card__info > div.ps--project-card__info__networks > svg:nth-child(1)','','','']
 
 const statusFilters = ['ended', 'distribution', 'whitelist closed', 'closed', 'Inconnu']
 
@@ -282,7 +285,7 @@ async function exposeAllIdoMethods(page, i) {
 
 // scrapCryptoast();
 // log.setLevel(process.env.LOG_LEVEL)
-//scrapIDO();
+scrapIDO();
 
 
 module.exports = { scrapCryptoast, scrapIDO }
