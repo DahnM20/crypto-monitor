@@ -1,5 +1,3 @@
-const scrappingTools = require('../scrapping-tools');
-const mongoTools = require('../db/mongoTools');
 const Ido = require('../models/ido')
 const Article = require('../models/article')
 const twitter = require('../external-apis/twitter-interaction');
@@ -23,11 +21,6 @@ router.put('/twitterQuery', function (req, res) {
 router.get('/tweets', async function (req, res) {
     let tweets = await twitter.executeTwitterQuery();
     res.status(200).json(tweets);
-})
-
-router.get('/watchlist', async function (req, res) {
-    let docs = await mongoTools.watchlistFindAll();
-    res.status(200).json(docs);
 })
 
 module.exports = router

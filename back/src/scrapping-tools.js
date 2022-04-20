@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const log = require('loglevel');
 const Ido = require('./models/ido')
 const Article = require('./models/article')
-//require('./db/mongoose')
+// require('./db/mongoose')
 
 
 const pageUrl = 'https://cryptoast.fr/';

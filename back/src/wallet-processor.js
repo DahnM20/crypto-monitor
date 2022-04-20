@@ -12,7 +12,6 @@ const priceRetriever = new CoinGeckoPriceRetriever();
 
 const computeWalletValue = async() => {
     log.info('START - Compute Wallet Value');
-    const coinGeckoUrl = process.env.COINGECKO_API_URL
     const docs = await WalletAsset.find({});
     let totalValue = 0;
 

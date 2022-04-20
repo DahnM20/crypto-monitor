@@ -3,7 +3,7 @@ const app = require('./app')
 const socketTools = require('./socket');
 const log = require('loglevel');
 
-const { computePerf,computeWalletValue} = require('./wallet-processor')
+const { computeWalletValue} = require('./wallet-processor')
 require('./cron-tasks/daily-cron')
 
 log.setLevel(process.env.LOG_LEVEL)

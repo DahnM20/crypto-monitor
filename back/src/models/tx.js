@@ -22,6 +22,10 @@ const txSchema = new mongoose.Schema({
             }
         }
     },
+    priceAtTime: {
+        type: Number,
+        required: true
+    },
     timestamp: {
         type: String,
         trim: true

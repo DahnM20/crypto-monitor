@@ -59,7 +59,8 @@ walletAssetSchema.post('save', async function () {
     if(txQuantity && txQuantity != 0){
         const tx = new Tx({
             asset: this.name,
-            quantity: txQuantity
+            quantity: txQuantity,
+            priceAtTime: txQuantity * this.currentPrice
         })
 
         try {
