@@ -2,13 +2,16 @@ const timeseriesRetriever = require('./external-apis/timeseries-retriever');
 const log = require('loglevel');
 const WalletAsset = require('./models/walletAsset');
 const WalletValue = require('./models/walletValue');
+const tools = require('./utils/tools')
 const {CoinGeckoPriceRetriever} = require('./external-apis/price-retriever')
 
 
 const watchlist = ['sol', 'btc', 'eth','dot','sand','mana','doge','shib','audio','avax','akt','xmr','aave','bat','cfx', 'link','theta', 
 'chz','grt','enj','vet','rlc','algo', 'matic', 'stx', 'rose', 'egld']
 
-const priceRetriever = new CoinGeckoPriceRetriever();
+const priceRetriever = new CoinGeckoPriceRetriever()
+
+const DELAY_BETWEEN_REQUESTS = 3000
 
 const computeWalletValue = async() => {
     log.info('START - Compute Wallet Value');
@@ -18,12 +21,14 @@ const computeWalletValue = async() => {
     try {
 
         for(asset of docs){
+            tools.delay(DELAY_BETWEEN_REQUESTS)
+
             log.debug('Asset en cours : ' + asset.name)
             asset.currentPrice = await priceRetriever.retrieveAssetCurrentPrice(asset.name)
             asset.currentValue = asset.currentPrice * asset.quantity
             
             if(asset.lastDailyValue != null){
-                asset.dailyBenef = asset.currentValue - asset.lastDailyValue;
+                asset.dailyBenef = asset.currentValue - asset.lastDailyValue
             }
 
             await asset.save()

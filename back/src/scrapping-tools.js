@@ -40,7 +40,7 @@ async function scrapCryptoast() {
         "waitUntil" : "networkidle0" //Wait for all non-lazy images to load
         });
 
-        await page.waitForSelector('body > div:nth-child(6) > div > div > div > div:nth-child(2) > div.col-sm-3.my-3')
+        await page.waitForSelector('.last-news-card')
 
         await page.setViewport({
             width: 1200,
@@ -90,13 +90,13 @@ async function scrapCryptoast() {
 const processCryptoastPage = () => {
         //Process data
         let articles = [];
-        let elements = document.querySelectorAll('body > div:nth-child(6) > div > div > div > div:nth-child(2) > div.col-sm-3.my-3');
+        let elements = document.querySelectorAll('.last-news-card');
 
         for (element of elements) {
             articles.push({
-                title: element.querySelector('div.card div.card-body a h4.card-title').textContent,
-                img: element.querySelector('div.card a img.card-img-top').src,
-                link: element.querySelector('div.card a').href,
+                title: element.querySelector('.last-news-card-title > span').textContent,
+                img: element.querySelector('.last-news-card-img').src,
+                link: element.href,
                 kind: 'news',
                 source: 'cryptoast'
             });
@@ -283,7 +283,7 @@ async function exposeAllIdoMethods(page, i) {
 }
 
 
-// scrapCryptoast();
+scrapCryptoast();
 // log.setLevel(process.env.LOG_LEVEL)
 // scrapIDO();
 
