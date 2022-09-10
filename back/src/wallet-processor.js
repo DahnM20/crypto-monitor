@@ -21,7 +21,7 @@ const computeWalletValue = async() => {
     try {
 
         for(asset of docs){
-            tools.delay(DELAY_BETWEEN_REQUESTS)
+            await tools.delay(DELAY_BETWEEN_REQUESTS)
 
             log.debug('Asset en cours : ' + asset.name)
             asset.currentPrice = await priceRetriever.retrieveAssetCurrentPrice(asset.name)
