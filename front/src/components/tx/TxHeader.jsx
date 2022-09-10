@@ -11,6 +11,9 @@ const TxHeader = ({asset, quantity, operation}) => {
             {quantity}
         </Col>
         <Col>
+            Valeur
+        </Col>
+        <Col>
             {asset}
         </Col>
         <Col md={2}>
