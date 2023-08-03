@@ -20,7 +20,7 @@
     "express": "^4.17.1",
     "loglevel": "^1.8.0",
     "mongodb": "^3.6.9",
-    "mongoose": "^6.2.8",
+    "mongoose": "^4.13.20",
     "node-cron": "^3.0.0",
     "node-fetch": "^2.6.1",
     "puppeteer": "^10.0.0",

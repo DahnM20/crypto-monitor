@@ -11,7 +11,7 @@ const watchlist = ['sol', 'btc', 'eth','dot','sand','mana','doge','shib','audio'
 
 const priceRetriever = new CoinGeckoPriceRetriever()
 
-const DELAY_BETWEEN_REQUESTS = 3000
+const DELAY_BETWEEN_REQUESTS = 10000
 
 const computeWalletValue = async() => {
     log.info('START - Compute Wallet Value');
@@ -44,6 +44,7 @@ const computeWalletValue = async() => {
     } catch(e) {
         log.error("Erreur lors du calcul de la valeur du wallet " + e)
     }
+    
 }
 
 const computePerf = async (nbWeek) => {
