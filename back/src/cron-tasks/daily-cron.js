@@ -2,7 +2,6 @@ const cron = require('node-cron');
 const scrappingTools = require('../scrapping-tools');
 const socketTools = require('../socket');
 const { computePerf,computeWalletValue,saveWalletDailyValue} = require('../wallet-processor')
-const twitter = require('../external-apis/twitter-interaction');
 
 //Cron
 //Toutes les 30mins
@@ -10,7 +9,6 @@ cron.schedule('0,30 * * * *', async function() {
     try {
         await scrappingTools.scrapCryptoast();
         socketTools.emitCryptoastMaj();
-        twitter.executeTwitterQuery("algorand or thegraph")
         await scrappingTools.scrapIDO()
         await computePerf(2);
     } catch(e) {

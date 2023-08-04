@@ -10,7 +10,7 @@ log.setLevel(process.env.LOG_LEVEL)
 const server = http.createServer(app);
 
 async function main(){
-    await computeWalletValue();
+    //await computeWalletValue();
     socketTools.initializeSockets(server);
 }
 
