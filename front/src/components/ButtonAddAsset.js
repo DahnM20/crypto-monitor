@@ -10,10 +10,10 @@ function ButtonAddAsset(){
 
 
     return (
-        <>
+        <div style={{padding: '10px'}}>
             <Button className='buttonAddAsset' onClick={handleShow}> Ajouter dans portefeuille </Button>
             <ModalAddCrypto show={show} handleClose={handleClose} />
-        </>
+        </div>
     )
 }
 

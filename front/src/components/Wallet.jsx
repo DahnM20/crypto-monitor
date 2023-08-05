@@ -10,15 +10,9 @@ function Wallet({wallet}) {
 
   return (
     <>
-    <h4 className='walletTitle'>  Portefeuille </h4>
     <WalletPieChart wallet={wallet}/>
-    < br />
-    < br />
     <ButtonAddAsset />
-    < br />
-    < br />
     <DailyPerf wallet={wallet} />
-    < br />
     { wallet.sort(compareAsset).map(({name, quantity, id, currentValue, dailyBenef, currentPrice, icon}) =>
             <Row className='assetRow' key={id}>
               <Col>

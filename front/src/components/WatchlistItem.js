@@ -22,7 +22,7 @@ function WatchlistItem({name, img, link, status}){
                                 {name ? name.toUpperCase() : 'Inconnu'}
                             </Col>
                             <Col md={5}> 
-                                Status <br/> 
+                                Status
                                 <div className={isLive(status) ? 'wl-i-status wl-i-status-live' : 'wl-i-status'}> {status ? status : "Inconnu"} </div>
                             </Col>
                             <Col className='wl-i-link'>

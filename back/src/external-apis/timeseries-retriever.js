@@ -4,50 +4,57 @@ const PerfSummary = require('../models/perfSummary');
 //require('../db/mongoose')
 
 const host = process.env.MESSARI_API_URL
+const apiKey = process.env.MESSARI_API_KEY
 
 function convertTimeStamp(unix_timestamp) {
     var a = new Date(unix_timestamp);
     var year = a.getFullYear();
-    var month = a.getMonth() + 1 < 10 ? '0' + (a.getMonth() + 1) : a.getMonth() + 1;
-    var date = a.getDate() < 10 ? '0' + a.getDate() : a.getDate();
+    var month = a.getMonth() + 1;
+    var date = a.getDate();
+
+    // Format with leading zeros
+    month = month < 10 ? '0' + month : month;
+    date = date < 10 ? '0' + date : date;
+    
     var hour = a.getHours();
     var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes();
     var sec = a.getSeconds() < 10 ? '0' + a.getSeconds() : a.getSeconds();
+    
     var time = year + '-' + month + '-' + date + ' ' + hour + ':' + min + ':' + sec;
 
     return time;
 }
 
-function convertTimeStampToDate(unix_timestamp) {
+function convertDateToTimeStamp(unix_timestamp) {
     return convertTimeStamp(unix_timestamp).split(' ')[0];
 }
 
-function substractWeekToTimestamp(date, numberOfWeeks) {
-    date.setDate(date.getDate() - numberOfWeeks * 7);
-    return date;
+function subtractWeeksFromDate(date, numberOfWeeks) {
+    let newDate = new Date(date);
+    let subtractDays = numberOfWeeks * 7;
+    newDate.setDate(date.getDate() - subtractDays);
 
+    return newDate;
 }
-
 async function getTimeSeriesUSDLastWeeks(asset, numberOfWeeks) {
 
     await new Promise(resolve => setTimeout(resolve, 5000));
 
     let current_day = new Date()
-    let date_end = convertTimeStampToDate(current_day);
-    let date_start = convertTimeStampToDate(substractWeekToTimestamp(current_day, numberOfWeeks));
+    let date_end = convertDateToTimeStamp(current_day);
+    let date_start = convertDateToTimeStamp(subtractWeeksFromDate(current_day, numberOfWeeks));
 
-    //const host_temp = 'https://data.messari.io/api/v1/'
-    const response = await fetch(`${host_temp}assets/${asset}/metrics/price/time-series?` + new URLSearchParams({
+
+    const response = await fetch(`${host}assets/${asset}/metrics/price/time-series?` + new URLSearchParams({
         start: date_start,
         end: date_end,
         interval: "1w",
         format: "json"
-    }), 
-    {
-        method: 'GET'
-    }
-    
-    
+    }),
+        {
+            method: 'GET',
+            'x-messari-api-key': apiKey,
+        }
     );
 
     const json = await response.json();
@@ -64,7 +71,7 @@ async function getTimeSeriesUSDLastWeeks(asset, numberOfWeeks) {
 
     values.forEach(value => {
         perfArray.push({
-            date: convertTimeStampToDate(value[0]),
+            date: convertDateToTimeStamp(value[0]),
             open: value[1],
             high: value[2],
             low: value[3],
@@ -83,8 +90,8 @@ async function getTimeSeriesBTCLastWeeks(asset, numberOfWeeks) {
     await new Promise(resolve => setTimeout(resolve, 5000));
 
     let current_day = new Date()
-    let date_end = convertTimeStampToDate(current_day);
-    let date_start = convertTimeStampToDate(substractWeekToTimestamp(current_day, numberOfWeeks));
+    let date_end = convertDateToTimeStamp(current_day);
+    let date_start = convertDateToTimeStamp(subtractWeeksFromDate(current_day, numberOfWeeks));
 
     const response = await fetch(`${host}assets/${asset}/metrics/price/time-series?` + new URLSearchParams({
         start: date_start,
@@ -107,7 +114,7 @@ async function getTimeSeriesBTCLastWeeks(asset, numberOfWeeks) {
     if (!json.data || !jsonBTC.data) {
         throw new Error(`Pas de valeur BTC disponible pour ${asset}`)
     }
-    
+
     const values = json.data.values;
     const valuesBTC = jsonBTC.data.values;
 
@@ -121,7 +128,7 @@ async function getTimeSeriesBTCLastWeeks(asset, numberOfWeeks) {
         const closeVsBTC = value[4] / valueBTC[4]
 
         perfArray.push({
-            date: convertTimeStampToDate(value[0]),
+            date: convertDateToTimeStamp(value[0]),
             open: openVsBTC,
             close: closeVsBTC,
             high: value[2] / valueBTC[2],
@@ -151,8 +158,8 @@ const saveSummaryForPerf = async (perfArray) => {
     for (const perf of perfArray) {
         const perfFind = await PerfSummary.findOne({ asset: perf.asset, week: perf.date, kind: perf.kind })
         const currentPerf = perf.kind === 'vol' ? perf.perfVolume : perf.perf
-        
-        if(!currentPerf) continue;
+
+        if (!currentPerf) continue;
 
         if (!perfFind) {
             const newPerf = new PerfSummary({
@@ -246,7 +253,7 @@ module.exports = {
 //    await computeSummaryForPerf(['sol','btc','eth'], 5)
 //    console.log("---- " + JSON.stringify(await PerfSummary.getGlobalSummary('vsBTC',4)))
 //    console.log("---- " + JSON.stringify(await PerfSummary.getGlobalSummary('vsUSD',4)))
-//    console.log("---- " + JSON.stringify(await PerfSummary.getGlobalSummary('vol',4)))  
+//    console.log("---- " + JSON.stringify(await PerfSummary.getGlobalSummary('vol',4)))
 // }
 
 // main();

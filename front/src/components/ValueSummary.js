@@ -30,13 +30,13 @@ function ValueSummary() {
 
     return (
         <>
-            <Col className="colName"> Valeur totale <br /> 
+            <Col className="colName"> Valeur totale
                 <div className="colValue"> {data} </div> 
             </Col>
-            <Col className="colName"> Valeur investie <br />
+            <Col className="colName"> Valeur investie
                 <div className="colValue"> {invested} </div>
             </Col>
-            <Col className="colName"> PNL <br />
+            <Col className="colName"> PNL
                 <div className="colValue"> {data - invested} </div> 
             </Col>
         </>

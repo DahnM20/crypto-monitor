@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react'
 import '../styles/DailyPerf.css'
 
-function DailyPerf({wallet}){
+function DailyPerf({ wallet }) {
 
     const [perf, updatePerf] = useState(0);
 
-    function computePerf(w){
+    function computePerf(w) {
         let perfTemp = w.reduce((acc, asset) => {
             let value = parseFloat(asset.dailyBenef);
-            if(!isNaN(value)){
+            if (!isNaN(value)) {
                 acc += parseFloat(asset.dailyBenef);
-            } 
+            }
             return acc;
-        }, 0).toFixed(2); 
+        }, 0).toFixed(2);
 
         updatePerf(perfTemp)
     }
@@ -22,7 +22,9 @@ function DailyPerf({wallet}){
     }, [wallet])
 
     return (
-       <div className='perfText' > Perfomance Daily : <span className={perf < 0 ? 'loss' : 'gain' }> { perf } </span> $ </div>
+        <div style={{ padding: '10px' }}>
+            <div className='perfText' > Perfomance Daily : <span className={perf < 0 ? 'loss' : 'gain'}> {perf} </span> $ </div>
+        </div>
     )
 }
 

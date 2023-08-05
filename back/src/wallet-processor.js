@@ -6,12 +6,13 @@ const tools = require('./utils/tools')
 const {CoinGeckoPriceRetriever} = require('./external-apis/price-retriever')
 
 
-const watchlist = ['sol', 'btc', 'eth','dot','sand','mana','doge','shib','audio','avax','akt','xmr','aave','bat','cfx', 'link','theta', 
-'chz','grt','enj','vet','rlc','algo', 'matic', 'stx', 'rose', 'egld']
+const watchlist = ['btc', 'eth','sol', 'dot','doge','shib','audio','avax','xmr','aave','bat','cfx','theta','chz','grt','enj','matic', 'stx', 'rose', 'egld']
+
+//const watchlist = ['btc','eth','sol','doge']
 
 const priceRetriever = new CoinGeckoPriceRetriever()
 
-const DELAY_BETWEEN_REQUESTS = 10000
+const DELAY_BETWEEN_REQUESTS = 5000
 
 const computeWalletValue = async() => {
     log.info('START - Compute Wallet Value');
@@ -60,6 +61,8 @@ const saveWalletDailyValue = async () => {
         await asset.save()
     }
 }
+
+computePerf(2)
 
 module.exports = {
     computePerf,
