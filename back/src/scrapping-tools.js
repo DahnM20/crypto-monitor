@@ -2,9 +2,18 @@ const puppeteer = require('puppeteer');
 const log = require('loglevel');
 const Ido = require('./models/ido')
 const Article = require('./models/article')
+const url = require('url');
 
 
-const pageUrl = 'https://cryptoast.fr/actu/';
+const cryptoastURL = 'https://cryptoast.fr/actu/';
+const jdcURL = 'https://journalducoin.com/actualites/';
+
+const browserOptions = {
+    PI: {executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox', '--disable-setuid-sandbox'], headless: true},
+    OTHER: {headless : false}
+};
+
+const getBrowserOption = () => process.env.MACHINE_SYSTEM == 'PI' ? browserOptions.PI : browserOptions.OTHER;
 
 async function autoScroll(page){
     await page.evaluate(async () => {
@@ -25,21 +34,18 @@ async function autoScroll(page){
     });
 }
 
-async function scrapCryptoast() {
-    log.info('START - Scrapping cryptoast');
+async function scrapeData(url, pageSelector, processPageFunc) {
+    log.info(`START - Scrapping ${url}`);
     log.debug('System : ' + process.env.MACHINE_SYSTEM);
-    const browserOption = (process.env.MACHINE_SYSTEM == 'PI' ? {executablePath: '/usr/bin/chromium-browser', args: ['--no-sandbox', '--disable-setuid-sandbox'], headless:true}
-							      : {headless : false});
 
+    const browserOption = getBrowserOption();
     const browser = await puppeteer.launch(browserOption);
+
     try {
         const page = await browser.newPage();
-    
-        await page.goto(pageUrl, {
-        "waitUntil" : "networkidle0" //Wait for all non-lazy images to load
-        });
+        await page.goto(url, { "waitUntil" : "networkidle0" });
 
-        await page.waitForSelector('.last-news-card')
+        await page.waitForSelector(pageSelector);
 
         await page.setViewport({
             width: 1200,
@@ -47,16 +53,35 @@ async function scrapCryptoast() {
         });
 
         await autoScroll(page);
-
-        saveArticle(await page.evaluate(processCryptoastPage));
-
+        saveArticle(await page.evaluate(processPageFunc));
     } catch(e){
-        log.error(`Erreur lors du scrapping Cryptoast ` + e )
+        log.error(`Erreur lors du scrapping ${url}` + e );
     } finally {
         await browser.close();
-        log.info('END - Scrapping cryptoast');
+        log.info(`END - Scrapping ${url}`);
+    }
+}
+
+async function scrapCryptoast() {
+    await scrapeData(cryptoastURL, '.last-news-card', processCryptoastPage);
+}
+
+async function scrapJDC() {
+    await scrapeData(jdcURL, 'a.column', processJDCPage);
+}
+
+function isValidImageUrl(imageUrl) {
+    if(!imageUrl) return false;
+
+    if (imageUrl.startsWith('data:image')) {
+        return false;
+    }
+    const parsedUrl = url.parse(imageUrl);
+    if (!parsedUrl.protocol || !parsedUrl.host) {
+        return false;
     }
 
+    return true;
 }
 
 /**
@@ -76,7 +101,7 @@ async function scrapCryptoast() {
                 const newArticle = new Article(article)
                 await newArticle.save()
             } else {
-                articleFound.img = article.img ?? articleFound.img
+                articleFound.img = isValidImageUrl(article.img) ? article.img : articleFound.img
                 articleFound.name = article.name ?? articleFound.name
                 await articleFound.save()
             }
@@ -85,6 +110,25 @@ async function scrapCryptoast() {
         }
     })
 }
+
+const processJDCPage = () => {
+    //Process data
+    let articles = [];
+    let elements = document.querySelectorAll('a.column');
+
+    for (element of elements) {
+        articles.push({
+            title: element.querySelector('.title').textContent,
+            img: element.querySelector('img').src,
+            link: element.href,
+            kind: 'news',
+            source: 'jdc'
+        });
+    }
+
+    return articles;
+}
+
 
 const processCryptoastPage = () => {
         //Process data
@@ -283,6 +327,7 @@ async function exposeAllIdoMethods(page, i) {
 
 
 scrapCryptoast();
+scrapJDC();
 // log.setLevel(process.env.LOG_LEVEL)
 // scrapIDO();
 

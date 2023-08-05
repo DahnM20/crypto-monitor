@@ -9,6 +9,8 @@ cron.schedule('0,30 * * * *', async function() {
     try {
         await scrappingTools.scrapCryptoast();
         socketTools.emitCryptoastMaj();
+        await scrappingTools.scrapJDC();
+        socketTools.emitJDCMaj();
         await scrappingTools.scrapIDO()
         await computePerf(2);
     } catch(e) {

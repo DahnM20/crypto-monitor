@@ -36,14 +36,23 @@ async function getTimeSeriesUSDLastWeeks(asset, numberOfWeeks) {
     let date_end = convertTimeStampToDate(current_day);
     let date_start = convertTimeStampToDate(substractWeekToTimestamp(current_day, numberOfWeeks));
 
-    const response = await fetch(`${host}assets/${asset}/metrics/price/time-series?` + new URLSearchParams({
+    //const host_temp = 'https://data.messari.io/api/v1/'
+    const response = await fetch(`${host_temp}assets/${asset}/metrics/price/time-series?` + new URLSearchParams({
         start: date_start,
         end: date_end,
         interval: "1w",
         format: "json"
-    }));
+    }), 
+    {
+        method: 'GET'
+    }
+    
+    
+    );
 
     const json = await response.json();
+
+    console.log(json)
 
     const values = json.data.values;
 
@@ -228,7 +237,8 @@ const computeSummaryForPerf = async (assets, numberOfWeeks) => {
 }
 
 module.exports = {
-    computeSummaryForPerf
+    computeSummaryForPerf,
+    getTimeSeriesUSDLastWeeks,
 }
 
 // async function main() {

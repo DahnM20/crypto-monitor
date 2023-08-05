@@ -24,7 +24,8 @@ exports.initializeSockets = (server) => {
 
         this.emitValuesMaj()
         this.emitWalletMaj();
-        this.emitCryptoastMaj()
+        this.emitCryptoastMaj();
+        this.emitJDCMaj();
 
         socket.on("disconnect", () => {
             log.debug("Client disconnected");
@@ -64,14 +65,14 @@ exports.emitWalletMaj = async () => {
 
 }
 
-exports.emitCryptoastMaj = async () => {
+emitNewsMaj = async (source) => {
     for (var socketId in this.getRegisteredSockets()) {
 
         const socket = this.getRegisteredSocket(socketId);
         if (socket != null) {
             let articles;
             try {
-                articles = await Article.find({}).sort({_id : -1}).limit(20)
+                articles = await Article.find({source: source}).sort({_id : -1}).limit(20)
             } catch (e) {
                 log.error('Erreur lors de la recherche des articles ' + e)
             }
@@ -81,6 +82,15 @@ exports.emitCryptoastMaj = async () => {
             }
         }
     }
+
+}
+
+exports.emitCryptoastMaj = async () => {
+    emitNewsMaj('cryptoast');
+}
+
+exports.emitJDCMaj = async () => {
+    emitNewsMaj('jdc');
 }
 
 exports.emitValuesMaj = async () => {

@@ -18,6 +18,9 @@ const articleSchema = new mongoose.Schema({
     kind:{
         type: String,
         trim: true
+    },
+    source:{
+        type: String,
     }
 }, {
     timestamps: true
