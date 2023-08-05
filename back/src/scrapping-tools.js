@@ -149,25 +149,19 @@ const processCryptoastPage = () => {
 }
 
 
-const pagesIDO = ['https://polkastarter.com/projects','https://www.solanium.io/project','https://raydium.io/acceleraytor/list/','https://maiar.exchange/metabonding']
+const pagesIDO = ['https://raydium.io/acceleraytor/list/','https://maiar.exchange/metabonding']
 
-const idoWaiters = ['#app-content > div > div:nth-child(1) > div > div.ps--card-grid > .ps--project-card__blur', 
-                    '.invest-card',
-                    '#__layout > section > main > div > div:nth-child(3) > div.ant-table-wrapper > div > div > div > div > div > table > tbody > tr',
-                    '.card-bg-light']
+const idoWaiters = ['.items-stretch','.card-bg-light']
 
-const idoImageSelectors = ['div.ps--project-card__header > div.ps--project-card__logo > img',
-'a > article > div.media-left > div','td:nth-child(1) > span > img','.icon > img']
+const idoImageSelectors = ['img','.icon > img']
 
-const idoNameSelectors = ['div.ps--project-card.ps--hover > a > div.ps--project-card__wrapper > div.ps--project-card__info > div.ps--project-card__info__project > h3'
-,'a > article > div.media-content > div > div.is-flex.is-justify-content-space-between > h5','td:nth-child(1) > span > span','.name']
+const idoNameSelectors = ['.text-base','.name']
 
-const idoStatusSelectors = ['div.ps--project-card.ps--hover > a > div.ps--project-card__status > div',
-'.is-subtitle','td:nth-child(7) > span > span','.status']
+const idoStatusSelectors = ['.Progress-label','.status']
 
-const idoLinkSelectors = ['div.ps--project-card.ps--hover > a','a','td:nth-child(7) > span > span','.link']
+const idoLinkSelectors = ['','.link']
 
-const idoBlockChainSelectors = ['div.ps--project-card.ps--hover > a > div.ps--project-card__wrapper > div.ps--project-card__info > div.ps--project-card__info__networks > svg:nth-child(1)','','','']
+const idoBlockChainSelectors = ['','']
 
 const statusFilters = ['ended', 'distribution', 'whitelist closed', 'closed', 'Inconnu']
 
@@ -275,15 +269,19 @@ const processIdoPage = async () => {
 
         //Process data
         let projects = [];
+
         let elements = document.querySelectorAll(await getIdoWaiter());
 
         for (element of elements) {
+            if(!element) {
+                continue;
+            }
+
             projects.push({
                 name: element.querySelector(await getIdoNameSelector()).textContent,
-                img: await getIdoIndex() != 1 ? element.querySelector(await getImageSelector()).src : element.querySelector(await getImageSelector()).style.backgroundImage,
-                link: element.querySelector(await getLinkSelector())?.href,
+                img: element.querySelector(await getImageSelector()).src,
+                link: document.URL,
                 status: element.querySelector(await getStatusSelector())?.textContent,
-                //blockchain : getIdoIndex() > 1 ? 'solana' : element?.querySelector(await getBlockchainSelector())?.dataset?.projectPartialTarget
             });
         }
 
@@ -326,10 +324,10 @@ async function exposeAllIdoMethods(page, i) {
 }
 
 
-scrapCryptoast();
-scrapJDC();
+//scrapCryptoast();
+//scrapJDC();
 // log.setLevel(process.env.LOG_LEVEL)
-// scrapIDO();
+//scrapIDO();
 
 
 module.exports = { scrapCryptoast, scrapIDO }

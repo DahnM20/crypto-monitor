@@ -64,11 +64,11 @@ function WalletPieChart({wallet}){
 
 function LabelList({data}) {
     return (
-        <div style={{ textAlign: 'left', flex: '20%', padding: '1em' }}>
+        <div style={{ textAlign: 'left', flex: '20%', padding: '0 1em 0 1em' }}>
             <ul style={{ marginLeft: 0, padding:0 }}>
                 {data.map((item, index) => (
-                    <li key={index}>
-                        <span style={{color: item.color, marginRight: '5px'}}>•</span>
+                    <li key={index} style={{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                        <span style={{color: item.color, marginRight: '5px', fontSize: '1.5em' }}>•</span>
                         <span style={{color: item.color}}>{item.title}</span>
                     </li>
                 ))}

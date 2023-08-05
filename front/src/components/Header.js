@@ -1,6 +1,6 @@
 import '../styles/Header.css';
 import {Navbar, Nav} from 'react-bootstrap'
-import logo from '../assets/logoSolana.png';
+import logo from '../assets/logo.png';
 
 function Header({updateShowWallet,updateShowAnalysis, updateShowTx}) {
 
@@ -30,7 +30,7 @@ function Header({updateShowWallet,updateShowAnalysis, updateShowTx}) {
 
   return (
   <Navbar bg="dark" variant="dark" className="header">
-    <Navbar.Brand href="#home">
+    <Navbar.Brand href="#home" style={{padding:'10px'}}>
         <img
             src={logo}
             width="30"
