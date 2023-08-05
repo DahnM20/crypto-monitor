@@ -2,10 +2,9 @@ const puppeteer = require('puppeteer');
 const log = require('loglevel');
 const Ido = require('./models/ido')
 const Article = require('./models/article')
-// require('./db/mongoose')
 
 
-const pageUrl = 'https://cryptoast.fr/';
+const pageUrl = 'https://cryptoast.fr/actu/';
 
 async function autoScroll(page){
     await page.evaluate(async () => {
@@ -106,7 +105,7 @@ const processCryptoastPage = () => {
 }
 
 
-const pagesIDO = ['https://polkastarter.com/projects','https://www.solanium.io/project','https://raydium.io/acceleRaytor/','https://maiar.exchange/metabonding']
+const pagesIDO = ['https://polkastarter.com/projects','https://www.solanium.io/project','https://raydium.io/acceleraytor/list/','https://maiar.exchange/metabonding']
 
 const idoWaiters = ['#app-content > div > div:nth-child(1) > div > div.ps--card-grid > .ps--project-card__blur', 
                     '.invest-card',

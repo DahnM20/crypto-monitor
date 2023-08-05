@@ -63,7 +63,7 @@ router.post('/wallet', async function (req, res) {
     const asset = new WalletAsset(req.body)
     try {
         const response = await priceRetriever.getAsset(asset.name)
-        if(response){ //L'asset existe dans le price retriever
+        if(response){
             asset.currentPrice = response.usd
             const assetSaved = await asset.save()
             res.status(200).send(assetSaved)

@@ -6,13 +6,13 @@ import {Col, Row } from 'react-bootstrap'
 import Tweet from './Tweet'
 
 function TweetsTab() {
-    const { data, status } = useQuery('tweets', fetchTweets)
+    /*const { data, status } = useQuery('tweets', fetchTweets)
 
     async function fetchTweets() {
         const response = await fetch(`http://${server.host}:${server.port}/tweets`)
         const json = await response.json()
         return json
-    }
+    }*/
 
     return (
         <div>
