@@ -1,34 +1,46 @@
-.ca-wrapper{
-    color: white;
-    background-color: rgba(45, 52, 56, 0.678);
-    font-family: 'Poppins', sans-serif;
-    border-radius: 10px;
-    padding: 15px;
-
-    -webkit-box-shadow: 5px 5px 15px -3px rgba(27, 20, 31, 0.719);
-    box-shadow: 5px 5px 15px -3px rgba(27, 20, 31, 0.719);
+:root {
+    --text-color: white;
+    --background-color: rgba(45, 52, 56, 0.678);
+    --shadow-color: rgba(27, 20, 31, 0.719);
+    --border-color: rgba(61, 61, 65, 0.507);
+    --loss-color: rgba(255, 34, 27, 0.712);
+    --gain-color: rgba(78, 255, 55, 0.733);
+    --hover-color: rgba(243, 180, 243, 0.699);
 }
 
-.ca-image{
+.ca-wrapper {
+    color: var(--text-color);
+    background-color: var(--background-color);
+    font-family: 'Poppins', sans-serif;
+    border-radius: 10px;
+    padding: 11px;
+    box-shadow: 5px 5px 15px -3px var(--shadow-color);
+}
+
+.ca-image {
     border-radius: 100px;
     width: 30px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-.ca-image-wrapper{
-    text-align: center;
+.ca-image-wrapper {
+    display: flex;
+    justify-content: center;
     align-items: center;
     padding-bottom: 5px;
 }
 
 .ca-name {
-    font-weight: bold;
-    text-align: center;
+    display: flex;
+    justify-content: center;
     align-items: center;
+    font-weight: bold;
     font-size: 15px;
     border-bottom: solid;
-    border-color: rgba(61, 61, 65, 0.507);
+    border-color: var(--border-color);
+    padding-bottom: 0.5em;
     margin-bottom: 5px;
 }
 
@@ -37,30 +49,32 @@
     font-size: 13px;
 }
 
-
 @media screen and (max-width: 600px) {
     .cryptoDetails {
         font-size: 3vw;
     }
-  }
+}
 
 .crossIcon {
     width: 15px;
 }
 
 .crossCol {
-    align-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    opacity: 80%;
 }
 
 .buttonModify:hover {
-    color: violet;
+    color: var(--hover-color);
 }
 
-
-.loss{
-    color: rgba(255, 34, 27, 0.712);
+.loss {
+    color: var(--loss-color);
 }
 
-.gain{
-    color:rgba(78, 255, 55, 0.733);
+.gain {
+    color: var(--gain-color);
 }

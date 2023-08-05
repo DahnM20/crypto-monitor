@@ -1,7 +1,7 @@
 import {Col, Row, Image} from 'react-bootstrap'
 import '../styles/News.css'
 
-function News({id, link, text, img}){
+function News({id, link, text, img, source}){
     return (
         <Row className='news new-animation' key={id}>
             <Col md={3}>
@@ -19,7 +19,7 @@ function News({id, link, text, img}){
                 </Row>
                 <Row className='linkRow'>
                     <Col md={12} className='linkCol'>
-                        <a href={link} className='newsLink' target="_blank" rel="noreferrer"> Voir l'article sur cryptoast </a>
+                        <a href={link} className='newsLink' target="_blank" rel="noreferrer"> Voir l'article sur {source} </a>
                     </Col>
                 </Row>
             </Col>

@@ -15,10 +15,10 @@ function TabsGroup(){
         onSelect={(k) => setKey(k)}
     >
         <Tab className="tab scrollTab" eventKey="Cryptoast" title="Cryptoast">
-            <NewsTab />
+            <NewsTab source="cryptoast"/>
         </Tab>
-        <Tab className="tab scrollTab" eventKey="Tweets" title="Tweets">
-            <TweetsTab />
+        <Tab className="tab scrollTab" eventKey="JDC" title="Journal du coin">
+            <NewsTab source="jdc"/>
         </Tab>
     </Tabs>
     )

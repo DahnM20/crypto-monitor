@@ -18,12 +18,12 @@ function CryptoAsset({ name, quantity, id, currentValue, dailyBenef, currentPric
         <Row className='ca-name'>
           {
             icon && 
-            <Col className='ca-image-wrapper' md={1}>
+            <Col className='ca-image-wrapper' md={2}>
               <Image src={icon} className='ca-image'></Image>
             </Col>
           }
           
-          <Col md={icon  ? 9 : 10 }>
+          <Col md={icon  ? 8 : 10 }>
             {name.toUpperCase()}
           </Col>
           <Col className='crossCol' md={1}>

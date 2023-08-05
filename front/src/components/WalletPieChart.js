@@ -19,7 +19,7 @@ function WalletPieChart({wallet}){
 
     const colorForOtherSection = 'rgba(146, 146, 230, 1)' // Violet brillant'
 
-    const maxVisibleAssets = 5;
+    const maxVisibleAssets = 4;
 
     function computeData(){
         let data_temp = []
