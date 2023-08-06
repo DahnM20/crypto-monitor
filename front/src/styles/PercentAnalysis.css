@@ -1,25 +1,23 @@
-.percentAnalysisDiv{
+.percentAnalysisDiv {
     padding: 2rem;
 }
 
-thead > :last-child {
+/* 
+thead > tr:last-child {
     border-bottom-color: rgba(245, 245, 245, 0.767);
-    border-bottom-width: 3px;
-}
-
-thead > :first-child {
-}
+    border-bottom-width: 1px;
+} */
 
 .valueCell {
-    border:none;
+    background-color: #333;
+    border: 1px solid transparent;
 }
 
 .textCell {
-    border: solid !important;
-    border-width: 1px !important;
-    border-color: rgba(161, 154, 142, 0.466) !important;
+    border: 1px solid rgba(161, 154, 142, 0.466);
+    background-color: #3c3c3c;
 }
 
-.a-msg{
+.a-msg {
     color: beige;
 }

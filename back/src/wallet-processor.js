@@ -19,6 +19,7 @@ const computeWalletValue = async() => {
     const docs = await WalletAsset.find({});
     let totalValue = 0;
 
+    console.log(docs)
     try {
 
         for(asset of docs){
@@ -61,8 +62,6 @@ const saveWalletDailyValue = async () => {
         await asset.save()
     }
 }
-
-computePerf(2)
 
 module.exports = {
     computePerf,

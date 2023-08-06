@@ -59,8 +59,6 @@ async function getTimeSeriesUSDLastWeeks(asset, numberOfWeeks) {
 
     const json = await response.json();
 
-    console.log(json)
-
     const values = json.data.values;
 
     if (!values) {

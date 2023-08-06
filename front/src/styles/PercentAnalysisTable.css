@@ -1,16 +1,17 @@
-
 table {
-    border-spacing: 0;
+    border-spacing: 1px;
+    width: 100%;
+    background-color: #2a2a2a;
 }
 
-table td {
-    margin: 0;
+table td, table th {
     padding: 0.75rem;
-    color:rgb(255, 254, 254);
+    color: rgb(240, 240, 240);
     font-weight: bold;
+    text-align: center;
 }
 
-table tr {
-    color:rgb(255, 254, 254);
-    font-weight: bold;
+table th {
+    background-color: #444;
+    border-bottom: 2px solid #5c5c5c;
 }

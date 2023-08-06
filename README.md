@@ -1,5 +1,7 @@
 # Crypto Monitor
 
+![Main Page](./assets/mainPage.png)
+
 CryptoMonitor is a application designed to help users keep track of their cryptocurrency wallet's evolution. Besides wallet tracking, CryptoMonitor also offers a range of useful tools and provides the latest news from the cryptocurrency ecosystem.
 
 ## Features
@@ -7,6 +9,9 @@ CryptoMonitor is a application designed to help users keep track of their crypto
 1. **Wallet Tracking**: Keep real-time track of your cryptocurrency wallet's evolution.
 2. **Tools**: Use our tools to help you make informed decisions regarding your cryptocurrencies.
 3. **News**: Stay up-to-date with the latest news from the cryptocurrency ecosystem.
+
+![Tx Page](./assets/txPage.png)
+![Analysis Page](./assets/analysisPage.png)
 
 ## Prerequisites
 
